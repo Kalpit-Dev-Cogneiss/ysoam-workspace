@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GPS Tracking — YSOAM Prototype</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="">
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/pages.css">
+</head>
+<body data-page="gps">
+  <div class="sidebar-backdrop" id="sidebar-backdrop"></div>
+  <div class="app-shell">
+    <div id="sidebar-root"></div>
+    <div class="main-area">
+      <div id="topbar-root"></div>
+      <main class="content">
+        <div class="page-header">
+          <div class="page-header__text">
+            <div class="page-header__eyebrow">Operations</div>
+            <h1>GPS Tracking</h1>
+            <p>Live fleet positions across the Mumbai–Pune corridor · 10 vehicles tracked</p>
+          </div>
+          <div class="page-header__actions">
+            <button type="button" class="btn btn-outline btn-sm" data-modal-open="playback-modal">Route Playback</button>
+            <a class="btn btn-primary btn-sm" href="trips.html">View Trips</a>
+          </div>
+        </div>
+
+        <div class="stat-row">
+          <div class="stat-chip"><div class="stat-chip__label">In Transit</div><div class="stat-chip__value tabular-nums">2</div></div>
+          <div class="stat-chip"><div class="stat-chip__label">Active</div><div class="stat-chip__value tabular-nums">3</div></div>
+          <div class="stat-chip"><div class="stat-chip__label">Needs Attention</div><div class="stat-chip__value tabular-nums profit-negative">2</div></div>
+        </div>
+
+        <div class="gps-layout">
+          <div class="panel gps-map-wrap">
+            <div class="map-panel map-panel--lg" id="map-gps"></div>
+            <div class="map-legend">
+              <span class="map-legend__item"><span class="map-legend__dot" style="background:#0052FF"></span> In transit</span>
+              <span class="map-legend__item"><span class="map-legend__dot" style="background:#16A34A"></span> Active</span>
+              <span class="map-legend__item"><span class="map-legend__dot" style="background:#F59E0B"></span> Idle</span>
+              <span class="map-legend__item"><span class="map-legend__dot" style="background:#DC2626"></span> Offline</span>
+              <span class="map-legend__item"><span class="map-legend__dot" style="background:#9333EA"></span> Maintenance</span>
+            </div>
+          </div>
+
+          <div class="panel vehicle-panel">
+            <div class="panel__header">
+              <div>
+                <h2 class="panel__title">Vehicles</h2>
+                <p class="panel__subtitle">Click to focus on map</p>
+              </div>
+            </div>
+            <div class="vehicle-search">
+              <input type="search" class="text-input" placeholder="Filter by registration…" aria-label="Filter vehicles">
+            </div>
+            <div class="panel__body panel__body--flush">
+              <div class="vehicle-list-item is-selected" data-vehicle-id="MH-12-AB-1234">
+                <div class="vehicle-list-item__row">
+                  <div>
+                    <div class="vehicle-list-item__reg"><a href="trips.html">MH-12-AB-1234</a></div>
+                    <div class="vehicle-list-item__meta">Mumbai → Pune · Rajesh K.</div>
+                  </div>
+                  <span class="badge badge-transit">In Transit</span>
+                </div>
+              </div>
+              <div class="vehicle-list-item" data-vehicle-id="MH-14-CD-5678">
+                <div class="vehicle-list-item__row">
+                  <div>
+                    <div class="vehicle-list-item__reg">MH-14-CD-5678</div>
+                    <div class="vehicle-list-item__meta">Pune depot · idle</div>
+                  </div>
+                  <span class="badge badge-idle">Idle</span>
+                </div>
+              </div>
+              <div class="vehicle-list-item" data-vehicle-id="MH-01-EF-7890">
+                <div class="vehicle-list-item__row">
+                  <div>
+                    <div class="vehicle-list-item__reg">MH-01-EF-7890</div>
+                    <div class="vehicle-list-item__meta">Mumbai port · loading</div>
+                  </div>
+                  <span class="badge badge-active">Active</span>
+                </div>
+              </div>
+              <div class="vehicle-list-item" data-vehicle-id="MH-04-HI-3456">
+                <div class="vehicle-list-item__row">
+                  <div>
+                    <div class="vehicle-list-item__reg">MH-04-HI-3456</div>
+                    <div class="vehicle-list-item__meta">Nashik · GPS lost</div>
+                  </div>
+                  <span class="badge badge-offline">Offline</span>
+                </div>
+              </div>
+              <div class="vehicle-list-item" data-vehicle-id="MH-09-FG-9012">
+                <div class="vehicle-list-item__row">
+                  <div>
+                    <div class="vehicle-list-item__reg">MH-09-FG-9012</div>
+                    <div class="vehicle-list-item__meta">Workshop · Thane</div>
+                  </div>
+                  <span class="badge badge-maintenance">Maintenance</span>
+                </div>
+              </div>
+              <div class="vehicle-list-item" data-vehicle-id="MH-12-JK-2345">
+                <div class="vehicle-list-item__row">
+                  <div>
+                    <div class="vehicle-list-item__reg">MH-12-JK-2345</div>
+                    <div class="vehicle-list-item__meta">Lonavala · en route</div>
+                  </div>
+                  <span class="badge badge-transit">In Transit</span>
+                </div>
+              </div>
+              <div class="vehicle-list-item" data-vehicle-id="MH-22-LM-6789">
+                <div class="vehicle-list-item__row">
+                  <div>
+                    <div class="vehicle-list-item__reg">MH-22-LM-6789</div>
+                    <div class="vehicle-list-item__meta">Pune → Mumbai return</div>
+                  </div>
+                  <span class="badge badge-active">Active</span>
+                </div>
+              </div>
+              <div class="vehicle-list-item" data-vehicle-id="MH-43-NO-0123">
+                <div class="vehicle-list-item__row">
+                  <div>
+                    <div class="vehicle-list-item__reg">MH-43-NO-0123</div>
+                    <div class="vehicle-list-item__meta">Kalyan yard</div>
+                  </div>
+                  <span class="badge badge-idle">Idle</span>
+                </div>
+              </div>
+              <div class="vehicle-list-item" data-vehicle-id="MH-15-PQ-4567">
+                <div class="vehicle-list-item__row">
+                  <div>
+                    <div class="vehicle-list-item__reg">MH-15-PQ-4567</div>
+                    <div class="vehicle-list-item__meta">Expressway · 78 km/h</div>
+                  </div>
+                  <span class="badge badge-active">Active</span>
+                </div>
+              </div>
+              <div class="vehicle-list-item" data-vehicle-id="MH-07-RS-8901">
+                <div class="vehicle-list-item__row">
+                  <div>
+                    <div class="vehicle-list-item__reg">MH-07-RS-8901</div>
+                    <div class="vehicle-list-item__meta">Unassigned</div>
+                  </div>
+                  <span class="badge badge-idle">Idle</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+  <div id="bottom-nav-root"></div>
+
+  <div class="modal-overlay" id="playback-modal" role="dialog" aria-labelledby="playback-title">
+    <div class="modal" style="max-width:640px;">
+      <div class="modal__header">
+        <h2 class="modal__title" id="playback-title">Route Playback — MH-12-AB-1234</h2>
+        <button type="button" class="modal__close" data-modal-close aria-label="Close">×</button>
+      </div>
+      <div class="modal__body" style="padding:0;">
+        <div class="map-panel" id="map-playback" style="min-height:280px;border-radius:0;border:none;"></div>
+        <div style="padding:var(--spacing-lg);">
+          <p style="margin:0 0 var(--spacing-sm);"><strong>Trip:</strong> Mumbai → Pune · 08 Jun 2026</p>
+          <p style="margin:0;color:var(--color-graphite);font-size:14px;">Distance 148 km · Avg speed 52 km/h · 2 stops</p>
+        </div>
+      </div>
+      <div class="modal__footer">
+        <button type="button" class="btn btn-outline" data-modal-close>Close</button>
+        <a class="btn btn-primary" href="reports.html">View Profitability</a>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/icons.js"></script>
+  <script src="js/shell.js"></script>
+  <script src="js/nav.js"></script>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+  <script src="js/fleet-data.js"></script>
+  <script src="js/fleet-map.js"></script>
+</body>
+</html>

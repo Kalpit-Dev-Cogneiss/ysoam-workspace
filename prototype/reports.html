@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reports — YSOAM Prototype</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/pages.css">
+</head>
+<body data-page="reports">
+  <div class="sidebar-backdrop" id="sidebar-backdrop"></div>
+  <div class="app-shell">
+    <div id="sidebar-root"></div>
+    <div class="main-area">
+      <div id="topbar-root"></div>
+      <main class="content">
+        <div class="page-header">
+          <div class="page-header__text">
+            <div class="page-header__eyebrow">Analytics</div>
+            <h1>Reports &amp; Analytics</h1>
+            <p>Profitability-first reporting · Trip margin visible in 5 clicks</p>
+          </div>
+          <div class="page-header__actions">
+            <a class="btn btn-outline btn-sm" href="trips.html">View Trips</a>
+            <a class="btn btn-primary btn-sm" href="billing.html">Generate Invoice</a>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="tabs tabs--panel" role="tablist">
+            <button type="button" class="tab is-active" data-tab="trip" role="tab">Trip Profitability</button>
+            <button type="button" class="tab" data-tab="vehicle" role="tab">By Vehicle</button>
+            <button type="button" class="tab" data-tab="route" role="tab">By Route</button>
+          </div>
+
+          <div class="tab-panels tab-panels--panel">
+            <div class="tab-panel is-active" data-tab-panel="trip">
+              <p style="margin:0 0 var(--spacing-md);color:var(--color-graphite);font-size:13px;">Select a trip row to view full P&amp;L breakdown</p>
+              <div class="panel table-panel" style="border:1px solid var(--color-hairline);border-radius:var(--rounded-lg);overflow:hidden;box-shadow:none;">
+                <div class="data-table-wrap">
+                  <table class="data-table">
+                    <thead>
+                      <tr>
+                        <th>Trip</th>
+                        <th>Route</th>
+                        <th>Vehicle</th>
+                        <th>Revenue</th>
+                        <th>Cost</th>
+                        <th>Margin</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr data-trip-detail style="cursor:pointer;">
+                        <td><strong>TRP-2026-0142</strong></td>
+                        <td>Mumbai → Pune</td>
+                        <td><a href="gps.html">MH-12-AB-1234</a></td>
+                        <td class="tabular-nums">₹4,500</td>
+                        <td class="tabular-nums">₹3,050</td>
+                        <td class="profit-positive tabular-nums">32%</td>
+                      </tr>
+                      <tr data-trip-detail style="cursor:pointer;">
+                        <td>TRP-2026-0138</td>
+                        <td>Thane → Kalyan</td>
+                        <td>MH-43-NO-0123</td>
+                        <td class="tabular-nums">₹1,200</td>
+                        <td class="tabular-nums">₹1,248</td>
+                        <td class="profit-negative tabular-nums">−4%</td>
+                      </tr>
+                      <tr data-trip-detail style="cursor:pointer;">
+                        <td>TRP-2026-0135</td>
+                        <td>Pune → Lonavala</td>
+                        <td>MH-15-PQ-4567</td>
+                        <td class="tabular-nums">₹2,800</td>
+                        <td class="tabular-nums">₹2,100</td>
+                        <td class="profit-positive tabular-nums">25%</td>
+                      </tr>
+                      <tr data-trip-detail style="cursor:pointer;">
+                        <td>TRP-2026-0132</td>
+                        <td>Mumbai → Nashik</td>
+                        <td>MH-01-EF-7890</td>
+                        <td class="tabular-nums">₹3,200</td>
+                        <td class="tabular-nums">₹2,560</td>
+                        <td class="profit-positive tabular-nums">20%</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              <div class="profit-panel detail-panel" id="trip-profit-detail" hidden>
+                <h3 class="profit-panel__title">Trip P&amp;L — TRP-2026-0142</h3>
+                <p style="margin:0 0 var(--spacing-md);color:var(--color-graphite);font-size:13px;">Mumbai → Pune · <a href="trips.html">View trip</a> · <a href="gps.html">MH-12-AB-1234</a></p>
+                <div class="profit-breakdown">
+                  <div class="profit-row"><span>Revenue</span><span class="tabular-nums">₹4,500</span></div>
+                  <div class="profit-row"><span>Fuel cost</span><span class="tabular-nums">− ₹2,100</span></div>
+                  <div class="profit-row"><span>Driver advance</span><span class="tabular-nums">− ₹500</span></div>
+                  <div class="profit-row"><span>Maintenance (148 km × ₹3/km)</span><span class="tabular-nums">− ₹450</span></div>
+                  <div class="profit-row profit-row--total"><span>Net profit</span><span class="profit-positive tabular-nums">₹1,450</span></div>
+                  <div class="profit-row"><span>Margin</span><span class="profit-positive tabular-nums">32.2%</span></div>
+                </div>
+                <div class="page-toolbar" style="margin-top:var(--spacing-lg);margin-bottom:0;">
+                  <div class="page-toolbar__group">
+                    <a class="btn btn-primary btn-sm" href="billing.html">Generate Invoice</a>
+                    <a class="btn btn-outline btn-sm" href="trips.html">Back to trip</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="tab-panel" data-tab-panel="vehicle">
+              <div class="panel table-panel" style="border:1px solid var(--color-hairline);border-radius:var(--rounded-lg);overflow:hidden;box-shadow:none;">
+                <div class="data-table-wrap">
+                  <table class="data-table">
+                    <thead>
+                      <tr>
+                        <th>Vehicle</th>
+                        <th>Trips (30d)</th>
+                        <th>Revenue</th>
+                        <th>Avg margin</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td><a href="gps.html">MH-12-AB-1234</a></td>
+                        <td class="tabular-nums">18</td>
+                        <td class="tabular-nums">₹81,000</td>
+                        <td class="profit-positive tabular-nums">29%</td>
+                      </tr>
+                      <tr>
+                        <td>MH-15-PQ-4567</td>
+                        <td class="tabular-nums">22</td>
+                        <td class="tabular-nums">₹61,600</td>
+                        <td class="profit-positive tabular-nums">24%</td>
+                      </tr>
+                      <tr>
+                        <td>MH-43-NO-0123</td>
+                        <td class="tabular-nums">8</td>
+                        <td class="tabular-nums">₹9,600</td>
+                        <td class="profit-negative tabular-nums">−2%</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+
+            <div class="tab-panel" data-tab-panel="route">
+              <div class="panel table-panel" style="border:1px solid var(--color-hairline);border-radius:var(--rounded-lg);overflow:hidden;box-shadow:none;">
+                <div class="data-table-wrap">
+                  <table class="data-table">
+                    <thead>
+                      <tr>
+                        <th>Route</th>
+                        <th>Trips (30d)</th>
+                        <th>Avg revenue</th>
+                        <th>Avg margin</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>Mumbai → Pune</td>
+                        <td class="tabular-nums">42</td>
+                        <td class="tabular-nums">₹4,350</td>
+                        <td class="profit-positive tabular-nums">31%</td>
+                      </tr>
+                      <tr>
+                        <td>Pune → Mumbai</td>
+                        <td class="tabular-nums">38</td>
+                        <td class="tabular-nums">₹4,100</td>
+                        <td class="profit-positive tabular-nums">27%</td>
+                      </tr>
+                      <tr>
+                        <td>Mumbai → Nashik</td>
+                        <td class="tabular-nums">15</td>
+                        <td class="tabular-nums">₹3,200</td>
+                        <td class="profit-positive tabular-nums">19%</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+  <div id="bottom-nav-root"></div>
+  <script src="js/icons.js"></script>
+  <script src="js/shell.js"></script>
+  <script src="js/nav.js"></script>
+  <script>
+    if (window.location.hash === '#profit-detail') {
+      document.addEventListener('DOMContentLoaded', function () {
+        var detail = document.getElementById('trip-profit-detail');
+        if (detail) detail.hidden = false;
+      });
+    }
+  </script>
+</body>
+</html>

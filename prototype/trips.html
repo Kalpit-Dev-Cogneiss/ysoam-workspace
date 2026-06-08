@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Trips — YSOAM Prototype</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/pages.css">
+</head>
+<body data-page="trips">
+  <div class="sidebar-backdrop" id="sidebar-backdrop"></div>
+  <div class="app-shell">
+    <div id="sidebar-root"></div>
+    <div class="main-area">
+      <div id="topbar-root"></div>
+      <main class="content">
+        <div class="page-header">
+          <div class="page-header__text">
+            <div class="page-header__eyebrow">Operations</div>
+            <h1>Trips</h1>
+            <p>Create, dispatch, and track lifecycle with inline profitability</p>
+          </div>
+          <div class="page-header__actions">
+            <button type="button" class="btn btn-outline btn-sm" data-modal-open="dispatch-modal">Dispatch</button>
+            <button type="button" class="btn btn-primary btn-sm" data-modal-open="create-trip-modal">Create Trip</button>
+          </div>
+        </div>
+
+        <div class="panel" style="margin-bottom:var(--spacing-lg);">
+          <div class="panel__header">
+            <div>
+              <h2 class="panel__title">Mumbai → Pune</h2>
+              <p class="panel__subtitle">TRP-2026-0142 · Featured completed trip</p>
+            </div>
+            <span class="badge badge-active">Complete</span>
+          </div>
+          <div class="panel__body">
+            <div class="trip-stepper" style="margin-bottom:var(--spacing-xl);">
+              <span class="stepper-step stepper-step--complete">Created</span>
+              <span class="stepper-arrow">→</span>
+              <span class="stepper-step stepper-step--complete">Dispatched</span>
+              <span class="stepper-arrow">→</span>
+              <span class="stepper-step stepper-step--complete">In Transit</span>
+              <span class="stepper-arrow">→</span>
+              <span class="stepper-step stepper-step--active">Complete</span>
+            </div>
+            <div class="trip-feature">
+              <div class="trip-meta-grid">
+                <div class="trip-meta-item">
+                  <div class="trip-meta-item__label">Vehicle</div>
+                  <div class="trip-meta-item__value"><a href="gps.html">MH-12-AB-1234</a></div>
+                </div>
+                <div class="trip-meta-item">
+                  <div class="trip-meta-item__label">Driver</div>
+                  <div class="trip-meta-item__value">Rajesh K.</div>
+                </div>
+                <div class="trip-meta-item">
+                  <div class="trip-meta-item__label">Completed</div>
+                  <div class="trip-meta-item__value">08 Jun 2026 · 148 km</div>
+                </div>
+              </div>
+              <div class="profit-panel">
+                <h3 class="profit-panel__title">Trip Profitability</h3>
+                <div class="profit-breakdown">
+                  <div class="profit-row"><span>Revenue</span><span class="tabular-nums">₹4,500</span></div>
+                  <div class="profit-row"><span>Fuel</span><span class="tabular-nums">− ₹2,100</span></div>
+                  <div class="profit-row"><span>Driver advance</span><span class="tabular-nums">− ₹500</span></div>
+                  <div class="profit-row"><span>Maintenance est.</span><span class="tabular-nums">− ₹450</span></div>
+                  <div class="profit-row profit-row--total"><span>Net profit</span><span class="profit-positive tabular-nums">₹1,450 (32%)</span></div>
+                </div>
+              </div>
+            </div>
+            <div class="page-toolbar" style="margin-top:var(--spacing-lg);margin-bottom:0;">
+              <div class="page-toolbar__group">
+                <a class="btn btn-primary btn-sm" href="reports.html#profit-detail">Full P&amp;L Report</a>
+                <a class="btn btn-outline btn-sm" href="billing.html">View Invoice</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel table-panel">
+          <div class="panel__header">
+            <div>
+              <h2 class="panel__title">All Trips</h2>
+              <p class="panel__subtitle">Fleet trip registry</p>
+            </div>
+          </div>
+          <div class="panel__body panel__body--flush">
+            <div class="data-table-wrap">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Trip ID</th>
+                    <th>Route</th>
+                    <th>Vehicle</th>
+                    <th>Driver</th>
+                    <th>Status</th>
+                    <th>Margin</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><a class="row-link" href="reports.html">TRP-2026-0142</a></td>
+                    <td>Mumbai → Pune</td>
+                    <td><a href="gps.html">MH-12-AB-1234</a></td>
+                    <td>Rajesh K.</td>
+                    <td><span class="badge badge-active">Complete</span></td>
+                    <td class="profit-positive tabular-nums">32%</td>
+                  </tr>
+                  <tr>
+                    <td>TRP-2026-0141</td>
+                    <td>Pune → Mumbai</td>
+                    <td>MH-22-LM-6789</td>
+                    <td>Suresh P.</td>
+                    <td><span class="badge badge-transit">In Transit</span></td>
+                    <td class="profit-neutral">—</td>
+                  </tr>
+                  <tr>
+                    <td>TRP-2026-0140</td>
+                    <td>Mumbai → Nashik</td>
+                    <td>MH-01-EF-7890</td>
+                    <td>Amit V.</td>
+                    <td><span class="badge badge-idle">Created</span></td>
+                    <td class="profit-neutral">—</td>
+                  </tr>
+                  <tr>
+                    <td>TRP-2026-0139</td>
+                    <td>Lonavala → Pune</td>
+                    <td>MH-12-JK-2345</td>
+                    <td>Vikram S.</td>
+                    <td><span class="badge badge-transit">In Transit</span></td>
+                    <td class="profit-neutral">—</td>
+                  </tr>
+                  <tr>
+                    <td>TRP-2026-0138</td>
+                    <td>Thane → Kalyan</td>
+                    <td>MH-43-NO-0123</td>
+                    <td>Deepak M.</td>
+                    <td><span class="badge badge-active">Complete</span></td>
+                    <td class="profit-negative tabular-nums">−4%</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+  <div id="bottom-nav-root"></div>
+
+  <div class="modal-overlay" id="create-trip-modal" role="dialog" aria-labelledby="create-trip-title">
+    <div class="modal">
+      <div class="modal__header">
+        <h2 class="modal__title" id="create-trip-title">Create Trip</h2>
+        <button type="button" class="modal__close" data-modal-close aria-label="Close">×</button>
+      </div>
+      <div class="modal__body">
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label" for="origin">Origin</label>
+            <input class="text-input" id="origin" type="text" value="Mumbai">
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="destination">Destination</label>
+            <input class="text-input" id="destination" type="text" value="Pune">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label" for="vehicle">Vehicle</label>
+            <select class="select-input" id="vehicle">
+              <option>MH-12-AB-1234</option>
+              <option>MH-14-CD-5678</option>
+              <option>MH-07-RS-8901</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="driver">Driver</label>
+            <select class="select-input" id="driver">
+              <option>Rajesh K.</option>
+              <option>Suresh P.</option>
+              <option>Amit V.</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="revenue">Revenue (₹)</label>
+          <input class="text-input tabular-nums" id="revenue" type="text" value="4500">
+        </div>
+      </div>
+      <div class="modal__footer">
+        <button type="button" class="btn btn-outline" data-modal-close>Cancel</button>
+        <button type="button" class="btn btn-primary" data-modal-close>Create Trip</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="dispatch-modal" role="dialog" aria-labelledby="dispatch-title">
+    <div class="modal">
+      <div class="modal__header">
+        <h2 class="modal__title" id="dispatch-title">Dispatch Trip</h2>
+        <button type="button" class="modal__close" data-modal-close aria-label="Close">×</button>
+      </div>
+      <div class="modal__body">
+        <p><strong>TRP-2026-0140</strong> · Mumbai → Nashik</p>
+        <p style="color:var(--color-graphite);">Vehicle MH-01-EF-7890 · Driver Amit V.</p>
+        <p style="margin-top:var(--spacing-md);">Confirm dispatch to driver mobile app?</p>
+      </div>
+      <div class="modal__footer">
+        <button type="button" class="btn btn-outline" data-modal-close>Cancel</button>
+        <button type="button" class="btn btn-primary" data-modal-close>Dispatch Now</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/icons.js"></script>
+  <script src="js/shell.js"></script>
+  <script src="js/nav.js"></script>
+</body>
+</html>

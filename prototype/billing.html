@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Billing — YSOAM Prototype</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/pages.css">
+</head>
+<body data-page="billing">
+  <div class="sidebar-backdrop" id="sidebar-backdrop"></div>
+  <div class="app-shell">
+    <div id="sidebar-root"></div>
+    <div class="main-area">
+      <div id="topbar-root"></div>
+      <main class="content">
+        <div class="page-header">
+          <div class="page-header__text">
+            <div class="page-header__eyebrow">Finance</div>
+            <h1>Billing &amp; Invoicing</h1>
+            <p>Auto-invoices from completed trips · GST-ready structure</p>
+          </div>
+          <div class="page-header__actions">
+            <a class="btn btn-outline btn-sm" href="reports.html">Trip P&amp;L</a>
+            <a class="btn btn-primary btn-sm" href="trips.html">Generate from Trip</a>
+          </div>
+        </div>
+
+        <div class="content-grid">
+          <div class="panel">
+            <div class="panel__header">
+              <div>
+                <h2 class="panel__title">Invoice Preview</h2>
+                <p class="panel__subtitle">INV-2026-0042</p>
+              </div>
+              <span class="badge badge-idle">Pending</span>
+            </div>
+            <div class="panel__body">
+              <div class="invoice-preview">
+                <div class="invoice-preview__header">
+                  <div>
+                    <strong style="font-size:17px;color:var(--color-ink-deep);">YSOAM Demo Fleet</strong>
+                    <p style="margin:4px 0 0;font-size:12px;color:var(--color-graphite);">GSTIN: 27AABCU9603R1ZM · Mumbai</p>
+                  </div>
+                  <div style="text-align:right;">
+                    <div style="font-weight:700;color:var(--color-ink-deep);">INV-2026-0042</div>
+                    <div style="font-size:12px;color:var(--color-graphite);">08 Jun 2026</div>
+                  </div>
+                </div>
+                <p style="margin:0 0 var(--spacing-sm);"><strong>Bill to:</strong> Pune Logistics Pvt Ltd</p>
+                <p style="margin:0 0 var(--spacing-md);font-size:13px;color:var(--color-graphite);">Trip: <a href="trips.html">TRP-2026-0142</a> · Mumbai → Pune · <a href="gps.html">MH-12-AB-1234</a></p>
+                <div class="invoice-line"><span>Freight charges</span><span class="tabular-nums">₹3,813.56</span></div>
+                <div class="invoice-line"><span>CGST @ 9%</span><span class="tabular-nums">₹343.22</span></div>
+                <div class="invoice-line"><span>SGST @ 9%</span><span class="tabular-nums">₹343.22</span></div>
+                <div class="invoice-line" style="font-weight:700;border-top:1px solid var(--color-hairline);padding-top:var(--spacing-sm);margin-top:var(--spacing-sm);">
+                  <span>Total</span><span class="tabular-nums">₹4,500.00</span>
+                </div>
+              </div>
+            </div>
+            <div class="panel__footer">
+              <div class="page-toolbar__group">
+                <button type="button" class="btn btn-primary btn-sm">Download PDF</button>
+                <button type="button" class="btn btn-outline btn-sm">Send to Customer</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="panel table-panel">
+            <div class="panel__header">
+              <div>
+                <h2 class="panel__title">Customer Ledger</h2>
+                <p class="panel__subtitle">Outstanding balances</p>
+              </div>
+            </div>
+            <div class="panel__body panel__body--flush">
+              <div class="data-table-wrap">
+                <table class="data-table">
+                  <thead>
+                    <tr>
+                      <th>Customer</th>
+                      <th>Outstanding</th>
+                      <th>Last invoice</th>
+                      <th>Status</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>Pune Logistics Pvt Ltd</td>
+                      <td class="tabular-nums">₹4,500</td>
+                      <td><a href="#">INV-2026-0042</a></td>
+                      <td><span class="badge badge-idle">Pending</span></td>
+                    </tr>
+                    <tr>
+                      <td>Mumbai Cargo Co</td>
+                      <td class="tabular-nums">₹0</td>
+                      <td>INV-2026-0038</td>
+                      <td><span class="badge badge-active">Paid</span></td>
+                    </tr>
+                    <tr>
+                      <td>Nashik Transport Ltd</td>
+                      <td class="tabular-nums">₹12,400</td>
+                      <td>INV-2026-0035</td>
+                      <td><span class="badge badge-idle">Overdue</span></td>
+                    </tr>
+                    <tr>
+                      <td>Express Freight India</td>
+                      <td class="tabular-nums">₹8,200</td>
+                      <td>INV-2026-0031</td>
+                      <td><span class="badge badge-transit">Partial</span></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="demo-banner" style="margin-top:var(--spacing-lg);">
+          <strong>Demo flow:</strong>
+          <a href="gps.html">GPS</a> →
+          <a href="trips.html">Trip TRP-2026-0142</a> →
+          <a href="reports.html">Profitability 32%</a> →
+          Invoice INV-2026-0042
+        </div>
+      </main>
+    </div>
+  </div>
+  <div id="bottom-nav-root"></div>
+  <script src="js/icons.js"></script>
+  <script src="js/shell.js"></script>
+  <script src="js/nav.js"></script>
+</body>
+</html>

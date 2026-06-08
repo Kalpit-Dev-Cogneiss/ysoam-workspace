@@ -1,0 +1,118 @@
+:root {
+  --color-primary: #0052FF;
+  --color-primary-bright: #3375FF;
+  --color-primary-deep: #0041CC;
+  --color-primary-soft: #E6EEFF;
+  --color-on-primary: #ffffff;
+  --color-ink: #1E293B;
+  --color-ink-deep: #0F172A;
+  --color-ink-soft: #334155;
+  --color-on-ink: #ffffff;
+  --color-canvas: #ffffff;
+  --color-paper: #ffffff;
+  --color-cloud: #F4F6F8;
+  --color-fog: #E2E8F0;
+  --color-steel: #94A3B8;
+  --color-graphite: #64748B;
+  --color-charcoal: #475569;
+  --color-hairline: #E2E8F0;
+  --color-hairline-strong: #CBD5E1;
+  --color-link: #0052FF;
+  --color-link-pressed: #0041CC;
+  --color-sidebar: #1E293B;
+  --color-sidebar-light: #ffffff;
+  --color-on-sidebar: #F1F5F9;
+  --color-sidebar-muted: #94A3B8;
+  --color-status-active: #16A34A;
+  --color-status-active-soft: #DCFCE7;
+  --color-status-idle: #F59E0B;
+  --color-status-idle-soft: #FEF3C7;
+  --color-status-offline: #DC2626;
+  --color-status-offline-soft: #FEE2E2;
+  --color-status-transit: #0052FF;
+  --color-status-transit-soft: #E6EEFF;
+  --color-status-maintenance: #9333EA;
+  --color-status-maintenance-soft: #F3E8FF;
+  --color-status-unknown: #6B7280;
+  --color-status-unknown-soft: #F3F4F6;
+  --color-profit-positive: #059669;
+  --color-profit-negative: #DC2626;
+  --color-profit-neutral: #64748B;
+  --color-profit-highlight: #0D9488;
+  --color-error: #DC2626;
+  --color-warning: #F59E0B;
+  --color-success: #16A34A;
+
+  --font-family: 'Inter', system-ui, sans-serif;
+
+  --rounded-none: 0;
+  --rounded-xs: 2px;
+  --rounded-sm: 4px;
+  --rounded-md: 8px;
+  --rounded-lg: 12px;
+  --rounded-xl: 16px;
+  --rounded-pill: 9999px;
+
+  --spacing-xxs: 4px;
+  --spacing-xs: 8px;
+  --spacing-sm: 12px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+  --spacing-xxl: 48px;
+  --spacing-section: 64px;
+
+  --sidebar-width: 240px;
+  --topbar-height: 56px;
+  --bottom-nav-height: 56px;
+  --content-max-width: 1440px;
+
+  --shadow-soft: 0 1px 3px rgba(30, 41, 59, 0.08);
+  --shadow-floating: 0 8px 24px rgba(30, 41, 59, 0.12);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-family);
+  font-size: 14px;
+  line-height: 1.43;
+  color: var(--color-ink);
+  background: var(--color-canvas);
+}
+
+a {
+  color: var(--color-link);
+  text-decoration: none;
+}
+
+a:hover {
+  color: var(--color-primary-deep);
+}
+
+img,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+button,
+input,
+select,
+textarea {
+  font-family: inherit;
+}
+
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+}

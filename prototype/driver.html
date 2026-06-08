@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Driver View — YSOAM Prototype</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/layout.css">
+</head>
+<body data-page="driver">
+  <div class="driver-shell">
+    <header class="driver-header">
+      <div class="driver-header__brand">
+        <span class="driver-header__mark">Y</span>
+        <div>
+          <h1>Driver View</h1>
+          <p>Rajesh K. · MH-12-AB-1234</p>
+        </div>
+      </div>
+    </header>
+
+    <div class="driver-tabs">
+      <button type="button" class="driver-tab is-active" data-driver-tab="trips">My Trips</button>
+      <button type="button" class="driver-tab" data-driver-tab="fuel">Fuel Log</button>
+      <button type="button" class="driver-tab" data-driver-tab="profile">Profile</button>
+    </div>
+
+    <div class="driver-content">
+      <div class="driver-tab-panel is-active" data-driver-panel="trips">
+        <div class="card driver-card">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:var(--spacing-sm);">
+            <div>
+              <strong>Mumbai → Pune</strong>
+              <p style="margin:4px 0 0;font-size:12px;color:var(--color-graphite);">TRP-2026-0142 · 08 Jun 2026</p>
+            </div>
+            <span class="badge badge-active">Complete</span>
+          </div>
+          <p style="margin:0;font-size:14px;">148 km · Revenue ₹4,500</p>
+          <a class="btn btn-primary btn-sm" href="trips.html" style="margin-top:var(--spacing-sm);width:100%;min-height:44px;display:flex;align-items:center;justify-content:center;">View Details</a>
+        </div>
+        <div class="card driver-card">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:var(--spacing-sm);">
+            <div>
+              <strong>Pune → Lonavala</strong>
+              <p style="margin:4px 0 0;font-size:12px;color:var(--color-graphite);">TRP-2026-0135 · Scheduled</p>
+            </div>
+            <span class="badge badge-idle">Upcoming</span>
+          </div>
+          <button type="button" class="btn btn-outline btn-sm" style="width:100%;min-height:44px;">Start Trip</button>
+        </div>
+      </div>
+
+      <div class="driver-tab-panel" data-driver-panel="fuel">
+        <div class="form-group">
+          <label class="form-label" for="fuel-litres">Litres</label>
+          <input class="text-input" id="fuel-litres" type="text" placeholder="e.g. 45">
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="fuel-amount">Amount (₹)</label>
+          <input class="text-input tabular-nums" id="fuel-amount" type="text" placeholder="e.g. 4725">
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="fuel-location">Location</label>
+          <input class="text-input" id="fuel-location" type="text" placeholder="e.g. Pune Expressway">
+        </div>
+        <button type="button" class="btn btn-primary" style="width:100%;min-height:44px;">Submit Fuel Entry</button>
+      </div>
+
+      <div class="driver-tab-panel" data-driver-panel="profile">
+        <div class="card driver-card">
+          <p><strong>Name:</strong> Rajesh Kumar</p>
+          <p><strong>Phone:</strong> +91 98765 43210</p>
+          <p><strong>License:</strong> MH-12-2019-0012345</p>
+          <p><strong>Assigned vehicle:</strong> <a href="gps.html">MH-12-AB-1234</a></p>
+        </div>
+        <a class="btn btn-outline" href="dashboard.html" style="width:100%;min-height:44px;display:flex;align-items:center;justify-content:center;">Back to Admin View</a>
+      </div>
+    </div>
+  </div>
+  <script src="js/nav.js"></script>
+</body>
+</html>
