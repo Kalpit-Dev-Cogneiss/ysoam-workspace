@@ -19,7 +19,7 @@
             navLink('dashboard', 'dashboard.html', 'Dashboard', 'dashboard') +
           '</div>' +
           '<div class="nav-group"><div class="nav-group__label">Operations</div>' +
-            navLink('gps', 'gps.html', 'GPS Tracking', 'gps') +
+            navLink('gps', 'gps.html', 'Live Tracking', 'gps') +
             navLink('trips', 'trips.html', 'Trips', 'trips') +
             navLink('inventory', 'inventory.html', 'Inventory', 'inventory') +
             navLink('iot', 'iot.html', 'IoT & Sensors', 'iot') +

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Trip Playback — YSOAM Prototype</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="">
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/pages.css">
+</head>
+<body data-page="trips" class="playback-page">
+  <div class="sidebar-backdrop" id="sidebar-backdrop"></div>
+  <div class="app-shell">
+    <div id="sidebar-root"></div>
+    <div class="main-area playback-main">
+      <div id="topbar-root"></div>
+      <main class="content playback-content" id="playback-root">
+        <div class="playback-header">
+          <div class="playback-header__top">
+            <a class="trip-detail-back" id="playback-back" href="trips.html">← Back to trips</a>
+            <div class="playback-header__actions">
+              <button type="button" class="btn btn-outline btn-sm" id="export-kml">Export KML</button>
+              <button type="button" class="btn btn-outline btn-sm" id="export-gpx">Export GPX</button>
+            </div>
+          </div>
+          <h1 class="playback-title" id="playback-trip-id">—</h1>
+          <div class="playback-stat-chips" id="playback-stat-chips"></div>
+          <div class="playback-stat-row" id="playback-stat-row"></div>
+        </div>
+
+        <div class="playback-map-wrap">
+          <div id="map-playback" class="playback-map"></div>
+          <div class="playback-live-badge" id="playback-live-badge">
+            <span class="playback-live-badge__speed" id="playback-current-speed">0 km/h</span>
+            <span class="playback-live-badge__time tabular-nums" id="playback-current-time">—</span>
+          </div>
+        </div>
+
+        <div class="playback-controls">
+          <div class="playback-controls__row">
+            <div class="playback-legend">
+              <span class="playback-legend__item"><span class="playback-legend__dot" style="background:#9CA3AF"></span> Stopped</span>
+              <span class="playback-legend__item"><span class="playback-legend__dot" style="background:#16A34A"></span> &lt;30</span>
+              <span class="playback-legend__item"><span class="playback-legend__dot" style="background:#EAB308"></span> 30–60</span>
+              <span class="playback-legend__item"><span class="playback-legend__dot" style="background:#F97316"></span> 60–80</span>
+              <span class="playback-legend__item"><span class="playback-legend__dot" style="background:#DC2626"></span> &gt;80</span>
+            </div>
+            <div class="playback-transport">
+              <button type="button" class="playback-btn" id="playback-step-back" aria-label="Step back">⏮</button>
+              <button type="button" class="playback-btn playback-btn--play" id="playback-toggle" aria-label="Play">▶</button>
+              <button type="button" class="playback-btn" id="playback-speed" data-speed="1">1×</button>
+            </div>
+          </div>
+
+          <div class="playback-timeline">
+            <div class="playback-timeline__labels">
+              <span class="tabular-nums" id="playback-time-start">—</span>
+              <span class="playback-timeline__progress tabular-nums" id="playback-point-label">1 / 1 pts</span>
+              <span class="tabular-nums" id="playback-time-end">—</span>
+            </div>
+            <input type="range" class="playback-slider" id="playback-slider" min="0" max="0" value="0" aria-label="Playback timeline">
+          </div>
+
+          <div class="playback-graph">
+            <div class="playback-graph__header">
+              <span class="playback-graph__title">Speed graph</span>
+              <span class="playback-graph__peak tabular-nums" id="playback-graph-peak">—</span>
+            </div>
+            <canvas id="playback-speed-canvas" class="playback-graph__canvas" height="80"></canvas>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+  <div id="bottom-nav-root"></div>
+
+  <script src="js/icons.js"></script>
+  <script src="js/shell.js"></script>
+  <script src="js/nav.js"></script>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+  <script src="js/fleet-data.js"></script>
+  <script src="js/vehicle-icons.js"></script>
+  <script src="js/trips-data.js"></script>
+  <script src="js/trip-playback.js"></script>
+</body>
+</html>

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Trip Detail — YSOAM Prototype</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/pages.css">
+</head>
+<body data-page="trips">
+  <div class="sidebar-backdrop" id="sidebar-backdrop"></div>
+  <div class="app-shell">
+    <div id="sidebar-root"></div>
+    <div class="main-area">
+      <div id="topbar-root"></div>
+      <main class="content" id="trip-detail-root">
+        <div class="page-header">
+          <div class="page-header__text">
+            <a class="trip-detail-back" href="trips.html">← Back to trips</a>
+            <div class="page-header__eyebrow">Trip detail</div>
+            <div class="trip-detail-page-title">
+              <h1 id="trip-detail-title">—</h1>
+              <div id="trip-detail-status"></div>
+            </div>
+            <p id="trip-detail-route">—</p>
+          </div>
+          <div class="page-header__actions">
+            <a class="btn btn-outline btn-sm" id="trip-playback-link" href="#">Route playback</a>
+            <a class="btn btn-outline btn-sm" href="reports.html#profit-detail">Full P&amp;L Report</a>
+            <a class="btn btn-primary btn-sm" href="billing.html" id="trip-detail-invoice">View Invoice</a>
+          </div>
+        </div>
+
+        <div class="panel" style="margin-bottom:var(--spacing-lg);">
+          <div class="panel__body">
+            <div id="trip-detail-stepper"></div>
+          </div>
+        </div>
+
+        <div class="trip-detail-grid trip-detail-grid--page">
+          <section class="panel">
+            <div class="panel__header">
+              <h2 class="panel__title">Trip information</h2>
+            </div>
+            <div class="panel__body">
+              <div class="trip-meta-grid trip-meta-grid--detail" id="trip-detail-meta"></div>
+            </div>
+          </section>
+
+          <section class="panel">
+            <div class="panel__header">
+              <h2 class="panel__title">Profitability</h2>
+            </div>
+            <div class="panel__body">
+              <div class="profit-panel profit-panel--detail" id="trip-detail-profit"></div>
+            </div>
+          </section>
+        </div>
+      </main>
+    </div>
+  </div>
+  <div id="bottom-nav-root"></div>
+
+  <script src="js/icons.js"></script>
+  <script src="js/shell.js"></script>
+  <script src="js/nav.js"></script>
+  <script src="js/trips-data.js"></script>
+  <script src="js/trip-detail.js"></script>
+</body>
+</html>
