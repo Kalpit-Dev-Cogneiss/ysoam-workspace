@@ -10,7 +10,7 @@
   --color-on-ink: #ffffff;
   --color-canvas: #ffffff;
   --color-paper: #ffffff;
-  --color-cloud: #F4F6F8;
+  --color-cloud: #EEF2F6;
   --color-fog: #E2E8F0;
   --color-steel: #94A3B8;
   --color-graphite: #64748B;
@@ -23,6 +23,7 @@
   --color-sidebar-light: #ffffff;
   --color-on-sidebar: #F1F5F9;
   --color-sidebar-muted: #94A3B8;
+  --org-menu-width: 300px;
   --color-status-active: #16A34A;
   --color-status-active-soft: #DCFCE7;
   --color-status-idle: #F59E0B;
@@ -43,7 +44,8 @@
   --color-warning: #F59E0B;
   --color-success: #16A34A;
 
-  --font-family: 'Inter', system-ui, sans-serif;
+  --font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+  --font-family-display: 'Inter', 'Segoe UI', system-ui, sans-serif;
 
   --rounded-none: 0;
   --rounded-xs: 2px;
@@ -62,8 +64,9 @@
   --spacing-xxl: 48px;
   --spacing-section: 64px;
 
-  --sidebar-width: 240px;
-  --topbar-height: 56px;
+  --sidebar-width: 260px;
+  --sidebar-width-collapsed: 56px;
+  --topbar-height: 60px;
   --bottom-nav-height: 56px;
   --content-max-width: 1440px;
 

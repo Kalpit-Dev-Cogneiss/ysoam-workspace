@@ -7,7 +7,6 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="">
   <link rel="stylesheet" href="css/tokens.css">
   <link rel="stylesheet" href="css/components.css">
   <link rel="stylesheet" href="css/layout.css">
@@ -19,143 +18,99 @@
     <div id="sidebar-root"></div>
     <div class="main-area">
       <div id="topbar-root"></div>
-      <main class="content">
-        <div class="page-header">
-          <div class="page-header__text">
-            <div class="page-header__eyebrow">Overview</div>
-            <h1>Dashboard</h1>
-            <p>Real-time fleet command center · YSOAM Demo Fleet · Mumbai–Pune corridor · 08 Jun 2026</p>
+      <main class="content content--dashboard">
+        <div class="dashboard-toolbar">
+          <div class="dashboard-toolbar__left">
+            <h1 class="dashboard-toolbar__title">My Dashboard</h1>
+            <span class="dashboard-toolbar__select" aria-hidden="true">Default view ▾</span>
           </div>
-          <div class="page-header__actions">
-            <a class="btn btn-outline btn-sm" href="reports.html">Profitability</a>
-            <a class="btn btn-outline btn-sm" href="gps.html">Full GPS</a>
-            <a class="btn btn-primary btn-sm" href="trips.html">New Trip</a>
-          </div>
-        </div>
-
-        <!-- Primary KPIs -->
-        <div class="kpi-grid">
-          <div class="card card-kpi">
-            <div class="card-kpi__top">
-              <span class="card-kpi__label">Active Vehicles</span>
-              <span class="card-kpi__icon"><svg width="18" height="18" viewBox="0 0 20 20" fill="none"><path d="M2 12h16l-1.5-5H3.5L2 12z" fill="#0052FF" opacity="0.3"/><circle cx="6" cy="15" r="1.5" fill="#0052FF"/><circle cx="14" cy="15" r="1.5" fill="#0052FF"/></svg></span>
-            </div>
-            <div class="card-kpi__value tabular-nums">7</div>
-            <div class="card-kpi__delta">of 10 in fleet · 70% utilization</div>
-          </div>
-          <div class="card card-kpi">
-            <div class="card-kpi__top">
-              <span class="card-kpi__label">Trips Today</span>
-              <span class="card-kpi__icon"><svg width="18" height="18" viewBox="0 0 20 20" fill="none"><circle cx="4" cy="14" r="2" fill="#0052FF" opacity="0.35"/><circle cx="16" cy="6" r="2" fill="#0052FF"/><path d="M6 13l8-6" stroke="#0052FF" stroke-width="1.5"/></svg></span>
-            </div>
-            <div class="card-kpi__value tabular-nums">12</div>
-            <div class="card-kpi__delta">3 in transit · 5 completed</div>
-          </div>
-          <div class="card card-kpi">
-            <div class="card-kpi__top">
-              <span class="card-kpi__label">Fleet Margin</span>
-              <span class="card-kpi__icon"><svg width="18" height="18" viewBox="0 0 20 20" fill="none"><rect x="4" y="10" width="3" height="6" rx="1" fill="#0052FF" opacity="0.4"/><rect x="9" y="6" width="3" height="10" rx="1" fill="#0052FF" opacity="0.7"/><rect x="14" y="3" width="3" height="13" rx="1" fill="#0052FF"/></svg></span>
-            </div>
-            <div class="card-kpi__value tabular-nums profit-positive">28.4%</div>
-            <div class="card-kpi__delta card-kpi__delta--up">↑ 2.1% vs last week</div>
-          </div>
-          <div class="card card-kpi">
-            <div class="card-kpi__top">
-              <span class="card-kpi__label">Open Alerts</span>
-              <span class="card-kpi__icon"><svg width="18" height="18" viewBox="0 0 20 20" fill="none"><path d="M10 3a4 4 0 00-4 4v3l-1.5 2.5h11L14 10V7a4 4 0 00-4-4z" stroke="#0052FF" stroke-width="1.3" fill="#0052FF" fill-opacity="0.15"/></svg></span>
-            </div>
-            <div class="card-kpi__value tabular-nums">4</div>
-            <div class="card-kpi__delta">2 critical · 2 warnings</div>
+          <div class="dashboard-toolbar__right">
+            <button type="button" class="btn btn-outline btn-sm" title="Refresh" aria-label="Refresh dashboard">↻</button>
+            <a class="btn btn-outline btn-sm" href="gps.html">Live GPS</a>
+            <a class="btn btn-primary btn-sm" href="trips.html">+ Add Widget</a>
           </div>
         </div>
 
-        <!-- Secondary KPIs -->
-        <div class="dashboard-secondary-kpi">
-          <div class="secondary-kpi">
-            <div class="secondary-kpi__label">Revenue Today</div>
-            <div class="secondary-kpi__value tabular-nums">₹54,200</div>
-          </div>
-          <div class="secondary-kpi">
-            <div class="secondary-kpi__label">Fuel Spend</div>
-            <div class="secondary-kpi__value tabular-nums">₹18,400</div>
-          </div>
-          <div class="secondary-kpi">
-            <div class="secondary-kpi__label">Drivers On Duty</div>
-            <div class="secondary-kpi__value tabular-nums">8</div>
-          </div>
-          <div class="secondary-kpi">
-            <div class="secondary-kpi__label">Avg Trip Margin</div>
-            <div class="secondary-kpi__value tabular-nums profit-positive">24.6%</div>
-          </div>
-        </div>
-
-        <!-- Fleet Map — hero section with satellite top view -->
-        <div class="panel dashboard-map-section" data-map-root>
-          <div class="panel__header">
-            <div>
-              <h2 class="panel__title">Fleet Map</h2>
-              <p class="panel__subtitle">Top-down view · click a vehicle to see live details</p>
+        <div class="widget-grid">
+          <!-- KPI row -->
+          <article class="widget widget--span-3">
+            <header class="widget__header">
+              <h2 class="widget__title">Active Vehicles</h2>
+              <button type="button" class="widget__collapse" aria-label="Collapse widget">−</button>
+            </header>
+            <div class="widget__body">
+              <div class="widget-kpi__value tabular-nums">7</div>
+              <div class="widget-kpi__meta">of 10 in fleet · 70% utilization</div>
             </div>
-            <div class="map-mode-toggle">
-              <button type="button" class="map-mode-btn is-active" data-map-mode="satellite">Satellite</button>
-              <button type="button" class="map-mode-btn" data-map-mode="street">Street</button>
-            </div>
-          </div>
-          <div class="dashboard-map-wrap">
-            <div class="map-panel" id="map-dashboard" style="border-radius:0;border:none;"></div>
-          </div>
-          <div class="vehicle-strip" aria-label="Fleet vehicles">
-            <button type="button" class="vehicle-chip" data-map-vehicle="MH-12-AB-1234">
-              <span class="vehicle-chip__dot" style="background:#0052FF"></span> MH-12-AB
-            </button>
-            <button type="button" class="vehicle-chip" data-map-vehicle="MH-14-CD-5678">
-              <span class="vehicle-chip__dot" style="background:#F59E0B"></span> MH-14-CD
-            </button>
-            <button type="button" class="vehicle-chip" data-map-vehicle="MH-01-EF-7890">
-              <span class="vehicle-chip__dot" style="background:#16A34A"></span> MH-01-EF
-            </button>
-            <button type="button" class="vehicle-chip" data-map-vehicle="MH-04-HI-3456">
-              <span class="vehicle-chip__dot" style="background:#DC2626"></span> MH-04-HI
-            </button>
-            <button type="button" class="vehicle-chip" data-map-vehicle="MH-09-FG-9012">
-              <span class="vehicle-chip__dot" style="background:#9333EA"></span> MH-09-FG
-            </button>
-            <button type="button" class="vehicle-chip" data-map-vehicle="MH-12-JK-2345">
-              <span class="vehicle-chip__dot" style="background:#0052FF"></span> MH-12-JK
-            </button>
-            <button type="button" class="vehicle-chip" data-map-vehicle="MH-22-LM-6789">
-              <span class="vehicle-chip__dot" style="background:#16A34A"></span> MH-22-LM
-            </button>
-            <button type="button" class="vehicle-chip" data-map-vehicle="MH-43-NO-0123">
-              <span class="vehicle-chip__dot" style="background:#F59E0B"></span> MH-43-NO
-            </button>
-            <button type="button" class="vehicle-chip" data-map-vehicle="MH-15-PQ-4567">
-              <span class="vehicle-chip__dot" style="background:#16A34A"></span> MH-15-PQ
-            </button>
-            <button type="button" class="vehicle-chip" data-map-vehicle="MH-07-RS-8901">
-              <span class="vehicle-chip__dot" style="background:#F59E0B"></span> MH-07-RS
-            </button>
-          </div>
-          <div class="map-legend">
-            <span class="map-legend__item"><span class="map-legend__dot" style="background:#0052FF"></span> In transit</span>
-            <span class="map-legend__item"><span class="map-legend__dot" style="background:#16A34A"></span> Active</span>
-            <span class="map-legend__item"><span class="map-legend__dot" style="background:#F59E0B"></span> Idle</span>
-            <span class="map-legend__item"><span class="map-legend__dot" style="background:#DC2626"></span> Offline</span>
-            <span class="map-legend__item"><span class="map-legend__dot" style="background:#9333EA"></span> Maintenance</span>
-          </div>
-        </div>
+          </article>
 
-        <!-- Three-column row -->
-        <div class="dashboard-grid-3">
-          <div class="panel" id="alerts">
-            <div class="panel__header">
-              <div>
-                <h2 class="panel__title">Alerts</h2>
-                <p class="panel__subtitle">Requires attention</p>
+          <article class="widget widget--span-3">
+            <header class="widget__header">
+              <h2 class="widget__title">Trips Today</h2>
+              <button type="button" class="widget__collapse" aria-label="Collapse widget">−</button>
+            </header>
+            <div class="widget__body">
+              <div class="widget-kpi__value tabular-nums">12</div>
+              <div class="widget-kpi__meta">3 in transit · 5 completed</div>
+            </div>
+          </article>
+
+          <article class="widget widget--span-3">
+            <header class="widget__header">
+              <h2 class="widget__title">Fleet Margin</h2>
+              <button type="button" class="widget__collapse" aria-label="Collapse widget">−</button>
+            </header>
+            <div class="widget__body">
+              <div class="widget-kpi__value tabular-nums profit-positive">28.4%</div>
+              <div class="widget-kpi__meta widget-kpi__meta--up">↑ 2.1% vs last week</div>
+            </div>
+          </article>
+
+          <article class="widget widget--span-3">
+            <header class="widget__header">
+              <h2 class="widget__title">Open Alerts</h2>
+              <button type="button" class="widget__collapse" aria-label="Collapse widget">−</button>
+            </header>
+            <div class="widget__body">
+              <div class="widget-kpi__value tabular-nums">4</div>
+              <div class="widget-kpi__meta">2 critical · 2 warnings</div>
+            </div>
+          </article>
+
+          <article class="widget widget--span-4">
+            <header class="widget__header">
+              <h2 class="widget__title">Vehicle Status</h2>
+              <button type="button" class="widget__collapse" aria-label="Collapse widget">−</button>
+            </header>
+            <div class="widget__body">
+              <div class="widget-status-list">
+                <div class="widget-status-item">
+                  <span class="widget-status-item__label"><span class="widget-status-item__dot" style="background:#0052FF"></span> In transit</span>
+                  <strong class="tabular-nums">3</strong>
+                </div>
+                <div class="widget-status-item">
+                  <span class="widget-status-item__label"><span class="widget-status-item__dot" style="background:#16A34A"></span> Active</span>
+                  <strong class="tabular-nums">4</strong>
+                </div>
+                <div class="widget-status-item">
+                  <span class="widget-status-item__label"><span class="widget-status-item__dot" style="background:#F59E0B"></span> Idle</span>
+                  <strong class="tabular-nums">2</strong>
+                </div>
+                <div class="widget-status-item">
+                  <span class="widget-status-item__label"><span class="widget-status-item__dot" style="background:#DC2626"></span> Offline</span>
+                  <strong class="tabular-nums">1</strong>
+                </div>
               </div>
-              <a class="btn btn-text btn-sm" href="gps.html">View all</a>
             </div>
-            <div class="panel__body">
+          </article>
+
+          <!-- Alerts, trips, routes -->
+          <article class="widget widget--span-4" id="alerts">
+            <header class="widget__header">
+              <h2 class="widget__title">Alerts</h2>
+              <a class="btn btn-text btn-sm" href="gps.html">View all</a>
+            </header>
+            <div class="widget__body widget__body--flush">
               <div class="alert-list">
                 <div class="alert-item">
                   <span class="alert-item__indicator alert-item__indicator--warning"></span>
@@ -191,19 +146,16 @@
                 </div>
               </div>
             </div>
-          </div>
+          </article>
 
-          <div class="panel table-panel">
-            <div class="panel__header">
-              <div>
-                <h2 class="panel__title">Active Trips</h2>
-                <p class="panel__subtitle">In progress now</p>
-              </div>
+          <article class="widget widget--span-4 table-panel">
+            <header class="widget__header">
+              <h2 class="widget__title">Active Trips</h2>
               <a class="btn btn-text btn-sm" href="trips.html">All trips</a>
-            </div>
-            <div class="panel__body panel__body--flush">
-              <div class="data-table-wrap">
-                <table class="data-table">
+            </header>
+            <div class="widget__body widget__body--flush">
+              <div class="data-table-wrap data-table-wrap--scroll">
+                <table class="data-table data-table--list">
                   <thead>
                     <tr>
                       <th>Route</th>
@@ -236,17 +188,53 @@
                 </table>
               </div>
             </div>
-          </div>
+          </article>
 
-          <div class="panel">
-            <div class="panel__header">
-              <div>
-                <h2 class="panel__title">Top Routes</h2>
-                <p class="panel__subtitle">By margin this month</p>
+          <!-- Cost charts -->
+          <article class="widget widget--span-4">
+            <header class="widget__header">
+              <h2 class="widget__title">Fuel Costs</h2>
+              <button type="button" class="widget__collapse" aria-label="Collapse widget">−</button>
+            </header>
+            <div class="widget__body">
+              <div class="widget-kpi__value tabular-nums" style="font-size:22px;">₹18,400</div>
+              <div class="widget-kpi__meta">This week</div>
+              <div class="widget-chart-bars" aria-hidden="true">
+                <div class="widget-chart-bars__bar" style="height:55%"></div>
+                <div class="widget-chart-bars__bar" style="height:72%"></div>
+                <div class="widget-chart-bars__bar" style="height:48%"></div>
+                <div class="widget-chart-bars__bar" style="height:80%"></div>
+                <div class="widget-chart-bars__bar" style="height:65%"></div>
+                <div class="widget-chart-bars__bar" style="height:90%"></div>
               </div>
-              <a class="btn btn-text btn-sm" href="reports.html">Report</a>
             </div>
-            <div class="panel__body">
+          </article>
+
+          <article class="widget widget--span-4">
+            <header class="widget__header">
+              <h2 class="widget__title">Service Costs</h2>
+              <button type="button" class="widget__collapse" aria-label="Collapse widget">−</button>
+            </header>
+            <div class="widget__body">
+              <div class="widget-kpi__value tabular-nums" style="font-size:22px;">₹6,200</div>
+              <div class="widget-kpi__meta">This week</div>
+              <div class="widget-chart-bars" aria-hidden="true">
+                <div class="widget-chart-bars__bar" style="height:40%;opacity:0.7"></div>
+                <div class="widget-chart-bars__bar" style="height:55%;opacity:0.7"></div>
+                <div class="widget-chart-bars__bar" style="height:35%;opacity:0.7"></div>
+                <div class="widget-chart-bars__bar" style="height:60%;opacity:0.7"></div>
+                <div class="widget-chart-bars__bar" style="height:45%;opacity:0.7"></div>
+                <div class="widget-chart-bars__bar" style="height:70%;opacity:0.7"></div>
+              </div>
+            </div>
+          </article>
+
+          <article class="widget widget--span-4">
+            <header class="widget__header">
+              <h2 class="widget__title">Top Routes</h2>
+              <a class="btn btn-text btn-sm" href="reports.html">Report</a>
+            </header>
+            <div class="widget__body">
               <div class="route-rank">
                 <div class="route-rank-item">
                   <span class="route-rank-item__pos">1</span>
@@ -270,19 +258,30 @@
                 </div>
               </div>
             </div>
-          </div>
-        </div>
+          </article>
 
-        <!-- Activity + Quick Actions -->
-        <div class="dashboard-grid-3">
-          <div class="panel" style="grid-column: span 2;">
-            <div class="panel__header">
-              <div>
-                <h2 class="panel__title">Live Activity</h2>
-                <p class="panel__subtitle">Recent fleet events</p>
+          <article class="widget widget--span-4">
+            <header class="widget__header">
+              <h2 class="widget__title">Today's P&amp;L</h2>
+              <button type="button" class="widget__collapse" aria-label="Collapse widget">−</button>
+            </header>
+            <div class="widget__body">
+              <div class="profit-breakdown">
+                <div class="profit-row"><span>Revenue</span><span class="tabular-nums">₹54,200</span></div>
+                <div class="profit-row"><span>Fuel + costs</span><span class="tabular-nums">− ₹38,900</span></div>
+                <div class="profit-row profit-row--total"><span>Net profit</span><span class="profit-positive tabular-nums">₹15,300</span></div>
               </div>
+              <a class="btn btn-outline btn-sm" href="reports.html" style="width:100%;margin-top:var(--spacing-md);">Full profitability →</a>
             </div>
-            <div class="panel__body">
+          </article>
+
+          <!-- Activity + quick actions -->
+          <article class="widget widget--span-8">
+            <header class="widget__header">
+              <h2 class="widget__title">Live Activity</h2>
+              <button type="button" class="widget__collapse" aria-label="Collapse widget">−</button>
+            </header>
+            <div class="widget__body">
               <div class="activity-feed">
                 <div class="activity-item">
                   <span class="activity-item__time">14:32</span>
@@ -306,58 +305,22 @@
                 </div>
               </div>
             </div>
-          </div>
+          </article>
 
-          <div class="panel">
-            <div class="panel__header">
-              <div>
-                <h2 class="panel__title">Today's P&amp;L</h2>
-                <p class="panel__subtitle">Fleet snapshot</p>
+          <article class="widget widget--span-12">
+            <header class="widget__header">
+              <h2 class="widget__title">Quick Actions</h2>
+              <button type="button" class="widget__collapse" aria-label="Collapse widget">−</button>
+            </header>
+            <div class="widget__body">
+              <div class="quick-actions-grid">
+                <a class="quick-action-card" href="trips.html">Create Trip</a>
+                <a class="quick-action-card" href="gps.html">Live GPS</a>
+                <a class="quick-action-card" href="reports.html">Profitability</a>
+                <a class="quick-action-card" href="billing.html">Invoice</a>
               </div>
             </div>
-            <div class="panel__body">
-              <div class="profit-breakdown">
-                <div class="profit-row"><span>Revenue</span><span class="tabular-nums">₹54,200</span></div>
-                <div class="profit-row"><span>Fuel + costs</span><span class="tabular-nums">− ₹38,900</span></div>
-                <div class="profit-row profit-row--total"><span>Net profit</span><span class="profit-positive tabular-nums">₹15,300</span></div>
-              </div>
-              <a class="btn btn-outline btn-sm" href="reports.html" style="width:100%;margin-top:var(--spacing-md);">Full profitability →</a>
-            </div>
-          </div>
-        </div>
-
-        <!-- Quick Actions -->
-        <div class="panel">
-          <div class="panel__header">
-            <div>
-              <h2 class="panel__title">Quick Actions</h2>
-              <p class="panel__subtitle">Common workflows</p>
-            </div>
-          </div>
-          <div class="panel__body">
-            <div class="quick-actions-grid">
-              <a class="quick-action-card" href="trips.html">
-                <span class="quick-action-card__icon"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="4" cy="14" r="2" fill="#0052FF" opacity="0.35"/><circle cx="16" cy="6" r="2" fill="#0052FF"/><path d="M6 13l8-6" stroke="#0052FF" stroke-width="1.5"/></svg></span>
-                Create Trip
-              </a>
-              <a class="quick-action-card" href="gps.html">
-                <span class="quick-action-card__icon"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 2C6.69 2 4 4.69 4 8c0 4.5 6 10 6 10s6-5.5 6-10c0-3.31-2.69-6-6-6z" fill="#0052FF" opacity="0.2"/><circle cx="10" cy="8" r="2.5" fill="#0052FF"/></svg></span>
-                Live GPS
-              </a>
-              <a class="quick-action-card" href="reports.html">
-                <span class="quick-action-card__icon"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="4" y="10" width="3" height="6" rx="1" fill="#0052FF"/><rect x="9" y="6" width="3" height="10" rx="1" fill="#0052FF" opacity="0.7"/><rect x="14" y="3" width="3" height="13" rx="1" fill="#0052FF" opacity="0.4"/></svg></span>
-                Profitability
-              </a>
-              <a class="quick-action-card" href="billing.html">
-                <span class="quick-action-card__icon"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="5" y="3" width="10" height="14" rx="2" stroke="#0052FF" stroke-width="1.3" fill="#0052FF" fill-opacity="0.1"/><path d="M8 8h4M8 11h4" stroke="#0052FF" stroke-width="1.2"/></svg></span>
-                Invoice
-              </a>
-            </div>
-            <div class="demo-banner" style="margin-top:var(--spacing-lg);">
-              <strong>5-click path:</strong>
-              Dashboard → Reports → Profitability → Trip row → P&amp;L detail
-            </div>
-          </div>
+          </article>
         </div>
       </main>
     </div>
@@ -366,9 +329,5 @@
   <script src="js/icons.js"></script>
   <script src="js/shell.js"></script>
   <script src="js/nav.js"></script>
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
-  <script src="js/fleet-data.js"></script>
-  <script src="js/vehicle-icons.js"></script>
-  <script src="js/fleet-map.js"></script>
 </body>
 </html>

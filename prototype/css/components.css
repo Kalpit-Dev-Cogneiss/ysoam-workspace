@@ -428,23 +428,13 @@
 .map-marker--offline { background: var(--color-status-offline); }
 .map-marker--transit { background: var(--color-status-transit); }
 
-.page-header {
-  margin-bottom: var(--spacing-xl);
-}
-
 .page-header h1 {
   font-size: 24px;
   font-weight: 600;
   line-height: 1.25;
-  margin: 0 0 6px;
+  margin: 0;
   color: var(--color-ink-deep);
   letter-spacing: -0.01em;
-}
-
-.page-header p {
-  margin: 0;
-  color: var(--color-graphite);
-  font-size: 14px;
 }
 
 .section-title {

@@ -18,14 +18,107 @@
   <div class="app-shell">
     <div id="sidebar-root"></div>
     <div class="main-area live-tracking-main">
+      <div id="topbar-root"></div>
       <div class="live-tracking-wrap" data-map-root>
-        <div class="live-map-frame">
-          <button type="button" class="live-map-menu-btn" id="sidebar-toggle" aria-label="Toggle menu">☰</button>
-          <div class="map-mode-toggle map-mode-toggle--float">
-            <button type="button" class="map-mode-btn is-active" data-map-mode="satellite">Satellite</button>
-            <button type="button" class="map-mode-btn" data-map-mode="street">Street</button>
+        <div class="fleet-map-layout">
+          <aside class="fleet-map-panel" id="fleet-map-panel" aria-label="Nearby assets">
+            <div class="fleet-map-panel__head">
+              <h2 class="fleet-map-panel__title">Nearby</h2>
+            </div>
+            <div class="fleet-map-panel__tabs" role="tablist">
+              <button type="button" class="fleet-map-panel__tab is-active" data-nearby-tab="vehicles" role="tab" aria-selected="true">Vehicles</button>
+              <button type="button" class="fleet-map-panel__tab" data-nearby-tab="places" role="tab">Places</button>
+              <button type="button" class="fleet-map-panel__tab" data-nearby-tab="vendors" role="tab">Vendors</button>
+            </div>
+            <div class="fleet-map-panel__body" id="nearby-list" role="tabpanel"></div>
+            <label class="fleet-map-panel__footer">
+              <input type="checkbox" id="nearby-update-on-move" checked>
+              <span>Update list when map moves</span>
+            </label>
+            <button type="button" class="fleet-map-panel__collapse" id="fleet-panel-collapse" aria-label="Collapse panel" title="Collapse panel">‹</button>
+          </aside>
+
+          <div class="fleet-map-canvas">
+            <div id="map-gps" class="live-map"></div>
+
+            <div class="fleet-map-toolbar">
+              <div class="fleet-map-toolbar__row">
+              <div class="fleet-map-search">
+                <span class="fleet-map-search__icon" id="fleet-map-search-icon" aria-hidden="true"></span>
+                <input type="search" class="fleet-map-search__input" id="fleet-map-search" placeholder="Search map…" aria-label="Search map">
+              </div>
+              <div class="fleet-map-pills">
+                <button type="button" class="fleet-map-pill" data-map-action="filters" aria-expanded="false" aria-controls="fleet-map-filters">
+                  <span class="fleet-map-pill__icon" id="pill-icon-filters"></span> Filters
+                </button>
+                <button type="button" class="fleet-map-pill is-active" data-map-layer="vehicles" aria-pressed="true">
+                  <span class="fleet-map-pill__icon" id="pill-icon-vehicles"></span> Vehicles
+                </button>
+                <button type="button" class="fleet-map-pill" data-map-layer="places" aria-pressed="false">
+                  <span class="fleet-map-pill__icon" id="pill-icon-places"></span> Places
+                </button>
+                <button type="button" class="fleet-map-pill" data-map-layer="vendors" aria-pressed="false">
+                  <span class="fleet-map-pill__icon" id="pill-icon-vendors"></span> Vendors
+                </button>
+              </div>
+              </div>
+              <div class="fleet-map-filters" id="fleet-map-filters" hidden>
+                <div class="fleet-map-filters__header">Vehicles</div>
+                <div class="fleet-map-filters__field">
+                  <label for="filter-status">Vehicle Status</label>
+                  <select id="filter-status" class="text-input">
+                    <option value="">Please select</option>
+                    <option value="active">Active</option>
+                    <option value="transit">In Transit</option>
+                    <option value="idle">Idle</option>
+                    <option value="offline">Offline</option>
+                    <option value="maintenance">Maintenance</option>
+                  </select>
+                </div>
+                <div class="fleet-map-filters__field">
+                  <label for="filter-group">Vehicle Group</label>
+                  <select id="filter-group" class="text-input">
+                    <option value="">Please select</option>
+                    <option value="expressway">Expressway</option>
+                    <option value="depot">Depot</option>
+                  </select>
+                </div>
+                <div class="fleet-map-filters__actions">
+                  <button type="button" class="btn btn-text btn-sm" id="filter-cancel">Cancel</button>
+                  <button type="button" class="btn btn-primary btn-sm" id="filter-apply">Apply</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="fleet-map-options-wrap">
+              <div class="fleet-map-options-menu" id="map-options-menu" hidden>
+                <div class="fleet-map-options__section">
+                  <div class="fleet-map-options__label">Map Type</div>
+                  <label class="fleet-map-options__radio"><input type="radio" name="map-type" value="default" checked> Default</label>
+                  <label class="fleet-map-options__radio"><input type="radio" name="map-type" value="satellite"> Satellite</label>
+                  <label class="fleet-map-options__radio"><input type="radio" name="map-type" value="grayscale"> Grayscale</label>
+                </div>
+                <div class="fleet-map-options__divider"></div>
+                <div class="fleet-map-options__section">
+                  <div class="fleet-map-options__label">Map Details</div>
+                  <label class="fleet-map-options__check"><input type="checkbox" id="map-labels" checked> Labels</label>
+                  <button type="button" class="fleet-map-options__link">Set Label Options</button>
+                </div>
+                <div class="fleet-map-options__divider"></div>
+                <div class="fleet-map-options__section">
+                  <div class="fleet-map-options__label">Map Starting Location</div>
+                  <div class="fleet-map-options__location">📍 Mumbai–Pune Corridor</div>
+                  <button type="button" class="fleet-map-options__link" id="map-use-center">Use Current Map Center</button>
+                  <button type="button" class="fleet-map-options__link" id="map-reset-center">Reset to Default</button>
+                </div>
+              </div>
+              <button type="button" class="fleet-map-options-btn" id="map-options-toggle" aria-expanded="false" aria-controls="map-options-menu">
+                <span class="fleet-map-options-btn__icon" aria-hidden="true">▤</span>
+                Map Options
+                <span class="fleet-map-options-btn__chevron" aria-hidden="true">▾</span>
+              </button>
+            </div>
           </div>
-          <div id="map-gps" class="live-map"></div>
         </div>
       </div>
     </div>
@@ -37,5 +130,6 @@
   <script src="js/fleet-data.js"></script>
   <script src="js/vehicle-icons.js"></script>
   <script src="js/fleet-map.js"></script>
+  <script src="js/fleet-map-ui.js"></script>
 </body>
 </html>

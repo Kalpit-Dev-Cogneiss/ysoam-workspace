@@ -20,6 +20,14 @@
         attribution: '&copy; Esri'
       }
     },
+    grayscale: {
+      url: 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',
+      options: {
+        subdomains: 'abcd',
+        maxZoom: 19,
+        attribution: '&copy; OSM &copy; CARTO'
+      }
+    },
     labels: {
       url: 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager_only_labels/{z}/{x}/{y}{r}.png',
       options: {
@@ -162,6 +170,8 @@
     var vehicles = fleet.vehicles;
     if (options.vehicleId) {
       vehicles = fleet.vehicles.filter(function (v) { return v.id === options.vehicleId; });
+    } else if (options.filter && options.filter.status) {
+      vehicles = vehicles.filter(function (v) { return v.status === options.filter.status; });
     }
 
     vehicles.forEach(function (vehicle) {
@@ -192,12 +202,17 @@
     });
   }
 
-  function addTileLayers(map, mode) {
+  function addTileLayers(map, mode, showLabels) {
     var layers = { base: [], overlay: [] };
+    showLabels = showLabels !== false;
 
     if (mode === 'satellite') {
       layers.base.push(L.tileLayer(TILES.satellite.url, TILES.satellite.options).addTo(map));
-      layers.overlay.push(L.tileLayer(TILES.labels.url, TILES.labels.options).addTo(map));
+      if (showLabels) {
+        layers.overlay.push(L.tileLayer(TILES.labels.url, TILES.labels.options).addTo(map));
+      }
+    } else if (mode === 'grayscale') {
+      layers.base.push(L.tileLayer(TILES.grayscale.url, TILES.grayscale.options).addTo(map));
     } else {
       layers.base.push(L.tileLayer(TILES.street.url, TILES.street.options).addTo(map));
     }
@@ -205,14 +220,148 @@
     return layers;
   }
 
-  function setMapMode(containerId, mode) {
+  function setMapMode(containerId, mode, showLabels) {
     var entry = maps[containerId];
     if (!entry) return;
 
     entry.tileLayers.base.forEach(function (l) { entry.map.removeLayer(l); });
     entry.tileLayers.overlay.forEach(function (l) { entry.map.removeLayer(l); });
-    entry.tileLayers = addTileLayers(entry.map, mode);
+    entry.showLabels = showLabels !== false;
+    entry.tileLayers = addTileLayers(entry.map, mode, entry.showLabels);
     entry.mode = mode;
+  }
+
+  function setLabelsVisible(containerId, visible) {
+    var entry = maps[containerId];
+    if (!entry) return;
+    entry.showLabels = visible;
+    setMapMode(containerId, entry.mode, visible);
+  }
+
+  function placeMarkerIcon() {
+    var svg = window.YSOAM_ICONS && window.YSOAM_ICONS.mapPlacePin
+      ? window.YSOAM_ICONS.mapPlacePin
+      : '';
+    return L.divIcon({
+      className: 'map-place-marker',
+      html: '<div class="map-place-marker__pin">' + svg + '</div>',
+      iconSize: [30, 38],
+      iconAnchor: [15, 38]
+    });
+  }
+
+  function vendorMarkerIcon() {
+    var svg = window.YSOAM_ICONS && window.YSOAM_ICONS.mapVendorPin
+      ? window.YSOAM_ICONS.mapVendorPin
+      : '';
+    return L.divIcon({
+      className: 'map-vendor-marker',
+      html: '<div class="map-vendor-marker__pin">' + svg + '</div>',
+      iconSize: [30, 30],
+      iconAnchor: [15, 28]
+    });
+  }
+
+  function addPlacesMarkers(layer) {
+    layer.clearLayers();
+    (fleet.places || []).forEach(function (place) {
+      var marker = L.marker([place.lat, place.lng], { icon: placeMarkerIcon() });
+      marker.bindPopup('<strong>' + place.name + '</strong><br>' + place.type);
+      layer.addLayer(marker);
+    });
+  }
+
+  function addVendorsMarkers(layer) {
+    layer.clearLayers();
+    (fleet.vendors || []).forEach(function (vendor) {
+      var marker = L.marker([vendor.lat, vendor.lng], { icon: vendorMarkerIcon() });
+      marker.bindPopup('<strong>' + vendor.name + '</strong><br>' + vendor.type);
+      layer.addLayer(marker);
+    });
+  }
+
+  function toggleMapLayer(containerId, layerName, visible) {
+    var entry = maps[containerId];
+    if (!entry || !entry.layers) return;
+
+    entry.layers[layerName] = visible;
+    var group = entry.layerGroups[layerName];
+    if (!group) return;
+
+    if (visible) {
+      entry.map.addLayer(group);
+    } else {
+      entry.map.removeLayer(group);
+    }
+  }
+
+  function getFilteredVehicles(filter) {
+    filter = filter || {};
+    return fleet.vehicles.filter(function (v) {
+      if (filter.status && v.status !== filter.status) return false;
+      return true;
+    });
+  }
+
+  function refreshVehicleMarkers(containerId, filter) {
+    var entry = maps[containerId];
+    if (!entry) return;
+
+    entry.options.filter = filter || {};
+    entry.markerById = addVehicleMarkers(entry.map, entry.markers, {
+      selectedId: entry.options.selectedId,
+      showLabels: entry.options.showLabels,
+      onSelect: entry.onSelect,
+      filter: entry.options.filter
+    });
+  }
+
+  function distanceKm(aLat, aLng, bLat, bLng) {
+    var dLat = (bLat - aLat) * 111;
+    var dLng = (bLng - aLng) * 111 * Math.cos(aLat * Math.PI / 180);
+    return Math.sqrt(dLat * dLat + dLng * dLng);
+  }
+
+  function getNearbyItems(containerId, type) {
+    var entry = maps[containerId];
+    if (!entry) return [];
+
+    var center = entry.map.getCenter();
+    var items = [];
+
+    if (type === 'vehicles') {
+      getFilteredVehicles(entry.options.filter).forEach(function (v) {
+        items.push({
+          id: v.id,
+          title: v.shortId,
+          meta: v.label + ' · ' + (fleet.statusLabels[v.status] || v.status),
+          distance: distanceKm(center.lat, center.lng, v.lat, v.lng),
+          kind: 'vehicle'
+        });
+      });
+    } else if (type === 'places') {
+      (fleet.places || []).forEach(function (p) {
+        items.push({
+          id: p.id,
+          title: p.name,
+          meta: p.type,
+          distance: distanceKm(center.lat, center.lng, p.lat, p.lng),
+          kind: 'place'
+        });
+      });
+    } else if (type === 'vendors') {
+      (fleet.vendors || []).forEach(function (v) {
+        items.push({
+          id: v.id,
+          title: v.name,
+          meta: v.type,
+          distance: distanceKm(center.lat, center.lng, v.lat, v.lng),
+          kind: 'vendor'
+        });
+      });
+    }
+
+    return items.sort(function (a, b) { return a.distance - b.distance; });
   }
 
   function destroyMap(containerId) {
@@ -242,8 +391,14 @@
       map.zoomControl.setPosition(options.zoomPosition);
     }
 
-    var tileLayers = addTileLayers(map, mode);
+    var showLabels = options.showLabelsOnTiles !== false;
+    var tileLayers = addTileLayers(map, mode === 'default' ? 'street' : mode, showLabels);
     var markersLayer = L.layerGroup().addTo(map);
+    var placesLayer = L.layerGroup();
+    var vendorsLayer = L.layerGroup();
+    addPlacesMarkers(placesLayer);
+    addVendorsMarkers(vendorsLayer);
+
     var markerById = addVehicleMarkers(map, markersLayer, options);
     var routeLayer = null;
 
@@ -265,13 +420,32 @@
       map.fitBounds(bounds, { padding: options.fitPadding || [40, 40] });
     }
 
+    var layerGroups = {
+      vehicles: markersLayer,
+      places: placesLayer,
+      vendors: vendorsLayer
+    };
+
+    var layerVisibility = {
+      vehicles: options.showVehicles !== false,
+      places: !!options.showPlaces,
+      vendors: !!options.showVendors
+    };
+
+    Object.keys(layerGroups).forEach(function (key) {
+      if (layerVisibility[key]) map.addLayer(layerGroups[key]);
+    });
+
     maps[containerId] = {
       map: map,
       markers: markersLayer,
       markerById: markerById,
       route: routeLayer,
       tileLayers: tileLayers,
-      mode: mode,
+      layerGroups: layerGroups,
+      layers: layerVisibility,
+      mode: mode === 'default' ? 'street' : mode,
+      showLabels: showLabels,
       onSelect: options.onSelect,
       options: options
     };
@@ -357,15 +531,17 @@
       initMap('map-gps', {
         zoom: 9,
         fitBounds: true,
-        showRoute: true,
+        showRoute: false,
         showLabels: true,
-        mapMode: 'satellite',
+        mapMode: 'default',
+        showVehicles: true,
+        showPlaces: false,
+        showVendors: false,
         hideAttribution: false,
         zoomPosition: 'bottomright',
         fitPadding: [20, 20],
         onSelect: makeOnSelect('map-gps')
       });
-      bindMapModeToggle('map-gps');
     },
     initTripPlayback: function (containerId, trip) {
       if (!trip) return;
@@ -391,11 +567,26 @@
     },
     selectVehicle: selectVehicle,
     setMapMode: setMapMode,
+    setLabelsVisible: setLabelsVisible,
+    toggleLayer: toggleMapLayer,
+    refreshVehicles: refreshVehicleMarkers,
+    getNearby: getNearbyItems,
+    resetView: function (containerId) {
+      var entry = maps[containerId];
+      if (!entry || !fleet.mapDefaultCenter) return;
+      entry.map.setView([fleet.mapDefaultCenter.lat, fleet.mapDefaultCenter.lng], 9, { animate: true });
+    },
+    useMapCenter: function (containerId) {
+      var entry = maps[containerId];
+      if (!entry || !fleet.mapDefaultCenter) return;
+      var c = entry.map.getCenter();
+      fleet.mapDefaultCenter.lat = c.lat;
+      fleet.mapDefaultCenter.lng = c.lng;
+    },
     destroyMap: destroyMap
   };
 
   document.addEventListener('DOMContentLoaded', function () {
     if (document.getElementById('map-dashboard')) window.YSOAM_MAP.initDashboard();
-    if (document.getElementById('map-gps')) window.YSOAM_MAP.initLiveTracking();
   });
 })();

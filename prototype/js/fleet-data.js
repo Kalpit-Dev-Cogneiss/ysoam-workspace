@@ -35,5 +35,23 @@ window.YSOAM_FLEET = {
     offline: 'Offline',
     transit: 'In Transit',
     maintenance: 'Maintenance'
+  },
+  places: [
+    { id: 'place-mumbai-port', name: 'Mumbai Port Yard', lat: 19.076, lng: 72.8777, type: 'Depot' },
+    { id: 'place-pune-depot', name: 'Pune Logistics Depot', lat: 18.5204, lng: 73.8567, type: 'Depot' },
+    { id: 'place-lonavala', name: 'Lonavala Toll Plaza', lat: 18.7557, lng: 73.4091, type: 'Checkpoint' },
+    { id: 'place-kalyan', name: 'Kalyan Hub', lat: 19.2403, lng: 73.1305, type: 'Hub' },
+    { id: 'place-nashik', name: 'Nashik Cross-Dock', lat: 19.9975, lng: 73.7898, type: 'Hub' }
+  ],
+  vendors: [
+    { id: 'vendor-hp-lonavala', name: 'HP Fuel · Lonavala', lat: 18.74, lng: 73.42, type: 'Fuel' },
+    { id: 'vendor-bridgestone-pune', name: 'Bridgestone Tyres · Pune', lat: 18.53, lng: 73.84, type: 'Tyres' },
+    { id: 'vendor-tata-mumbai', name: 'Tata Service · Mumbai', lat: 19.09, lng: 72.91, type: 'Service' },
+    { id: 'vendor-battery-thane', name: 'Exide Battery · Thane', lat: 19.22, lng: 72.98, type: 'Parts' }
+  ],
+  mapDefaultCenter: {
+    label: 'Mumbai–Pune Corridor',
+    lat: 18.85,
+    lng: 73.35
   }
 };

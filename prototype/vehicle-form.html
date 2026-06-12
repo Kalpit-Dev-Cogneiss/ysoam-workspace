@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vehicle — YSOAM Prototype</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/pages.css">
+</head>
+<body data-page="vehicles" data-subpage="vehicle-list">
+  <div class="sidebar-backdrop" id="sidebar-backdrop"></div>
+  <div class="app-shell">
+    <div id="sidebar-root"></div>
+    <div class="main-area">
+      <div id="topbar-root"></div>
+      <main class="content content--vehicle-form">
+        <header class="vehicle-form-topbar">
+          <div class="vehicle-form-topbar__main">
+            <a class="vehicle-form-back" href="vehicles"><span class="vehicle-form-back__icon" data-form-icon="arrowLeft" aria-hidden="true"></span> Vehicles</a>
+            <h1 id="vehicle-form-title">New Vehicle</h1>
+          </div>
+          <div class="vehicle-form-topbar__actions">
+            <a class="btn btn-text btn-sm" href="vehicles">Cancel</a>
+            <button type="button" class="btn btn-outline btn-sm" id="save-add-another">Save &amp; Add Another</button>
+            <button type="submit" form="vehicle-form" class="btn btn-primary btn-sm" id="save-vehicle-btn">Save Vehicle</button>
+          </div>
+        </header>
+
+        <div class="vehicle-form-workspace">
+          <nav class="vehicle-form-rail" id="vehicle-form-nav" aria-label="Form sections">
+            <button type="button" class="vehicle-form-nav__item is-active" data-section="details" aria-current="true">
+              <span class="vehicle-form-nav__icon" data-form-icon="formDetails" aria-hidden="true"></span>
+              <span class="vehicle-form-nav__label">Details</span>
+            </button>
+            <button type="button" class="vehicle-form-nav__item" data-section="maintenance">
+              <span class="vehicle-form-nav__icon" data-form-icon="maintenance" aria-hidden="true"></span>
+              <span class="vehicle-form-nav__label">Maintenance</span>
+            </button>
+            <button type="button" class="vehicle-form-nav__item" data-section="lifecycle">
+              <span class="vehicle-form-nav__icon" data-form-icon="formLifecycle" aria-hidden="true"></span>
+              <span class="vehicle-form-nav__label">Lifecycle</span>
+            </button>
+            <button type="button" class="vehicle-form-nav__item" data-section="financial">
+              <span class="vehicle-form-nav__icon" data-form-icon="formFinancial" aria-hidden="true"></span>
+              <span class="vehicle-form-nav__label">Financial</span>
+            </button>
+            <button type="button" class="vehicle-form-nav__item" data-section="specifications">
+              <span class="vehicle-form-nav__icon" data-form-icon="formSpecifications" aria-hidden="true"></span>
+              <span class="vehicle-form-nav__label">Specifications</span>
+            </button>
+            <button type="button" class="vehicle-form-nav__item" data-section="settings">
+              <span class="vehicle-form-nav__icon" data-form-icon="settings" aria-hidden="true"></span>
+              <span class="vehicle-form-nav__label">Settings</span>
+            </button>
+          </nav>
+
+          <div class="vehicle-form-pane">
+            <div class="vehicle-form-pane__intro">
+              <h2 id="vehicle-section-title">Details</h2>
+              <p id="vehicle-section-desc">VIN decode, identification, status, and fleet grouping</p>
+            </div>
+
+            <form class="vehicle-form-main" id="vehicle-form" novalidate>
+            <section class="vehicle-form-section is-active" data-form-section="details">
+              <div class="vehicle-form-card">
+                <h2 class="vehicle-form-card__title">Add with a VIN</h2>
+                <div class="form-row form-row--vin">
+                  <div class="form-field">
+                    <label for="vin">VIN / SN</label>
+                    <input type="text" id="vin" name="vin" placeholder="Enter VIN to decode">
+                  </div>
+                  <button type="button" class="btn btn-outline btn-sm">Decode</button>
+                </div>
+              </div>
+
+              <div class="vehicle-form-card">
+                <h2 class="vehicle-form-card__title">Identification</h2>
+                <div class="form-grid form-grid--2">
+                  <div class="form-field form-field--full">
+                    <label for="vehicleName">Vehicle Name <span class="required">*</span></label>
+                    <input type="text" id="vehicleName" name="vehicleName" required>
+                  </div>
+                  <div class="form-field">
+                    <label for="type">Type</label>
+                    <select id="type" name="type">
+                      <option value="Truck">Truck</option>
+                      <option value="Trailer">Trailer</option>
+                      <option value="Van">Van</option>
+                      <option value="Car">Car</option>
+                    </select>
+                  </div>
+                  <div class="form-field">
+                    <label for="status">Status</label>
+                    <select id="status" name="status">
+                      <option value="active">Active</option>
+                      <option value="transit">In Transit</option>
+                      <option value="idle">Idle</option>
+                      <option value="offline">Offline</option>
+                      <option value="maintenance">Maintenance</option>
+                    </select>
+                  </div>
+                  <div class="form-field">
+                    <label for="ownership">Ownership</label>
+                    <select id="ownership" name="ownership">
+                      <option value="Owned">Owned</option>
+                      <option value="Leased">Leased</option>
+                      <option value="Rented">Rented</option>
+                    </select>
+                  </div>
+                  <div class="form-field">
+                    <label for="group">Group</label>
+                    <input type="text" id="group" name="group" placeholder="e.g. Expressway">
+                  </div>
+                  <div class="form-field">
+                    <label for="plate">License Plate</label>
+                    <input type="text" id="plate" name="plate">
+                  </div>
+                  <div class="form-field">
+                    <label for="year">Year</label>
+                    <input type="number" id="year" name="year" min="1990" max="2030">
+                  </div>
+                  <div class="form-field">
+                    <label for="make">Make</label>
+                    <input type="text" id="make" name="make">
+                  </div>
+                  <div class="form-field">
+                    <label for="model">Model</label>
+                    <input type="text" id="model" name="model">
+                  </div>
+                  <div class="form-field form-field--full">
+                    <label for="labels">Labels</label>
+                    <input type="text" id="labels" name="labels" placeholder="Comma-separated labels">
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <section class="vehicle-form-section" data-form-section="maintenance">
+              <div class="vehicle-form-card">
+                <h2 class="vehicle-form-card__title">Maintenance Schedule</h2>
+                <p class="vehicle-form-card__desc">Choose a schedule template for this vehicle.</p>
+                <div class="choice-cards">
+                  <label class="choice-card">
+                    <input type="radio" name="maintenanceSchedule" value="expressway">
+                    <span class="choice-card__body">
+                      <strong>Expressway Heavy</strong>
+                      <span>High-km corridor trucks · 5,000 km intervals</span>
+                    </span>
+                  </label>
+                  <label class="choice-card">
+                    <input type="radio" name="maintenanceSchedule" value="depot">
+                    <span class="choice-card__body">
+                      <strong>Depot Standard</strong>
+                      <span>Urban depot fleet · 7,500 km intervals</span>
+                    </span>
+                  </label>
+                  <label class="choice-card">
+                    <input type="radio" name="maintenanceSchedule" value="none" checked>
+                    <span class="choice-card__body">
+                      <strong>None</strong>
+                      <span>No automatic schedule assigned</span>
+                    </span>
+                  </label>
+                </div>
+              </div>
+            </section>
+
+            <section class="vehicle-form-section" data-form-section="lifecycle">
+              <div class="vehicle-form-card">
+                <h2 class="vehicle-form-card__title">In-Service</h2>
+                <div class="form-grid form-grid--2">
+                  <div class="form-field">
+                    <label for="inServiceDate">In-Service Date</label>
+                    <input type="date" id="inServiceDate" name="inServiceDate">
+                    <span class="form-hint">Date vehicle entered active fleet</span>
+                  </div>
+                  <div class="form-field">
+                    <label for="inServiceOdometer">In-Service Odometer</label>
+                    <input type="text" id="inServiceOdometer" name="inServiceOdometer" placeholder="km">
+                  </div>
+                </div>
+              </div>
+              <div class="vehicle-form-card">
+                <h2 class="vehicle-form-card__title">Vehicle Life Estimates</h2>
+                <div class="form-grid form-grid--3">
+                  <div class="form-field">
+                    <label for="serviceLifeMonths">Est. Service Life (months)</label>
+                    <input type="number" id="serviceLifeMonths" name="serviceLifeMonths">
+                  </div>
+                  <div class="form-field">
+                    <label for="serviceLifeMeter">Est. Service Life (meter)</label>
+                    <input type="text" id="serviceLifeMeter" name="serviceLifeMeter" placeholder="km">
+                  </div>
+                  <div class="form-field">
+                    <label for="resaleValue">Est. Resale Value</label>
+                    <div class="input-prefix">
+                      <span>₹</span>
+                      <input type="text" id="resaleValue" name="resaleValue">
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="vehicle-form-card">
+                <h2 class="vehicle-form-card__title">Out-of-Service</h2>
+                <div class="form-grid form-grid--2">
+                  <div class="form-field">
+                    <label for="outServiceDate">Out-of-Service Date</label>
+                    <input type="date" id="outServiceDate" name="outServiceDate">
+                  </div>
+                  <div class="form-field">
+                    <label for="outServiceOdometer">Out-of-Service Odometer</label>
+                    <input type="text" id="outServiceOdometer" name="outServiceOdometer" placeholder="km">
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <section class="vehicle-form-section" data-form-section="financial">
+              <div class="vehicle-form-card">
+                <h2 class="vehicle-form-card__title">Purchase Details</h2>
+                <div class="form-grid form-grid--2">
+                  <div class="form-field form-field--full">
+                    <label for="purchaseVendor">Purchase Vendor</label>
+                    <input type="text" id="purchaseVendor" name="purchaseVendor">
+                  </div>
+                  <div class="form-field">
+                    <label for="purchaseDate">Purchase Date</label>
+                    <input type="date" id="purchaseDate" name="purchaseDate">
+                  </div>
+                  <div class="form-field">
+                    <label for="purchasePrice">Purchase Price</label>
+                    <div class="input-prefix">
+                      <span>₹</span>
+                      <input type="text" id="purchasePrice" name="purchasePrice">
+                    </div>
+                  </div>
+                  <div class="form-field form-field--full">
+                    <label for="purchaseOdometer">Odometer at Purchase</label>
+                    <input type="text" id="purchaseOdometer" name="purchaseOdometer" placeholder="km">
+                  </div>
+                  <div class="form-field form-field--full">
+                    <label for="purchaseNotes">Notes</label>
+                    <textarea id="purchaseNotes" name="purchaseNotes" rows="3"></textarea>
+                  </div>
+                </div>
+              </div>
+              <div class="vehicle-form-card">
+                <h2 class="vehicle-form-card__title">Loan / Lease</h2>
+                <div class="choice-cards">
+                  <label class="choice-card">
+                    <input type="radio" name="financeType" value="loan">
+                    <span class="choice-card__body">
+                      <strong>Loan</strong>
+                      <span>This vehicle is associated with a loan</span>
+                    </span>
+                  </label>
+                  <label class="choice-card">
+                    <input type="radio" name="financeType" value="lease">
+                    <span class="choice-card__body">
+                      <strong>Lease</strong>
+                      <span>This vehicle is being leased</span>
+                    </span>
+                  </label>
+                  <label class="choice-card">
+                    <input type="radio" name="financeType" value="none" checked>
+                    <span class="choice-card__body">
+                      <strong>None</strong>
+                      <span>This vehicle is not being financed</span>
+                    </span>
+                  </label>
+                </div>
+              </div>
+            </section>
+
+            <section class="vehicle-form-section" data-form-section="specifications">
+              <div class="vehicle-form-card">
+                <h2 class="vehicle-form-card__title">Dimensions &amp; Weight</h2>
+                <div class="form-grid form-grid--3">
+                  <div class="form-field">
+                    <label for="specLength">Length (m)</label>
+                    <input type="text" id="specLength" name="specLength">
+                  </div>
+                  <div class="form-field">
+                    <label for="specWidth">Width (m)</label>
+                    <input type="text" id="specWidth" name="specWidth">
+                  </div>
+                  <div class="form-field">
+                    <label for="specHeight">Height (m)</label>
+                    <input type="text" id="specHeight" name="specHeight">
+                  </div>
+                  <div class="form-field">
+                    <label for="curbWeight">Curb Weight (kg)</label>
+                    <input type="text" id="curbWeight" name="curbWeight">
+                  </div>
+                  <div class="form-field">
+                    <label for="gvwr">GVWR (kg)</label>
+                    <input type="text" id="gvwr" name="gvwr">
+                  </div>
+                  <div class="form-field">
+                    <label for="payload">Max Payload (kg)</label>
+                    <input type="text" id="payload" name="payload">
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <section class="vehicle-form-section" data-form-section="settings">
+              <div class="vehicle-form-card">
+                <h2 class="vehicle-form-card__title">Primary Meter</h2>
+                <div class="radio-row">
+                  <label class="radio-pill"><input type="radio" name="primaryMeter" value="miles"> Miles</label>
+                  <label class="radio-pill"><input type="radio" name="primaryMeter" value="kilometers" checked> Kilometers</label>
+                  <label class="radio-pill"><input type="radio" name="primaryMeter" value="hours"> Hours</label>
+                </div>
+                <div class="form-grid form-grid--2" style="margin-top: var(--spacing-md);">
+                  <div class="form-field">
+                    <label for="currentReading">Current Reading</label>
+                    <input type="text" id="currentReading" name="currentReading">
+                  </div>
+                  <div class="form-field">
+                    <label for="avgUsagePerDay">Avg. Usage per Day</label>
+                    <input type="text" id="avgUsagePerDay" name="avgUsagePerDay">
+                    <label class="checkbox-inline"><input type="checkbox" id="autoCalcUsage" name="autoCalcUsage" checked> Automatically calculate</label>
+                  </div>
+                </div>
+              </div>
+              <div class="vehicle-form-card">
+                <h2 class="vehicle-form-card__title">Display Units</h2>
+                <p class="vehicle-form-card__desc">Fuel unit</p>
+                <div class="radio-row">
+                  <label class="radio-pill"><input type="radio" name="fuelUnit" value="gallons-us"> Gallons (US)</label>
+                  <label class="radio-pill"><input type="radio" name="fuelUnit" value="gallons-uk"> Gallons (UK)</label>
+                  <label class="radio-pill"><input type="radio" name="fuelUnit" value="liters" checked> Liters</label>
+                </div>
+                <p class="vehicle-form-card__desc" style="margin-top: var(--spacing-md);">Measurement units</p>
+                <div class="radio-row">
+                  <label class="radio-pill"><input type="radio" name="measurementUnits" value="imperial"> Imperial</label>
+                  <label class="radio-pill"><input type="radio" name="measurementUnits" value="metric" checked> Metric</label>
+                </div>
+              </div>
+            </section>
+            </form>
+          </div>
+        </div>
+
+        <footer class="vehicle-form-footer">
+          <a class="btn btn-text btn-sm" href="vehicles">Cancel</a>
+          <div class="vehicle-form-footer__right">
+            <button type="button" class="btn btn-outline btn-sm" id="save-add-another-footer">Save &amp; Add Another</button>
+            <button type="submit" form="vehicle-form" class="btn btn-primary btn-sm" id="save-vehicle-footer-btn">Save Vehicle</button>
+          </div>
+        </footer>
+      </main>
+    </div>
+  </div>
+  <div id="bottom-nav-root"></div>
+
+  <script src="js/icons.js"></script>
+  <script src="js/shell.js"></script>
+  <script src="js/nav.js"></script>
+  <script src="js/vehicles-data.js"></script>
+  <script src="js/vehicle-form.js"></script>
+</body>
+</html>
