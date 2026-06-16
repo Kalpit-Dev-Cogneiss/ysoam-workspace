@@ -38,7 +38,12 @@
   }
 
   function getQueryId() {
-    return new URLSearchParams(window.location.search).get('id');
+    var params = new URLSearchParams(window.location.search);
+    if (params.get('id')) return params.get('id');
+    var hash = window.location.hash.replace(/^#/, '');
+    if (!hash) return null;
+    if (hash.indexOf('id=') === 0) return decodeURIComponent(hash.slice(3));
+    return decodeURIComponent(hash);
   }
 
   function setActiveSection(sectionId) {

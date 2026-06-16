@@ -4,6 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Meter History — YSOAM</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/tokens.css">
   <link rel="stylesheet" href="css/components.css">
@@ -16,15 +18,134 @@
     <div id="sidebar-root"></div>
     <div class="main-area">
       <div id="topbar-root"></div>
-      <main class="content">
-        <div class="page-header">
-          <div class="page-header__text"><div class="page-header__eyebrow">Vehicles</div><h1>Meter History</h1><p>Odometer readings and meter audit trail</p></div>
+      <main class="content content--meter-history">
+        <div class="page-header page-header--compact meter-history-header">
+          <div class="page-header__text">
+            <h1>Meter History <a class="meter-learn-link" href="roadmap.html">Learn</a></h1>
+          </div>
+          <div class="page-header__actions">
+            <div class="meter-header-menu" id="meter-header-menu">
+              <button type="button" class="btn btn-outline btn-sm meter-header-menu__trigger" id="meter-more-btn" aria-haspopup="menu" aria-expanded="false" aria-label="More actions">⋯</button>
+              <div class="meter-header-menu__panel" id="meter-more-panel" role="menu" hidden>
+                <button type="button" class="meter-header-menu__item" role="menuitem">Export CSV</button>
+                <button type="button" class="meter-header-menu__item" role="menuitem">Import Entries</button>
+                <button type="button" class="meter-header-menu__item" role="menuitem" id="meter-open-drawer">Manage Filters</button>
+              </div>
+            </div>
+            <button type="button" class="btn btn-primary btn-sm" id="meter-add-btn">+ Add Meter Entry</button>
+          </div>
         </div>
-        <div class="panel"><p>Prototype stub — meter readings log for all vehicles.</p><a href="vehicles.html" class="btn btn-outline btn-sm">Back to Vehicle List</a></div>
+
+        <div class="panel table-panel meter-history-panel">
+          <div class="meter-history-toolbar">
+            <div class="meter-history-toolbar__left">
+              <div class="table-panel__search">
+                <span class="table-panel__search-icon" aria-hidden="true">⌕</span>
+                <input type="search" class="table-panel__search-input" id="meter-search" placeholder="Search" aria-label="Search meter history">
+              </div>
+              <button type="button" class="meter-filter-pill" data-filter="date" aria-expanded="false" aria-haspopup="dialog">Meter Date</button>
+              <button type="button" class="meter-filter-pill" data-filter="vehicle" aria-expanded="false" aria-haspopup="dialog">Vehicle</button>
+              <button type="button" class="meter-filter-pill" data-filter="type" aria-expanded="false" aria-haspopup="dialog">Meter Type</button>
+              <button type="button" class="meter-filter-pill" data-filter="void" aria-expanded="false" aria-haspopup="dialog">Void Status</button>
+              <button type="button" class="meter-filter-badge" id="meter-filter-badge" hidden>0 Filters</button>
+            </div>
+            <div class="meter-history-toolbar__right" id="meter-pagination">
+              <span class="meter-pagination__count tabular-nums" id="meter-count">1 – 50 of 0</span>
+              <button type="button" class="meter-page-btn" data-page-prev aria-label="Previous page">‹</button>
+              <button type="button" class="meter-page-btn" data-page-next aria-label="Next page">›</button>
+              <button type="button" class="meter-page-btn" id="meter-table-settings-btn" aria-label="Table settings" aria-expanded="false">⚙</button>
+            </div>
+          </div>
+
+          <div class="meter-history-body">
+            <div class="panel__body panel__body--flush meter-history-table-wrap">
+              <div class="data-table-wrap data-table-wrap--scroll data-table-wrap--meter-history" id="meter-history-table"></div>
+            </div>
+
+            <aside class="meter-filters-drawer" id="meter-filters-drawer" aria-label="Filters">
+              <div class="meter-filters-drawer__header">
+                <h2>Filters</h2>
+                <button type="button" class="meter-filters-drawer__close" id="meter-filters-drawer-close" aria-label="Close filters">×</button>
+              </div>
+              <div class="meter-filters-drawer__body" id="meter-filters-drawer-body"></div>
+              <div class="meter-filters-drawer__footer">
+                <button type="button" class="btn btn-text btn-sm" id="meter-drawer-clear">Clear All</button>
+                <button type="button" class="btn btn-primary btn-sm" id="meter-drawer-apply">Apply</button>
+              </div>
+            </aside>
+          </div>
+
+          <div class="meter-filter-popover" id="meter-filter-popover" hidden role="dialog" aria-modal="true"></div>
+          <div class="meter-table-settings" id="meter-table-settings" hidden role="dialog" aria-label="Table settings"></div>
+        </div>
       </main>
     </div>
   </div>
+
   <div id="bottom-nav-root"></div>
-  <script src="js/icons.js"></script><script src="js/shell.js"></script><script src="js/nav.js"></script>
+
+  <div class="modal-overlay" id="add-meter-entry-modal" role="dialog" aria-labelledby="add-meter-entry-title" aria-modal="true">
+    <div class="modal modal--meter-entry">
+      <div class="modal__header">
+        <h2 class="modal__title" id="add-meter-entry-title">Add Meter Entry</h2>
+        <button type="button" class="modal__close" id="meter-entry-modal-close" aria-label="Close">×</button>
+      </div>
+      <form class="modal__body meter-entry-form" id="meter-entry-form">
+        <div class="form-field">
+          <label class="form-label" for="meter-entry-vehicle-trigger">Vehicle</label>
+          <div class="assign-picker" id="meter-entry-vehicle-picker">
+            <button type="button" class="assign-picker__trigger" id="meter-entry-vehicle-trigger" aria-haspopup="listbox" aria-expanded="false">
+              <span class="assign-picker__placeholder">Please select</span>
+              <span class="assign-picker__chevron" aria-hidden="true">▾</span>
+            </button>
+            <div class="assign-picker__menu assign-picker__menu--searchable" id="meter-entry-vehicle-menu" role="listbox" hidden>
+              <div class="assign-picker__menu-search">
+                <input type="search" class="text-input" id="meter-entry-vehicle-search" placeholder="Search vehicles" aria-label="Search vehicles">
+              </div>
+              <div class="assign-picker__menu-list" id="meter-entry-vehicle-list"></div>
+            </div>
+          </div>
+          <input type="hidden" name="vehicleId" id="meter-entry-vehicle-id" value="">
+        </div>
+
+        <div class="meter-entry-details" id="meter-entry-details" hidden>
+          <div class="form-field">
+            <label class="form-label" for="meter-entry-value">Primary Meter</label>
+            <div class="meter-entry-meter-row">
+              <div class="meter-entry-input-wrap">
+                <input type="number" class="text-input meter-entry-input" id="meter-entry-value" name="meterValue" min="0" step="1" placeholder="">
+                <span class="meter-entry-unit">km</span>
+              </div>
+              <label class="meter-entry-void">
+                <input type="checkbox" id="meter-entry-void" name="void">
+                <span>Void</span>
+              </label>
+            </div>
+            <p class="form-hint" id="meter-entry-last-updated"></p>
+          </div>
+
+          <div class="form-field">
+            <label class="form-label" for="meter-entry-date">Meter Date</label>
+            <input type="date" class="text-input meter-entry-date" id="meter-entry-date" name="meterDate">
+          </div>
+        </div>
+      </form>
+      <div class="modal__footer modal__footer--split">
+        <button type="button" class="btn btn-text" id="meter-entry-cancel">Cancel</button>
+        <div class="modal__footer-actions">
+          <button type="button" class="btn btn-outline btn-sm" id="meter-entry-save-another" disabled>Save and Add Another</button>
+          <button type="button" class="btn btn-primary btn-sm" id="meter-entry-save" disabled>Save</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/icons.js"></script>
+  <script src="js/shell.js"></script>
+  <script src="js/nav.js"></script>
+  <script src="js/vehicles-data.js"></script>
+  <script src="js/fleet-data.js"></script>
+  <script src="js/meter-history-data.js"></script>
+  <script src="js/meter-history.js"></script>
 </body>
 </html>

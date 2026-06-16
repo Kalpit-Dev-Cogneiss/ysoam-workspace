@@ -25,6 +25,16 @@
   color: var(--color-on-primary);
 }
 
+.btn-danger {
+  background: var(--color-error);
+  color: #fff;
+}
+
+.btn-danger:hover {
+  background: #dc2626;
+  color: #fff;
+}
+
 .btn-outline {
   background: var(--color-canvas);
   color: var(--color-primary);

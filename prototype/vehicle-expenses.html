@@ -3,7 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Expense History — YSOAM</title>
+  <title>Expense Entries — YSOAM</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/tokens.css">
   <link rel="stylesheet" href="css/components.css">
@@ -16,15 +18,73 @@
     <div id="sidebar-root"></div>
     <div class="main-area">
       <div id="topbar-root"></div>
-      <main class="content">
-        <div class="page-header">
-          <div class="page-header__text"><div class="page-header__eyebrow">Vehicles</div><h1>Expense History</h1><p>Fuel, service, and operating expenses by vehicle</p></div>
+      <main class="content content--expense-entries">
+        <div class="page-header page-header--compact expense-entries-header">
+          <div class="page-header__text">
+            <h1>Expense Entries <a class="expense-learn-link" href="roadmap.html">Learn</a></h1>
+          </div>
+          <div class="page-header__actions">
+            <button type="button" class="btn btn-outline btn-sm expense-header-menu__trigger" id="expense-more-btn" aria-label="More actions">⋯</button>
+            <button type="button" class="btn btn-primary btn-sm" id="expense-add-btn">+ Add Expense Entry</button>
+          </div>
         </div>
-        <div class="panel"><p>Prototype stub — links to billing and fuel modules in full build.</p><a href="billing.html" class="btn btn-outline btn-sm">Open Billing</a></div>
+
+        <div class="expense-segment-tabs" role="tablist" aria-label="Expense period">
+          <button type="button" class="expense-segment-tab is-active" data-tab="past" role="tab" aria-selected="true">Past</button>
+          <button type="button" class="expense-segment-tab" data-tab="future" role="tab" aria-selected="false">Future</button>
+        </div>
+
+        <div class="panel table-panel expense-entries-panel">
+          <div class="expense-entries-toolbar">
+            <div class="expense-entries-toolbar__left">
+              <div class="table-panel__search">
+                <span class="table-panel__search-icon" aria-hidden="true">⌕</span>
+                <input type="search" class="table-panel__search-input" id="expense-search" placeholder="Search" aria-label="Search expense entries">
+              </div>
+              <button type="button" class="expense-filter-pill" data-filter="vehicle" aria-expanded="false" aria-haspopup="dialog">Vehicle</button>
+              <button type="button" class="expense-filter-pill" data-filter="date" aria-expanded="false" aria-haspopup="dialog">Date</button>
+              <button type="button" class="expense-filter-pill" data-filter="type" aria-expanded="false" aria-haspopup="dialog">Type</button>
+              <button type="button" class="expense-filter-pill" data-filter="watcher" aria-expanded="false" aria-haspopup="dialog">Watcher</button>
+              <button type="button" class="expense-filters-btn" id="expense-filters-btn" aria-expanded="false" aria-controls="expense-filters-drawer">
+                <span class="expense-filters-btn__icon" id="expense-filters-btn-icon" aria-hidden="true"></span>
+                <span class="expense-filters-btn__label" id="expense-filters-btn-label">Filters</span>
+              </button>
+            </div>
+            <div class="expense-entries-toolbar__right" id="expense-pagination">
+              <span class="expense-pagination__count tabular-nums" id="expense-count">1 – 50 of 0</span>
+              <button type="button" class="expense-page-btn" data-page-prev aria-label="Previous page">‹</button>
+              <button type="button" class="expense-page-btn" data-page-next aria-label="Next page">›</button>
+              <button type="button" class="expense-page-btn" id="expense-table-settings-btn" aria-label="Table settings">⚙</button>
+            </div>
+          </div>
+
+          <div class="expense-entries-body">
+            <div class="panel__body panel__body--flush expense-entries-table-wrap">
+              <div class="data-table-wrap data-table-wrap--scroll data-table-wrap--expense-entries" id="expense-entries-table"></div>
+            </div>
+
+            <aside class="expense-filters-drawer" id="expense-filters-drawer" aria-label="Filters">
+              <div class="expense-filters-drawer__header">
+                <h2>Filters</h2>
+                <button type="button" class="expense-filters-drawer__close" id="expense-filters-drawer-close" aria-label="Close filters">×</button>
+              </div>
+              <div class="expense-filters-drawer__body" id="expense-filters-drawer-body"></div>
+            </aside>
+          </div>
+
+          <div class="expense-filter-popover" id="expense-filter-popover" hidden role="dialog" aria-modal="true"></div>
+          <div class="expense-table-settings" id="expense-table-settings" hidden role="dialog" aria-label="Table settings"></div>
+        </div>
       </main>
     </div>
   </div>
   <div id="bottom-nav-root"></div>
-  <script src="js/icons.js"></script><script src="js/shell.js"></script><script src="js/nav.js"></script>
+  <script src="js/icons.js"></script>
+  <script src="js/shell.js"></script>
+  <script src="js/nav.js"></script>
+  <script src="js/vehicles-data.js"></script>
+  <script src="js/fleet-data.js"></script>
+  <script src="js/vehicle-expenses-data.js"></script>
+  <script src="js/vehicle-expenses.js"></script>
 </body>
 </html>

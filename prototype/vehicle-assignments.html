@@ -4,6 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Vehicle Assignments — YSOAM</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/tokens.css">
   <link rel="stylesheet" href="css/components.css">
@@ -16,15 +18,160 @@
     <div id="sidebar-root"></div>
     <div class="main-area">
       <div id="topbar-root"></div>
-      <main class="content">
-        <div class="page-header">
-          <div class="page-header__text"><div class="page-header__eyebrow">Vehicles</div><h1>Vehicle Assignments</h1><p>Driver and operator assignments across the demo fleet</p></div>
+      <main class="content content--assignments">
+        <div class="assign-header page-header page-header--compact">
+          <div class="page-header__text">
+            <h1>Vehicle Assignments</h1>
+          </div>
+          <div class="page-header__actions">
+            <button type="button" class="btn btn-primary btn-sm" id="assign-add-btn">+ Add Assignment</button>
+          </div>
         </div>
-        <div class="panel"><p>Prototype stub — assignment history and current operator mapping.</p><a href="vehicles.html" class="btn btn-outline btn-sm">Back to Vehicle List</a></div>
+
+        <div class="assign-toolbar" id="assign-toolbar"></div>
+
+        <div class="assign-schedule-wrap">
+          <div class="assign-schedule-scroll">
+            <div class="assign-schedule" id="assign-schedule" aria-label="Vehicle assignment schedule"></div>
+          </div>
+        </div>
       </main>
     </div>
   </div>
+
+  <div class="assign-bar-popup" id="assign-bar-popup" hidden role="menu"></div>
+
+  <div class="modal-overlay" id="add-assignment-modal" role="dialog" aria-labelledby="add-assignment-title" aria-modal="true">
+    <div class="modal modal--assignment">
+      <div class="modal__header">
+        <h2 class="modal__title" id="add-assignment-title">Add Assignment</h2>
+        <button type="button" class="modal__close" id="assign-modal-close" aria-label="Close">×</button>
+      </div>
+      <form class="modal__body assign-form" id="assign-form">
+        <p class="form-error" id="assign-form-error" hidden></p>
+        <input type="hidden" id="assign-editing-id" value="">
+        <div class="form-field">
+          <label class="form-label" for="assign-vehicle-trigger">Assigned Vehicle <span class="form-required">*</span></label>
+          <div class="assign-picker" id="assign-vehicle-picker">
+            <button type="button" class="assign-picker__trigger" id="assign-vehicle-trigger" aria-haspopup="listbox" aria-expanded="false">
+              <span class="assign-picker__placeholder">Please select</span>
+            </button>
+            <div class="assign-picker__menu" id="assign-vehicle-menu" role="listbox" hidden></div>
+          </div>
+          <input type="hidden" name="vehicleId" id="assign-vehicle-id" required>
+        </div>
+
+        <div class="form-field">
+          <label class="form-label" for="assign-operator-trigger">Operator <span class="form-required">*</span></label>
+          <div class="assign-picker" id="assign-operator-picker">
+            <button type="button" class="assign-picker__trigger" id="assign-operator-trigger" aria-haspopup="listbox" aria-expanded="false">
+              <span class="assign-picker__placeholder">Please select</span>
+            </button>
+            <div class="assign-picker__menu" id="assign-operator-menu" role="listbox" hidden></div>
+          </div>
+          <input type="hidden" name="operatorId" id="assign-operator-id" required>
+        </div>
+
+        <div class="form-field">
+          <span class="form-label">Start Date/Time</span>
+          <div class="assign-datetime-row">
+            <input type="date" class="text-input" name="startDate" id="assign-start-date">
+            <input type="time" class="text-input" name="startTime" id="assign-start-time">
+          </div>
+          <p class="form-hint">When assignment starts. Leave blank if assignment has always existed.</p>
+        </div>
+
+        <div class="form-field" id="assign-start-odo-field">
+          <label class="form-label" for="assign-start-odometer">Starting Odometer</label>
+          <input type="number" class="text-input" name="startOdometer" id="assign-start-odometer" step="0.1" min="0" placeholder="">
+          <p class="form-hint">Odometer reading when assignment started.</p>
+        </div>
+
+        <div class="form-field">
+          <span class="form-label">End Date/Time</span>
+          <div class="assign-datetime-row">
+            <input type="date" class="text-input" name="endDate" id="assign-end-date">
+            <input type="time" class="text-input" name="endTime" id="assign-end-time">
+          </div>
+          <p class="form-hint">When does this assignment end? Can be past or future.</p>
+        </div>
+
+        <div class="form-field" id="assign-end-odo-field">
+          <label class="form-label" for="assign-end-odometer">Ending Odometer</label>
+          <input type="number" class="text-input" name="endOdometer" id="assign-end-odometer" step="0.1" min="0" placeholder="">
+          <p class="form-hint">Odometer reading when assignment ended.</p>
+        </div>
+
+        <div class="form-field">
+          <label class="form-label" for="assign-comment">Comment</label>
+          <textarea class="text-input assign-comment" name="comment" id="assign-comment" rows="4" placeholder="Add an optional comment"></textarea>
+        </div>
+      </form>
+      <div class="modal__footer">
+        <button type="button" class="btn btn-text" id="assign-modal-cancel">Cancel</button>
+        <button type="submit" form="assign-form" class="btn btn-primary" id="assign-modal-save" disabled>Save Assignment</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="unassign-modal" role="dialog" aria-labelledby="unassign-title" aria-modal="true">
+    <div class="modal modal--assignment modal--unassign">
+      <div class="modal__header">
+        <h2 class="modal__title" id="unassign-title">Unassign Operator</h2>
+        <button type="button" class="modal__close" id="unassign-modal-close" aria-label="Close">×</button>
+      </div>
+      <form class="modal__body assign-form" id="unassign-form">
+        <div class="assign-alert assign-alert--info">
+          <span class="assign-alert__icon" aria-hidden="true">ℹ</span>
+          <p>This will immediately end the current vehicle assignment and remove the current operator as a watcher of the vehicle.</p>
+        </div>
+        <div class="assign-readonly-block" id="unassign-summary"></div>
+        <div class="form-field">
+          <span class="form-label">End Date/Time</span>
+          <div class="assign-datetime-row">
+            <input type="date" class="text-input" id="unassign-end-date" required>
+            <input type="time" class="text-input" id="unassign-end-time" required>
+          </div>
+        </div>
+        <div class="form-field">
+          <label class="form-label" for="unassign-end-odometer">Ending Odometer</label>
+          <input type="number" class="text-input" id="unassign-end-odometer" step="0.1" min="0">
+          <p class="form-hint">Odometer reading when assignment ended.</p>
+        </div>
+        <div class="form-field">
+          <label class="form-label" for="unassign-comment">Comment</label>
+          <textarea class="text-input assign-comment" id="unassign-comment" rows="3" placeholder="Add an optional comment"></textarea>
+        </div>
+      </form>
+      <div class="modal__footer">
+        <button type="button" class="btn btn-text" id="unassign-modal-cancel">Cancel</button>
+        <button type="submit" form="unassign-form" class="btn btn-primary" id="unassign-modal-save">Unassign</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="delete-assignment-modal" role="dialog" aria-labelledby="delete-assignment-title" aria-modal="true">
+    <div class="modal modal--assignment modal--confirm">
+      <div class="modal__header">
+        <h2 class="modal__title" id="delete-assignment-title">Confirm Vehicle Assignment Deletion</h2>
+        <button type="button" class="modal__close" id="delete-modal-close" aria-label="Close">×</button>
+      </div>
+      <div class="modal__body">
+        <p class="assign-confirm-text">Are you sure you want to delete this Vehicle Assignment? All data will be lost forever.</p>
+      </div>
+      <div class="modal__footer">
+        <button type="button" class="btn btn-text" id="delete-modal-cancel">Cancel</button>
+        <button type="button" class="btn btn-danger" id="delete-modal-confirm">Delete Vehicle Assignment</button>
+      </div>
+    </div>
+  </div>
+
   <div id="bottom-nav-root"></div>
-  <script src="js/icons.js"></script><script src="js/shell.js"></script><script src="js/nav.js"></script>
+  <script src="js/icons.js"></script>
+  <script src="js/shell.js"></script>
+  <script src="js/nav.js"></script>
+  <script src="js/vehicles-data.js"></script>
+  <script src="js/assignments-data.js"></script>
+  <script src="js/vehicle-assignments.js"></script>
 </body>
 </html>

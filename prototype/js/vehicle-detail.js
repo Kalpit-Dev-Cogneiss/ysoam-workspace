@@ -48,7 +48,12 @@
 
   /* ── Helpers ──────────────────────────────────────────────── */
   function getId() {
-    return new URLSearchParams(window.location.search).get('id');
+    var params = new URLSearchParams(window.location.search);
+    if (params.get('id')) return params.get('id');
+    var hash = window.location.hash.replace(/^#/, '');
+    if (!hash) return null;
+    if (hash.indexOf('id=') === 0) return decodeURIComponent(hash.slice(3));
+    return decodeURIComponent(hash);
   }
 
   function statusMeta(status) {
@@ -173,12 +178,12 @@
   }
 
   /* ── Overview ─────────────────────────────────────────────── */
-  function fieldRow(label, val, hasHistory) {
+  function fieldRow(label, val, hasHistory, rowId) {
     var hist = hasHistory
       ? '<button class="vd-field-hist" title="View history" aria-label="' + label + ' history">↺</button>'
       : '';
     return (
-      '<div class="vd-field-row">' +
+      '<div class="vd-field-row"' + (rowId ? ' id="' + rowId + '"' : '') + '>' +
         '<div class="vd-field-label">' + label + '</div>' +
         '<div class="vd-field-val">' + (val || '—') + hist + '</div>' +
       '</div>'
@@ -263,7 +268,7 @@
             '</button>' +
             '<div class="vd-group__rows" id="vehicle-fields">' +
               fieldRow('Name',            v.name) +
-              fieldRow('Meter',           v.meter,   true) +
+              fieldRow('Meter',           v.meter,   true, 'meter') +
               fieldRow('Status',          statusVal, true) +
               fieldRow('Group',           v.group,   true) +
               fieldRow('Operator',        v.operator || assignmentLabel(v.assignment)) +
@@ -597,6 +602,12 @@
 
       menu.querySelectorAll('.vd-action-menu__item').forEach(function (item) {
         item.addEventListener('click', function () {
+          var label = item.querySelector('.vd-action-menu__label');
+          if (label && label.textContent === 'Add Expense Entry') {
+            var vid = getId();
+            window.location.href = 'vehicle-expense-form?vehicle=' + encodeURIComponent(vid);
+            return;
+          }
           closeHeroMenus();
         });
       });

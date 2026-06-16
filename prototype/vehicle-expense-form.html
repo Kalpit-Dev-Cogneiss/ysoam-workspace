@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>New Expense Entry — YSOAM</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/pages.css">
+</head>
+<body data-page="vehicles" data-subpage="expense-form">
+  <div class="sidebar-backdrop" id="sidebar-backdrop"></div>
+  <div class="app-shell">
+    <div id="sidebar-root"></div>
+    <div class="main-area">
+      <div id="topbar-root"></div>
+      <main class="content content--expense-form">
+        <header class="vehicle-form-topbar expense-form-topbar">
+          <div class="vehicle-form-topbar__main">
+            <a class="vehicle-form-back" href="vehicle-expenses"><span class="vehicle-form-back__icon" data-form-icon="arrowLeft" aria-hidden="true"></span> Expense Entries</a>
+            <h1>New Expense Entry</h1>
+          </div>
+          <div class="vehicle-form-topbar__actions">
+            <a class="btn btn-text btn-sm" href="vehicle-expenses">Cancel</a>
+            <button type="submit" form="expense-form" class="btn btn-primary btn-sm" id="expense-save-top" disabled>Save Expense Entry</button>
+          </div>
+        </header>
+
+        <div class="expense-form-body">
+          <form class="expense-form-main" id="expense-form" novalidate>
+            <div class="vehicle-form-card expense-form-card">
+              <h2 class="vehicle-form-card__title">Details</h2>
+              <div class="form-grid form-grid--2">
+                <div class="form-field form-field--full">
+                  <label for="expense-vehicle-trigger">Vehicle <span class="required">*</span></label>
+                  <div class="assign-picker" id="expense-vehicle-picker">
+                    <input type="hidden" id="expense-vehicle-id" name="vehicleId" value="">
+                    <button type="button" class="assign-picker__trigger" id="expense-vehicle-trigger" aria-haspopup="listbox" aria-expanded="false" aria-controls="expense-vehicle-menu">
+                      <span class="assign-picker__placeholder">Please select</span>
+                      <span class="assign-picker__chevron" aria-hidden="true">▾</span>
+                    </button>
+                    <div class="assign-picker__menu assign-picker__menu--searchable" id="expense-vehicle-menu" role="listbox" hidden>
+                      <div class="assign-picker__menu-search">
+                        <input type="search" class="text-input" id="expense-vehicle-search" placeholder="Search vehicles" aria-label="Search vehicles">
+                      </div>
+                      <div class="assign-picker__menu-list" id="expense-vehicle-list"></div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-field">
+                  <label for="expense-type">Expense Type <span class="required">*</span></label>
+                  <select id="expense-type" name="type" required>
+                    <option value="">Please select</option>
+                  </select>
+                </div>
+
+                <div class="form-field">
+                  <label for="expense-vendor">Vendor</label>
+                  <select id="expense-vendor" name="vendor">
+                    <option value="">Please select</option>
+                  </select>
+                </div>
+
+                <div class="form-field">
+                  <label for="expense-amount">Amount <span class="required">*</span></label>
+                  <div class="input-prefix">
+                    <span>₹</span>
+                    <input type="text" id="expense-amount" name="amount" inputmode="decimal" placeholder="0.00" required>
+                  </div>
+                </div>
+
+                <div class="form-field form-field--full expense-form-frequency">
+                  <span class="expense-form-frequency__label">Frequency</span>
+                  <div class="choice-cards">
+                    <label class="choice-card">
+                      <input type="radio" name="frequency" value="single" checked>
+                      <span class="choice-card__body">
+                        <strong>Single Expense</strong>
+                        <span>A single entry that does not repeat</span>
+                      </span>
+                    </label>
+                    <label class="choice-card">
+                      <input type="radio" name="frequency" value="recurring">
+                      <span class="choice-card__body">
+                        <strong>Recurring Expense</strong>
+                        <span>Repeats on a monthly or annual basis</span>
+                      </span>
+                    </label>
+                  </div>
+                </div>
+
+                <div class="form-field">
+                  <label for="expense-date">Date <span class="required">*</span></label>
+                  <input type="date" id="expense-date" name="date" required>
+                </div>
+
+                <div class="form-field form-field--full">
+                  <label for="expense-notes">Notes</label>
+                  <textarea id="expense-notes" name="notes" rows="4" placeholder=""></textarea>
+                </div>
+              </div>
+            </div>
+
+            <div class="expense-form-upload-grid">
+              <div class="vehicle-form-card expense-form-card">
+                <h2 class="vehicle-form-card__title">Photos</h2>
+                <label class="expense-form-dropzone" id="expense-photos-dropzone">
+                  <input type="file" id="expense-photos" name="photos" accept="image/*" multiple hidden>
+                  <span class="expense-form-dropzone__icon" aria-hidden="true">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6z" stroke="currentColor" stroke-width="1.5"/><path d="M14 2v6h6M12 18v-6M9 15l3-3 3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  </span>
+                  <span class="expense-form-dropzone__text">Drag and drop files to upload or click to pick files</span>
+                </label>
+              </div>
+
+              <div class="vehicle-form-card expense-form-card">
+                <h2 class="vehicle-form-card__title">Documents</h2>
+                <label class="expense-form-dropzone" id="expense-documents-dropzone">
+                  <input type="file" id="expense-documents" name="documents" multiple hidden>
+                  <span class="expense-form-dropzone__icon" aria-hidden="true">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6z" stroke="currentColor" stroke-width="1.5"/><path d="M14 2v6h6M12 18v-6M9 15l3-3 3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  </span>
+                  <span class="expense-form-dropzone__text">Drag and drop files to upload or click to pick files</span>
+                </label>
+              </div>
+            </div>
+          </form>
+        </div>
+
+        <footer class="vehicle-form-footer expense-form-footer">
+          <a class="btn btn-text btn-sm" href="vehicle-expenses">Cancel</a>
+          <div class="vehicle-form-footer__right">
+            <button type="button" class="btn btn-outline btn-sm" id="expense-save-another" disabled>Save &amp; Add Another</button>
+            <button type="submit" form="expense-form" class="btn btn-primary btn-sm" id="expense-save-footer" disabled>Save Expense Entry</button>
+          </div>
+        </footer>
+      </main>
+    </div>
+  </div>
+  <div id="bottom-nav-root"></div>
+
+  <script src="js/icons.js"></script>
+  <script src="js/shell.js"></script>
+  <script src="js/nav.js"></script>
+  <script src="js/vehicles-data.js"></script>
+  <script src="js/fleet-data.js"></script>
+  <script src="js/vehicle-expenses-data.js"></script>
+  <script src="js/vehicle-expense-form.js"></script>
+</body>
+</html>
