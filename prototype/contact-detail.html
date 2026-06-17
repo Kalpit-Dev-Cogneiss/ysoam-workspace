@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rajesh Kumar — YSOAM</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/pages.css">
+</head>
+<body data-page="drivers">
+  <div class="sidebar-backdrop" id="sidebar-backdrop"></div>
+  <div class="app-shell">
+    <div id="sidebar-root"></div>
+    <div class="main-area">
+      <div id="topbar-root"></div>
+
+      <main class="content content--vehicle-detail">
+
+        <!-- Back breadcrumb -->
+        <a class="vd-back" href="drivers.html">← Drivers</a>
+
+        <div class="vd-sheet">
+
+          <!-- ── Hero ─────────────────────────────────────────── -->
+          <header class="vd-hero">
+            <!-- Circular avatar -->
+            <div class="cd-avatar" aria-hidden="true">RK</div>
+
+            <div class="vd-hero__info">
+              <h1 class="vd-hero__name">Rajesh Kumar</h1>
+              <div class="cd-hero-meta">
+                <span class="cd-hero-meta__item">
+                  <span class="cd-hero-meta__key">Group</span>
+                  <a href="#" class="cd-hero-meta__link">Expressway</a>
+                  <button class="cd-hero-meta__edit" aria-label="Edit group">
+                    <svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M11.5 2.5a1.41 1.41 0 0 1 2 2L5 13H3v-2L11.5 2.5z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+                  </button>
+                </span>
+                <span class="cd-hero-meta__sep">·</span>
+                <span class="cd-hero-meta__item">
+                  <span class="cd-hero-meta__key">Email</span>
+                  <a href="mailto:rajesh.kumar@ysoam.in" class="cd-hero-meta__link">rajesh.kumar@ysoam.in</a>
+                </span>
+                <span class="cd-hero-meta__sep">·</span>
+                <span class="cd-hero-meta__item">
+                  <span class="cd-hero-meta__key">Classifications</span>
+                  <span class="cd-tag">Employee</span>
+                  <span class="cd-tag">Driver</span>
+                  <span class="cd-tag">Operator</span>
+                </span>
+              </div>
+            </div>
+
+            <div class="vd-hero__actions">
+              <!-- Dots menu -->
+              <div class="vd-action-menu">
+                <button class="vd-action-menu__trigger vd-action-menu__trigger--dots" type="button" aria-label="More actions">
+                  <span class="vd-action-menu__dots"></span>
+                </button>
+              </div>
+              <button type="button" class="btn btn-outline btn-sm">
+                <svg width="13" height="13" viewBox="0 0 16 16" fill="none" style="vertical-align:-1px;margin-right:4px"><path d="M11.5 2.5a1.41 1.41 0 0 1 2 2L5 13H3v-2L11.5 2.5z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+                Edit
+              </button>
+              <div class="vd-action-menu vd-action-menu--wide">
+                <button type="button" class="btn btn-primary btn-sm vd-add-trigger">
+                  + Add <span class="vd-add-chevron">▾</span>
+                </button>
+                <div class="vd-action-menu__panel" hidden>
+                  <button class="vd-action-menu__item" type="button">
+                    <span class="vd-action-menu__label">Vehicle Assignment</span>
+                  </button>
+                  <button class="vd-action-menu__item" type="button">
+                    <span class="vd-action-menu__label">Renewal Reminder</span>
+                  </button>
+                  <button class="vd-action-menu__item" type="button">
+                    <span class="vd-action-menu__label">Issue</span>
+                  </button>
+                  <button class="vd-action-menu__item" type="button">
+                    <span class="vd-action-menu__label">Service Reminder</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </header>
+
+          <!-- ── Tabs ────────────────────────────────────────── -->
+          <nav class="vd-tabs" role="tablist" aria-label="Contact sections">
+            <button class="vd-tab is-active" role="tab" aria-selected="true">Overview</button>
+            <button class="vd-tab" role="tab">Vehicle Assignments</button>
+            <button class="vd-tab" role="tab">Renewal Reminders</button>
+            <button class="vd-tab" role="tab">Issues</button>
+            <button class="vd-tab" role="tab">Service Reminders</button>
+            <button class="vd-tab" role="tab">Inspections</button>
+            <button class="vd-tab" role="tab">Location History</button>
+          </nav>
+
+          <!-- ── Body ───────────────────────────────────────── -->
+          <div class="vd-body cd-body">
+            <div class="cd-layout">
+
+              <!-- ── LEFT: Fields ──────────────────────────── -->
+              <div class="cd-main">
+
+                <!-- User access notice -->
+                <div class="cd-notice">
+                  <svg width="16" height="16" viewBox="0 0 20 20" fill="none" aria-hidden="true" style="flex-shrink:0;color:#3b82f6"><circle cx="10" cy="10" r="9" stroke="currentColor" stroke-width="1.6"/><path d="M10 9v5M10 6.5v.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+                  This Contact doesn't have user access.
+                  <a href="#" class="cd-notice__link">Grant Access</a>
+                </div>
+
+                <!-- Fields section -->
+                <div class="cd-section">
+                  <div class="cd-section__head">
+                    <span class="cd-section__title">Fields</span>
+                    <a href="#" class="cd-section__action">Customize Layout</a>
+                  </div>
+
+                  <!-- Search -->
+                  <div class="cd-search-row">
+                    <div class="cd-search-wrap">
+                      <svg class="cd-search-icon" width="14" height="14" viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="9" cy="9" r="7" stroke="currentColor" stroke-width="1.7"/><path d="M14.5 14.5l3.5 3.5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+                      <input type="search" class="cd-search-input" placeholder="Search contact fields…" aria-label="Search contact fields">
+                    </div>
+                  </div>
+
+                  <!-- Details group -->
+                  <div class="cd-group">
+                    <button type="button" class="cd-group__toggle">
+                      <svg class="cd-group__chevron" width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                      Details
+                    </button>
+                    <div class="cd-group__body">
+
+                      <div class="vd-field-row">
+                        <span class="vd-field-label">First Name</span>
+                        <span class="vd-field-val">Rajesh</span>
+                      </div>
+                      <div class="vd-field-row">
+                        <span class="vd-field-label">Last Name</span>
+                        <span class="vd-field-val">Kumar</span>
+                      </div>
+                      <div class="vd-field-row">
+                        <span class="vd-field-label">Middle Name</span>
+                        <span class="vd-field-val" style="color:var(--color-steel)">—</span>
+                      </div>
+                      <div class="vd-field-row">
+                        <span class="vd-field-label">Email</span>
+                        <span class="vd-field-val">
+                          <a href="mailto:rajesh.kumar@ysoam.in" style="color:var(--color-primary);text-decoration:none">rajesh.kumar@ysoam.in</a>
+                        </span>
+                      </div>
+                      <div class="vd-field-row">
+                        <span class="vd-field-label">Phone</span>
+                        <span class="vd-field-val">
+                          <a href="tel:+919876543210" style="color:var(--color-primary);text-decoration:none">+91 98765 43210</a>
+                          <span style="font-size:11px;font-weight:600;color:var(--color-steel);background:var(--color-cloud);padding:2px 6px;border-radius:4px;margin-left:6px">Mobile</span>
+                        </span>
+                      </div>
+                      <div class="vd-field-row">
+                        <span class="vd-field-label">Date of Birth</span>
+                        <span class="vd-field-val" style="text-decoration:underline;text-underline-offset:3px;color:var(--color-ink-deep)">15/03/1985</span>
+                      </div>
+                      <div class="vd-field-row">
+                        <span class="vd-field-label">Address</span>
+                        <span class="vd-field-val" style="color:var(--color-steel)">—</span>
+                      </div>
+                      <div class="vd-field-row">
+                        <span class="vd-field-label">Employee</span>
+                        <span class="vd-field-val">Yes</span>
+                      </div>
+                      <div class="vd-field-row">
+                        <span class="vd-field-label">Technician</span>
+                        <span class="vd-field-val">No</span>
+                      </div>
+                      <div class="vd-field-row">
+                        <span class="vd-field-label">Operator</span>
+                        <span class="vd-field-val">Yes</span>
+                      </div>
+                      <div class="vd-field-row">
+                        <span class="vd-field-label">Employee Number</span>
+                        <span class="vd-field-val">DRV-001</span>
+                      </div>
+                      <div class="vd-field-row">
+                        <span class="vd-field-label">Job Title</span>
+                        <span class="vd-field-val">Senior Driver</span>
+                      </div>
+                      <div class="vd-field-row">
+                        <span class="vd-field-label">Group</span>
+                        <span class="vd-field-val">
+                          <a href="#" style="color:var(--color-primary);text-decoration:none;font-weight:500">Expressway</a>
+                          <span style="color:var(--color-graphite)"> / Maharashtra /</span>
+                          <button type="button" class="cd-field-hist" aria-label="Field history">🕐</button>
+                        </span>
+                      </div>
+                      <div class="vd-field-row">
+                        <span class="vd-field-label">Hourly Labor Rate</span>
+                        <span class="vd-field-val" style="color:var(--color-steel)">—</span>
+                      </div>
+                      <div class="vd-field-row">
+                        <span class="vd-field-label">License Class</span>
+                        <span class="vd-field-val">HMV</span>
+                      </div>
+                      <div class="vd-field-row">
+                        <span class="vd-field-label">License Number</span>
+                        <span class="vd-field-val">MH-12-2019-0012345</span>
+                      </div>
+                      <div class="vd-field-row">
+                        <span class="vd-field-label">License State / Region</span>
+                        <span class="vd-field-val">Maharashtra</span>
+                      </div>
+                      <div class="vd-field-row">
+                        <span class="vd-field-label">Leave Date</span>
+                        <span class="vd-field-val" style="color:var(--color-steel)">—</span>
+                      </div>
+                      <div class="vd-field-row" style="border-bottom:none">
+                        <span class="vd-field-label">Start Date</span>
+                        <span class="vd-field-val" style="text-decoration:underline;text-underline-offset:3px;color:var(--color-ink-deep)">10/04/2021</span>
+                      </div>
+
+                    </div><!-- /.cd-group__body -->
+                  </div><!-- /.cd-group -->
+                </div><!-- /.cd-section (Fields) -->
+
+                <!-- User Access section -->
+                <div class="cd-section cd-section--user-access">
+                  <div class="cd-section__head">
+                    <span class="cd-section__title">User Access</span>
+                    <a href="#" class="cd-section__action">Edit</a>
+                  </div>
+                  <div class="cd-user-access-body">
+                    <div class="cd-user-access-icon" aria-hidden="true">
+                      <svg width="56" height="56" viewBox="0 0 56 56" fill="none">
+                        <circle cx="28" cy="28" r="27" stroke="#CBD5E1" stroke-width="1.5" stroke-dasharray="4 3"/>
+                        <circle cx="28" cy="22" r="8" stroke="#94A3B8" stroke-width="1.5"/>
+                        <path d="M10 46c0-9.94 8.06-18 18-18s18 8.06 18 18" stroke="#94A3B8" stroke-width="1.5" stroke-linecap="round"/>
+                      </svg>
+                    </div>
+                    <p class="cd-user-access-text">
+                      Granting this Contact user access lets them log in to YSOAM, manage data, and receive notifications.
+                    </p>
+                  </div>
+                </div>
+
+                <!-- Footer meta -->
+                <div class="cd-footer-meta">
+                  Created 12 days ago · Updated 3 days ago
+                </div>
+
+              </div><!-- /.cd-main -->
+
+
+              <!-- ── RIGHT: Widgets ─────────────────────────── -->
+              <div class="cd-side">
+
+                <!-- Current Vehicle Assignments -->
+                <div class="cd-widget">
+                  <div class="cd-widget__head">
+                    <span class="cd-widget__title">Current Vehicle Assignments</span>
+                    <span class="cd-widget__acts">
+                      <a href="#" class="cd-widget__add">+ Add Vehicle Assignment</a>
+                      <a href="vehicle-assignments.html" class="cd-widget__viewall">View All</a>
+                    </span>
+                  </div>
+                  <!-- Active assignment row -->
+                  <div class="cd-assign-row">
+                    <div class="cd-assign-thumb">
+                      <svg width="36" height="28" viewBox="0 0 36 28" fill="none" aria-hidden="true">
+                        <rect x="1" y="7" width="28" height="16" rx="2" stroke="#94A3B8" stroke-width="1.4"/>
+                        <path d="M29 11h4l2 6v4h-6V11z" stroke="#94A3B8" stroke-width="1.4" stroke-linejoin="round"/>
+                        <circle cx="9" cy="24" r="3" stroke="#94A3B8" stroke-width="1.4"/>
+                        <circle cx="25" cy="24" r="3" stroke="#94A3B8" stroke-width="1.4"/>
+                      </svg>
+                    </div>
+                    <div class="cd-assign-info">
+                      <a href="vehicle-detail.html" class="cd-assign-name">MH-12-AB-1234</a>
+                      <span class="cd-assign-meta">Tata LPT 1613 · 2022</span>
+                    </div>
+                    <span class="cd-assign-status">
+                      <span class="vehicle-status__dot" style="background:#16A34A;width:8px;height:8px;border-radius:50%;display:inline-block;margin-right:5px"></span>
+                      In Transit
+                    </span>
+                  </div>
+                </div>
+
+                <!-- Renewal Reminders -->
+                <div class="cd-widget">
+                  <div class="cd-widget__head">
+                    <span class="cd-widget__title">Renewal Reminders</span>
+                    <span class="cd-widget__acts">
+                      <a href="#" class="cd-widget__add">+ Add Renewal Reminder</a>
+                      <a href="#" class="cd-widget__viewall">View All</a>
+                    </span>
+                  </div>
+                  <!-- Column headers -->
+                  <div class="cd-renewal-head">
+                    <span>Type</span>
+                    <span>Due Date</span>
+                    <span>Notifications</span>
+                  </div>
+                  <!-- Row 1 -->
+                  <div class="cd-renewal-row">
+                    <span class="cd-renewal-type">License Renewal</span>
+                    <span>
+                      <span class="cd-renewal-date">24 Jun 2026</span>
+                      <span class="cd-renewal-rel cd-renewal-rel--soon">8 days from now</span>
+                    </span>
+                    <span class="cd-renewal-status">
+                      <span style="width:8px;height:8px;border-radius:50%;background:#16a34a;display:inline-block;flex-shrink:0"></span>
+                      Active
+                    </span>
+                  </div>
+                  <!-- Row 2 -->
+                  <div class="cd-renewal-row">
+                    <span class="cd-renewal-type">Medical Certificate</span>
+                    <span>
+                      <span class="cd-renewal-date">21 May 2026</span>
+                      <span class="cd-renewal-rel cd-renewal-rel--past">4 weeks ago</span>
+                    </span>
+                    <span class="cd-renewal-status">
+                      <span style="width:8px;height:8px;border-radius:50%;background:#16a34a;display:inline-block;flex-shrink:0"></span>
+                      Active
+                    </span>
+                  </div>
+                </div>
+
+                <!-- Incomplete Work Orders -->
+                <div class="cd-widget">
+                  <div class="cd-widget__head">
+                    <span class="cd-widget__title">Incomplete Work Order Assignments</span>
+                  </div>
+                  <div class="cd-empty-state">
+                    <svg class="cd-empty-icon" viewBox="0 0 64 64" fill="none" aria-hidden="true">
+                      <rect x="12" y="8" width="40" height="48" rx="4" stroke="#CBD5E1" stroke-width="2"/>
+                      <path d="M22 20h20M22 28h20M22 36h14" stroke="#CBD5E1" stroke-width="2" stroke-linecap="round"/>
+                      <path d="M40 42l4 4 8-8" stroke="#CBD5E1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <p class="cd-empty-text">Contact must have technician classification to be assigned to work orders.</p>
+                  </div>
+                </div>
+
+                <!-- Open Issues -->
+                <div class="cd-widget">
+                  <div class="cd-widget__head">
+                    <span class="cd-widget__title">Open Issue Assignments</span>
+                    <a href="#" class="cd-widget__viewall">View All</a>
+                  </div>
+                  <div class="cd-empty-state">
+                    <svg class="cd-empty-icon" viewBox="0 0 64 64" fill="none" aria-hidden="true">
+                      <rect x="10" y="14" width="44" height="36" rx="3" stroke="#CBD5E1" stroke-width="2"/>
+                      <path d="M18 26h28M18 32h20M18 38h14" stroke="#CBD5E1" stroke-width="2" stroke-linecap="round"/>
+                      <path d="M10 14l8-8h28l8 8" stroke="#CBD5E1" stroke-width="2" stroke-linejoin="round"/>
+                    </svg>
+                    <p class="cd-empty-text">No open issues currently assigned.</p>
+                  </div>
+                </div>
+
+                <!-- Service Reminders -->
+                <div class="cd-widget cd-widget--last">
+                  <div class="cd-widget__head">
+                    <span class="cd-widget__title">Service Reminder Assignments</span>
+                    <a href="#" class="cd-widget__viewall">View All</a>
+                  </div>
+                  <div class="cd-empty-state">
+                    <svg class="cd-empty-icon" viewBox="0 0 64 64" fill="none" aria-hidden="true">
+                      <circle cx="32" cy="32" r="22" stroke="#CBD5E1" stroke-width="2"/>
+                      <path d="M32 18v14l8 8" stroke="#CBD5E1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                      <path d="M20 10l-4-6M44 10l4-6" stroke="#CBD5E1" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                    <p class="cd-empty-text">No service reminders currently assigned.</p>
+                  </div>
+                </div>
+
+              </div><!-- /.cd-side -->
+
+            </div><!-- /.cd-layout -->
+          </div><!-- /.vd-body -->
+
+        </div><!-- /.vd-sheet -->
+      </main>
+    </div>
+  </div>
+
+  <div id="bottom-nav-root"></div>
+  <script src="js/icons.js"></script>
+  <script src="js/shell.js"></script>
+  <script src="js/nav.js"></script>
+  <script>
+    // Tab switching
+    document.querySelectorAll('.vd-tab').forEach(function(tab) {
+      tab.addEventListener('click', function() {
+        document.querySelectorAll('.vd-tab').forEach(function(t) {
+          t.classList.remove('is-active');
+          t.removeAttribute('aria-selected');
+        });
+        tab.classList.add('is-active');
+        tab.setAttribute('aria-selected', 'true');
+      });
+    });
+
+    // + Add dropdown
+    document.querySelectorAll('.vd-add-trigger').forEach(function(btn) {
+      btn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        var panel = btn.closest('.vd-action-menu').querySelector('.vd-action-menu__panel');
+        if (panel) panel.hidden = !panel.hidden;
+      });
+    });
+    document.addEventListener('click', function() {
+      document.querySelectorAll('.vd-action-menu__panel').forEach(function(p) { p.hidden = true; });
+    });
+
+    // Group toggle
+    document.querySelectorAll('.cd-group__toggle').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        var body = btn.nextElementSibling;
+        var chevron = btn.querySelector('.cd-group__chevron');
+        var isOpen = !body.hidden;
+        body.hidden = isOpen;
+        if (chevron) chevron.style.transform = isOpen ? 'rotate(-90deg)' : '';
+      });
+    });
+  </script>
+</body>
+</html>

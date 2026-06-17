@@ -18,12 +18,111 @@
     <div id="sidebar-root"></div>
     <div class="main-area">
       <div id="topbar-root"></div>
-      <main class="content">
-        <div class="page-header"><h1>Drivers</h1><p>Profiles, assignment, and performance</p></div>
-        <div class="card card-dashboard stub-notice">
-          <p>Module screen stub — full UI in prototype review pass.</p>
-          <p style="font-size:14px;">Sample driver: Rajesh K. · See <a href="driver.html">Driver View</a> mobile layout.</p>
+      <main class="content content--drivers">
+
+        <!-- Page Header -->
+        <div class="page-header page-header--compact">
+          <div class="page-header__text">
+            <h1>Drivers</h1>
+          </div>
+          <div class="page-header__actions">
+            <button type="button" class="btn btn-outline btn-sm">Export</button>
+            <button type="button" class="btn btn-primary btn-sm">+ Add Driver</button>
+          </div>
         </div>
+
+        <!-- KPI Strip -->
+        <div class="drivers-kpi-strip">
+          <div class="drivers-kpi">
+            <span class="drivers-kpi__value">8</span>
+            <span class="drivers-kpi__label">Total Drivers</span>
+          </div>
+          <div class="drivers-kpi">
+            <span class="drivers-kpi__value" style="color:var(--color-profit-positive)">5</span>
+            <span class="drivers-kpi__label">Active</span>
+          </div>
+          <div class="drivers-kpi">
+            <span class="drivers-kpi__value" style="color:var(--color-warning)">1</span>
+            <span class="drivers-kpi__label">Idle</span>
+          </div>
+          <div class="drivers-kpi">
+            <span class="drivers-kpi__value" style="color:#6366F1">1</span>
+            <span class="drivers-kpi__label">On Leave</span>
+          </div>
+          <div class="drivers-kpi">
+            <span class="drivers-kpi__value" style="color:var(--color-graphite)">1</span>
+            <span class="drivers-kpi__label">Inactive</span>
+          </div>
+          <div class="drivers-kpi drivers-kpi--divider">
+            <span class="drivers-kpi__value tabular-nums">22,820</span>
+            <span class="drivers-kpi__label">km this month</span>
+          </div>
+          <div class="drivers-kpi">
+            <span class="drivers-kpi__value tabular-nums">856</span>
+            <span class="drivers-kpi__label">Hours driven</span>
+          </div>
+        </div>
+
+        <div class="drivers-body">
+          <!-- Segment tabs -->
+          <div class="segment-tabs" role="tablist" aria-label="Driver views">
+            <button type="button" class="segment-tab is-active" data-driver-tab="all" role="tab">All</button>
+            <button type="button" class="segment-tab" data-driver-tab="active" role="tab">Active</button>
+            <button type="button" class="segment-tab" data-driver-tab="on-leave" role="tab">On Leave</button>
+            <button type="button" class="segment-tab" data-driver-tab="inactive" role="tab">Inactive</button>
+          </div>
+
+          <!-- Table panel -->
+          <div class="panel table-panel drivers-panel">
+            <div class="vehicles-panel__toolbar">
+              <div class="vehicles-panel__search">
+                <span class="vehicles-panel__search-icon" aria-hidden="true">⌕</span>
+                <input type="search" class="vehicles-panel__search-input" id="drivers-search"
+                       placeholder="Search drivers…" aria-label="Search drivers">
+              </div>
+              <select class="vehicles-panel__filter" id="filter-group" aria-label="Group">
+                <option value="">All groups</option>
+                <option value="Expressway">Expressway</option>
+                <option value="Pune Depot">Pune Depot</option>
+                <option value="Mumbai Port">Mumbai Port</option>
+              </select>
+              <select class="vehicles-panel__filter" id="filter-status" aria-label="Status">
+                <option value="">All statuses</option>
+                <option value="active">Active</option>
+                <option value="idle">Idle</option>
+                <option value="on-leave">On Leave</option>
+                <option value="inactive">Inactive</option>
+              </select>
+              <span class="vehicles-panel__count tabular-nums" id="drivers-count">8 drivers</span>
+            </div>
+
+            <div class="panel__body panel__body--flush">
+              <div class="data-table-wrap data-table-wrap--drivers">
+                <table class="data-table data-table--list data-table--drivers">
+                  <thead>
+                    <tr>
+                      <th class="data-table__check-col"><input type="checkbox" aria-label="Select all"></th>
+                      <th>Name</th>
+                      <th>Phone</th>
+                      <th>Group</th>
+                      <th>Assigned Vehicle</th>
+                      <th>Status</th>
+                      <th>Total Trips</th>
+                      <th>km (Month)</th>
+                      <th>Hours (Month)</th>
+                      <th>Rating</th>
+                      <th>License Expiry</th>
+                      <th>Joined</th>
+                      <th class="data-table__actions-col"></th>
+                    </tr>
+                  </thead>
+                  <tbody id="drivers-table-body"></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+
       </main>
     </div>
   </div>
@@ -31,5 +130,7 @@
   <script src="js/icons.js"></script>
   <script src="js/shell.js"></script>
   <script src="js/nav.js"></script>
+  <script src="js/drivers-data.js"></script>
+  <script src="js/drivers.js"></script>
 </body>
 </html>

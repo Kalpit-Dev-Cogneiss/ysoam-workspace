@@ -1,30 +1,188 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Replacement Analysis — YSOAM</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/tokens.css">
-  <link rel="stylesheet" href="css/components.css">
-  <link rel="stylesheet" href="css/layout.css">
-  <link rel="stylesheet" href="css/pages.css">
-</head>
-<body data-page="vehicles" data-subpage="replacement">
-  <div class="sidebar-backdrop" id="sidebar-backdrop"></div>
-  <div class="app-shell">
-    <div id="sidebar-root"></div>
-    <div class="main-area">
-      <div id="topbar-root"></div>
-      <main class="content">
-        <div class="page-header">
-          <div class="page-header__text"><div class="page-header__eyebrow">Vehicles</div><h1>Replacement Analysis</h1><p>Lifecycle cost and replacement timing recommendations</p></div>
-        </div>
-        <div class="panel"><p>Prototype stub — TCO and replacement scoring for fleet planning.</p><a href="reports.html" class="btn btn-outline btn-sm">View Reports</a></div>
-      </main>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Replacement Analysis — YSOAM</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="css/tokens.css" />
+    <link rel="stylesheet" href="css/components.css" />
+    <link rel="stylesheet" href="css/layout.css" />
+    <link rel="stylesheet" href="css/pages.css" />
+  </head>
+  <body data-page="vehicles" data-subpage="replacement">
+    <div class="sidebar-backdrop" id="sidebar-backdrop"></div>
+    <div class="app-shell">
+      <div id="sidebar-root"></div>
+      <div class="main-area">
+        <div id="topbar-root"></div>
+
+        <main class="content content--replacement">
+
+          <!-- Page header bar -->
+          <div class="replacement-page-header">
+            <div class="replacement-page-header__left">
+              <a class="replacement-back" href="vehicles.html">
+                <svg class="replacement-back__icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M10 3L5 8l5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                Vehicles
+              </a>
+              <span class="replacement-page-header__sep" aria-hidden="true">/</span>
+              <h1 class="replacement-page-header__title">Replacement Analysis</h1>
+            </div>
+            <div class="replacement-page-header__right">
+              <label class="replacement-vehicle-label" for="repl-vehicle-select">Vehicle</label>
+              <select class="replacement-vehicle-select" id="repl-vehicle-select" aria-label="Select vehicle to analyse">
+                <option value="">Custom / Generic truck</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Scrollable main area -->
+          <div class="replacement-scroll-area">
+
+            <!-- Chart card -->
+            <div class="replacement-chart-card">
+              <div class="replacement-chart-header">
+                <div class="replacement-chart-header__text">
+                  <p class="replacement-chart-eyebrow">Lifecycle cost analysis</p>
+                  <p class="replacement-chart-subtitle">
+                    Annual cost per km by vehicle age — find the lowest-cost replacement window.
+                  </p>
+                </div>
+                <div class="replacement-reco-wrap">
+                  <div class="replacement-reco" id="replacement-reco">
+                    <span class="replacement-reco__label">Recommended</span>
+                    <span class="replacement-reco__value" id="replacement-reco-value">Year 7</span>
+                    <span class="replacement-reco__cost" id="replacement-reco-cost"></span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="replacement-chart-wrap">
+                <div class="replacement-chart-canvas">
+                  <canvas id="replacement-chart" aria-label="Annual cost per kilometer by vehicle age"></canvas>
+                </div>
+              </div>
+            </div>
+
+            <!-- Input grid -->
+            <div class="replacement-grid">
+
+              <!-- Lifecycle Estimates -->
+              <div class="replacement-card replacement-card--lifecycle">
+                <div class="replacement-card__title">Lifecycle Estimates</div>
+
+                <div class="form-grid form-grid--2">
+                  <div class="form-field form-field--full">
+                    <label for="repl-life-months">Estimated Vehicle Life</label>
+                    <div class="replacement-input-row">
+                      <input type="number" id="repl-life-months" name="lifeMonths"
+                             min="12" max="144" step="12" value="96" inputmode="numeric" />
+                      <span class="replacement-input-unit">months</span>
+                    </div>
+                  </div>
+
+                  <div class="form-field form-field--full">
+                    <label for="repl-annual-usage">Annual Usage</label>
+                    <div class="replacement-input-row">
+                      <input type="number" id="repl-annual-usage" name="annualUsage"
+                             min="1000" step="5000" value="40000" inputmode="numeric" />
+                      <span class="replacement-input-unit">km / year</span>
+                    </div>
+                  </div>
+
+                  <div class="form-field form-field--full">
+                    <label for="repl-fuel-eff">Fuel Efficiency</label>
+                    <div class="replacement-input-row">
+                      <input type="number" id="repl-fuel-eff" name="fuelEfficiencyKpl"
+                             min="1" max="30" step="0.5" value="6.5" inputmode="decimal" />
+                      <span class="replacement-input-unit">km/L</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="replacement-subsection">
+                  <div class="replacement-subsection__title">Acquisition</div>
+                  <div class="form-field">
+                    <label for="repl-purchase-price">Purchase Price</label>
+                    <div class="replacement-input-row">
+                      <span class="replacement-input-prefix">₹</span>
+                      <input type="number" id="repl-purchase-price" name="purchasePrice"
+                             min="0" step="50000" value="1500000" inputmode="numeric" />
+                    </div>
+                  </div>
+                </div>
+
+                <div class="replacement-subsection">
+                  <div class="replacement-subsection__title">Disposal</div>
+                  <div class="form-field">
+                    <label for="repl-disposal-cost">Disposal Cost</label>
+                    <div class="replacement-input-row">
+                      <span class="replacement-input-prefix">₹</span>
+                      <input type="number" id="repl-disposal-cost" name="disposalCost"
+                             min="0" step="1000" value="15000" inputmode="numeric" />
+                    </div>
+                  </div>
+                  <div class="form-field" style="margin-top:var(--spacing-sm)">
+                    <label for="repl-salvage-pct">Salvage Value</label>
+                    <div class="replacement-input-row">
+                      <input type="number" id="repl-salvage-pct" name="salvagePct"
+                             min="0" max="100" step="1" value="15" inputmode="decimal" />
+                      <span class="replacement-input-unit">% of purchase</span>
+                    </div>
+                  </div>
+
+                  <div class="replacement-subsection__radio">
+                    <div class="replacement-subsection__radio-title">Depreciation Method</div>
+                    <div class="radio-row">
+                      <label class="radio-pill">
+                        <input type="radio" name="repl-depr" id="repl-depr-double" value="double" checked>
+                        Double Declining
+                      </label>
+                      <label class="radio-pill">
+                        <input type="radio" name="repl-depr" id="repl-depr-syd" value="syd">
+                        Sum of Years
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Service Costs -->
+              <div class="replacement-card replacement-card--service">
+                <div class="replacement-card__title">Annual Service Cost</div>
+                <div class="replacement-card__hint">Enter estimated service &amp; maintenance spend per year (₹)</div>
+                <div id="repl-service-list" class="replacement-year-list"></div>
+              </div>
+
+              <!-- Fuel Price -->
+              <div class="replacement-card replacement-card--fuel">
+                <div class="replacement-card__title">Fuel Price per Litre</div>
+                <div class="replacement-card__hint">Expected ₹/litre for each year of ownership</div>
+                <div id="repl-fuel-list" class="replacement-year-list"></div>
+              </div>
+
+            </div><!-- /.replacement-grid -->
+
+            <div class="replacement-footer-note">
+              All values update live. Optimal replacement year is the age that minimises average total cost per km across the full ownership period.
+            </div>
+
+          </div><!-- /.replacement-scroll-area -->
+        </main>
+      </div>
     </div>
-  </div>
-  <div id="bottom-nav-root"></div>
-  <script src="js/icons.js"></script><script src="js/shell.js"></script><script src="js/nav.js"></script>
-</body>
+
+    <div id="bottom-nav-root"></div>
+    <script src="js/icons.js"></script>
+    <script src="js/shell.js"></script>
+    <script src="js/nav.js"></script>
+    <script src="js/fleet-data.js"></script>
+    <script src="js/vehicles-data.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@3.0.1/dist/chartjs-plugin-annotation.min.js"></script>
+    <script src="js/vehicle-replacement.js"></script>
+  </body>
 </html>
