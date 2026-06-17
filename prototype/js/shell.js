@@ -77,9 +77,18 @@
             'vehicles',
             'nav-group--submenu nav-group--vehicles'
           ) +
+          navGroup(
+            'Service',
+            navChildLink('service-history', 'service-history.html', 'Service History') +
+            navChildLink('work-orders', 'maintenance.html', 'Work Orders') +
+            navChildLink('service-tasks', 'maintenance.html', 'Service Tasks') +
+            navChildLink('service-programs', 'maintenance.html', 'Service Programs'),
+            false,
+            'maintenance',
+            'nav-group--submenu nav-group--service'
+          ) +
           navLink('drivers', 'drivers.html', 'Drivers', 'drivers') +
           navLink('fuel', 'fuel.html', 'Fuel', 'fuel') +
-          navLink('maintenance', 'maintenance.html', 'Maintenance', 'maintenance') +
           navLink('tyres', 'tyres.html', 'Tyres', 'tyres') +
           navLink('battery', 'battery.html', 'Battery', 'battery') +
           navLink('trips', 'trips.html', 'Trips', 'trips') +

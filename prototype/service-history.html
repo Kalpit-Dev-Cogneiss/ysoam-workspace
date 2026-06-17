@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Service History — YSOAM</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/pages.css">
+</head>
+<body data-page="service" data-subpage="service-history">
+  <div class="sidebar-backdrop" id="sidebar-backdrop"></div>
+  <div class="app-shell">
+    <div id="sidebar-root"></div>
+    <div class="main-area">
+      <div id="topbar-root"></div>
+      <main class="content content--service-history">
+        <div class="page-header page-header--compact service-history-header">
+          <div class="page-header__text">
+            <h1>Service History <a class="service-learn-link" href="roadmap.html">Learn</a></h1>
+          </div>
+          <div class="page-header__actions">
+            <button type="button" class="btn btn-outline btn-sm" id="service-automations-btn">⚡ Automations</button>
+            <button type="button" class="btn btn-outline btn-sm" aria-label="More actions">⋯</button>
+            <button type="button" class="btn btn-primary btn-sm" id="service-add-btn">+ Add Service Entry</button>
+          </div>
+        </div>
+
+        <div class="service-view-tabs" role="tablist" aria-label="Service views">
+          <button type="button" class="service-view-tab is-active" data-view="all" role="tab" aria-selected="true">All</button>
+          <button type="button" class="service-view-tab service-view-tab--more" aria-label="More views">⋯</button>
+          <button type="button" class="service-view-tab service-view-tab--add">+ Add Tab</button>
+        </div>
+
+        <div class="panel table-panel service-history-panel">
+          <div class="service-history-toolbar">
+            <div class="service-history-toolbar__left">
+              <div class="table-panel__search">
+                <span class="table-panel__search-icon" aria-hidden="true">⌕</span>
+                <input type="search" class="table-panel__search-input" id="service-search" placeholder="Search" aria-label="Search service history">
+              </div>
+              <select class="service-filter-select" id="service-filter-vehicle" aria-label="Vehicle">
+                <option value="">Vehicle</option>
+              </select>
+              <select class="service-filter-select" id="service-filter-group" aria-label="Vehicle Group">
+                <option value="">Vehicle Group</option>
+              </select>
+              <select class="service-filter-select" id="service-filter-task" aria-label="Service Tasks">
+                <option value="">Service Tasks</option>
+              </select>
+              <select class="service-filter-select" id="service-filter-watcher" aria-label="Watcher">
+                <option value="">Watcher</option>
+              </select>
+              <button type="button" class="service-filters-btn" id="service-filters-btn">
+                <span aria-hidden="true">☰</span> Filters
+              </button>
+            </div>
+            <div class="service-history-toolbar__right">
+              <span class="service-pagination__count tabular-nums" id="service-count">1 – 50 of 0</span>
+              <button type="button" class="service-page-btn" data-page-prev aria-label="Previous page">‹</button>
+              <button type="button" class="service-page-btn" data-page-next aria-label="Next page">›</button>
+              <button type="button" class="service-page-btn" aria-label="Table settings">⚙</button>
+              <button type="button" class="btn btn-outline btn-sm service-save-view-btn">Save View ▾</button>
+            </div>
+          </div>
+
+          <div class="panel__body panel__body--flush service-history-table-wrap">
+            <div class="data-table-wrap data-table-wrap--scroll data-table-wrap--service-history" id="service-history-table"></div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+  <div id="bottom-nav-root"></div>
+  <script src="js/icons.js"></script>
+  <script src="js/shell.js"></script>
+  <script src="js/nav.js"></script>
+  <script src="js/vehicles-data.js"></script>
+  <script src="js/fleet-data.js"></script>
+  <script src="js/service-history-data.js"></script>
+  <script src="js/service-history.js"></script>
+</body>
+</html>

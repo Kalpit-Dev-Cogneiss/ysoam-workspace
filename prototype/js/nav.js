@@ -66,10 +66,17 @@
     });
 
     var vehiclesGroup = document.querySelector('.nav-group--vehicles');
-    if (vehiclesGroup && (currentPage === 'vehicles' || currentSubpage)) {
+    if (vehiclesGroup && currentPage === 'vehicles') {
       vehiclesGroup.classList.add('is-open');
-      var toggle = vehiclesGroup.querySelector('.nav-group__toggle');
-      if (toggle) toggle.setAttribute('aria-expanded', 'true');
+      var vehiclesToggle = vehiclesGroup.querySelector('.nav-group__toggle');
+      if (vehiclesToggle) vehiclesToggle.setAttribute('aria-expanded', 'true');
+    }
+
+    var serviceGroup = document.querySelector('.nav-group--service');
+    if (serviceGroup && currentPage === 'service') {
+      serviceGroup.classList.add('is-open');
+      var serviceToggle = serviceGroup.querySelector('.nav-group__toggle');
+      if (serviceToggle) serviceToggle.setAttribute('aria-expanded', 'true');
     }
   }
 
