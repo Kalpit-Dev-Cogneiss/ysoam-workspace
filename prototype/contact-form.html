@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>New Contact — YSOAM</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/pages.css">
+</head>
+<body data-page="drivers" data-subpage="contact-form">
+  <div class="sidebar-backdrop" id="sidebar-backdrop"></div>
+  <div class="app-shell">
+    <div id="sidebar-root"></div>
+    <div class="main-area">
+      <div id="topbar-root"></div>
+      <main class="content content--contact-form">
+        <header class="vehicle-form-topbar contact-form-topbar">
+          <div class="vehicle-form-topbar__main">
+            <a class="vehicle-form-back" href="drivers" id="contact-form-back"><span class="vehicle-form-back__icon" data-form-icon="arrowLeft" aria-hidden="true"></span> Drivers</a>
+            <nav class="contact-form-crumb" id="contact-form-crumb" aria-label="Breadcrumb" hidden>
+              <a href="drivers">Drivers</a>
+              <span aria-hidden="true">›</span>
+              <a href="#" id="contact-form-crumb-name">Contact</a>
+            </nav>
+            <h1 id="contact-form-title">New Contact</h1>
+          </div>
+          <div class="vehicle-form-topbar__actions">
+            <a class="btn btn-text btn-sm" id="contact-form-cancel-top" href="drivers">Cancel</a>
+            <button type="button" class="btn btn-outline btn-sm" id="contact-form-add-multiple">Add Multiple Contacts</button>
+            <button type="submit" form="contact-form" class="btn btn-primary btn-sm" id="contact-form-save-top">Save Contact</button>
+          </div>
+        </header>
+
+        <div class="contact-form-body">
+          <form class="contact-form-main" id="contact-form" novalidate>
+            <div class="vehicle-form-card contact-form-card">
+              <h2 class="vehicle-form-card__title">Basic Details</h2>
+              <div class="contact-form-basic">
+                <div class="contact-form-basic__fields">
+                  <div class="form-grid form-grid--2">
+                    <div class="form-field">
+                      <label for="contact-first-name">First Name <span class="required">*</span></label>
+                      <input type="text" id="contact-first-name" name="firstName" required>
+                    </div>
+                    <div class="form-field">
+                      <label for="contact-middle-name">Middle Name</label>
+                      <input type="text" id="contact-middle-name" name="middleName">
+                    </div>
+                    <div class="form-field">
+                      <label for="contact-last-name">Last Name</label>
+                      <input type="text" id="contact-last-name" name="lastName">
+                    </div>
+                    <div class="form-field">
+                      <label for="contact-email">Email</label>
+                      <input type="email" id="contact-email" name="email">
+                    </div>
+                    <div class="form-field form-field--full">
+                      <label for="contact-group">Group</label>
+                      <select id="contact-group" name="group">
+                        <option value="">Please select</option>
+                        <option value="Maharashtra / Expressway">Maharashtra / Expressway</option>
+                        <option value="Maharashtra / Mumbai Port">Maharashtra / Mumbai Port</option>
+                        <option value="Maharashtra / Pune Depot">Maharashtra / Pune Depot</option>
+                        <option value="Kerala / Pune Depot">Kerala / Pune Depot</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+                <div class="contact-form-basic__photo">
+                  <div class="contact-form-avatar" id="contact-form-avatar" aria-hidden="true">—</div>
+                  <button type="button" class="btn btn-outline btn-sm" id="contact-form-pick-file">Pick File</button>
+                  <input type="file" id="contact-form-photo-input" accept="image/*" hidden>
+                  <label class="contact-form-drop" for="contact-form-photo-input">Or drop file here</label>
+                </div>
+              </div>
+            </div>
+
+            <div class="vehicle-form-card contact-form-card">
+              <h2 class="vehicle-form-card__title">Classifications</h2>
+              <div class="contact-form-class-list">
+                <label class="contact-form-class">
+                  <input type="checkbox" name="operator" id="contact-operator">
+                  <span class="contact-form-class__body">
+                    <strong>Operator</strong>
+                    <span>Allow this Contact to be assigned to assets</span>
+                  </span>
+                </label>
+                <label class="contact-form-class">
+                  <input type="checkbox" name="employee" id="contact-employee">
+                  <span class="contact-form-class__body">
+                    <strong>Employee</strong>
+                    <span>Current or former employee, for identification purposes only</span>
+                  </span>
+                </label>
+                <label class="contact-form-class">
+                  <input type="checkbox" name="technician" id="contact-technician">
+                  <span class="contact-form-class__body">
+                    <strong>Technician</strong>
+                    <span>Allow this Contact to be selected in labor line items on work orders</span>
+                  </span>
+                </label>
+              </div>
+            </div>
+
+            <div class="vehicle-form-card contact-form-card">
+              <h2 class="vehicle-form-card__title">User Access</h2>
+              <div class="choice-cards">
+                <label class="choice-card">
+                  <input type="radio" name="userAccess" value="enabled" id="contact-access-enabled">
+                  <span class="choice-card__body">
+                    <strong>Enable Access to YSOAM</strong>
+                    <span>Allow this Contact to log in, manage data, and receive notifications</span>
+                  </span>
+                </label>
+                <label class="choice-card">
+                  <input type="radio" name="userAccess" value="none" id="contact-access-none" checked>
+                  <span class="choice-card__body">
+                    <strong>No Access</strong>
+                    <span>This Contact will not have access to YSOAM and will not receive notifications</span>
+                  </span>
+                </label>
+              </div>
+            </div>
+
+            <div class="vehicle-form-card contact-form-card">
+              <h2 class="vehicle-form-card__title">Contact Information</h2>
+              <div class="form-grid form-grid--2">
+                <div class="form-field">
+                  <label for="contact-phone-mobile">Mobile</label>
+                  <input type="tel" id="contact-phone-mobile" name="phoneMobile" placeholder="e.g. +91 98765 43210">
+                </div>
+                <div class="form-field">
+                  <label for="contact-phone-home">Home</label>
+                  <input type="tel" id="contact-phone-home" name="phoneHome" placeholder="e.g. +91 98765 43210">
+                </div>
+                <div class="form-field">
+                  <label for="contact-phone-work">Work</label>
+                  <input type="tel" id="contact-phone-work" name="phoneWork" placeholder="e.g. +91 98765 43210">
+                </div>
+                <div class="form-field">
+                  <label for="contact-phone-other">Other</label>
+                  <input type="tel" id="contact-phone-other" name="phoneOther" placeholder="e.g. +91 98765 43210">
+                </div>
+                <div class="form-field form-field--full">
+                  <label for="contact-address">Address</label>
+                  <input type="text" id="contact-address" name="address">
+                </div>
+                <div class="form-field form-field--full">
+                  <label for="contact-address2">Address Line 2</label>
+                  <input type="text" id="contact-address2" name="addressLine2">
+                </div>
+                <div class="form-field">
+                  <label for="contact-city">City</label>
+                  <input type="text" id="contact-city" name="city">
+                </div>
+                <div class="form-field">
+                  <label for="contact-state">State / Province / Region</label>
+                  <input type="text" id="contact-state" name="state">
+                </div>
+                <div class="form-field">
+                  <label for="contact-zip">Zip / Postal Code</label>
+                  <input type="text" id="contact-zip" name="zip">
+                </div>
+                <div class="form-field">
+                  <label for="contact-country">Country</label>
+                  <select id="contact-country" name="country">
+                    <option value="India">India</option>
+                    <option value="United States">United States</option>
+                    <option value="United Kingdom">United Kingdom</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div class="vehicle-form-card contact-form-card">
+              <h2 class="vehicle-form-card__title">Personal Details</h2>
+              <div class="form-grid form-grid--2">
+                <div class="form-field">
+                  <label for="contact-job-title">Job Title</label>
+                  <input type="text" id="contact-job-title" name="jobTitle">
+                </div>
+                <div class="form-field">
+                  <label for="contact-dob">Date of Birth</label>
+                  <input type="date" id="contact-dob" name="dob">
+                </div>
+                <div class="form-field">
+                  <label for="contact-employee-number">Employee Number</label>
+                  <input type="text" id="contact-employee-number" name="employeeNumber">
+                </div>
+                <div class="form-field">
+                  <label for="contact-hourly-rate">Hourly Labor Rate</label>
+                  <div class="input-prefix">
+                    <span>₹</span>
+                    <input type="text" id="contact-hourly-rate" name="hourlyRate" inputmode="decimal" placeholder="0.00">
+                  </div>
+                </div>
+                <div class="form-field">
+                  <label for="contact-start-date">Start Date</label>
+                  <input type="date" id="contact-start-date" name="startDate">
+                </div>
+                <div class="form-field">
+                  <label for="contact-leave-date">Leave Date</label>
+                  <input type="date" id="contact-leave-date" name="leaveDate">
+                </div>
+                <div class="form-field">
+                  <label for="contact-license">License Number</label>
+                  <input type="text" id="contact-license" name="license">
+                </div>
+                <div class="form-field">
+                  <label for="contact-license-class">License Class</label>
+                  <input type="text" id="contact-license-class" name="licenseClass">
+                </div>
+                <div class="form-field form-field--full">
+                  <label for="contact-license-state">License State / Province / Region</label>
+                  <input type="text" id="contact-license-state" name="licenseState">
+                </div>
+              </div>
+            </div>
+
+            <div class="vehicle-form-card contact-form-card">
+              <h2 class="vehicle-form-card__title">SAML</h2>
+              <div class="form-field">
+                <label for="contact-saml-id">SAML ID</label>
+                <input type="text" id="contact-saml-id" name="samlId">
+                <span class="form-hint">This feature links a Contact with a given SAML ID</span>
+              </div>
+            </div>
+          </form>
+        </div>
+
+        <footer class="vehicle-form-footer contact-form-footer">
+          <a class="btn btn-text btn-sm" id="contact-form-cancel-footer" href="drivers">Cancel</a>
+          <div class="vehicle-form-footer__right">
+            <button type="button" class="btn btn-outline btn-sm" id="contact-form-save-another">Save &amp; Add Another</button>
+            <button type="submit" form="contact-form" class="btn btn-primary btn-sm" id="contact-form-save-footer">Save Contact</button>
+          </div>
+        </footer>
+      </main>
+    </div>
+  </div>
+  <div id="bottom-nav-root"></div>
+
+  <script src="js/icons.js"></script>
+  <script src="js/shell.js"></script>
+  <script src="js/nav.js"></script>
+  <script src="js/drivers-data.js"></script>
+  <script src="js/contact-form.js"></script>
+</body>
+</html>

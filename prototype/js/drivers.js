@@ -8,7 +8,7 @@
     inactive:  { label: 'Inactive',  dot: '#94A3B8' }
   };
 
-  let allDrivers = window.YSOAM_DRIVERS || [];
+  let allDrivers = (window.YSOAM_DRIVERS && window.YSOAM_DRIVERS.list) ? window.YSOAM_DRIVERS.list : (window.YSOAM_DRIVERS || []);
   let filtered   = [...allDrivers];
   let activeTab  = 'all';
 
@@ -43,8 +43,10 @@
   }
 
   function renderRow(d) {
+    const detailUrl = 'contact-detail?id=' + encodeURIComponent(d.id);
+    const editUrl = 'contact-form?id=' + encodeURIComponent(d.id);
     const vehicle = d.assignedVehicle
-      ? `<a href="vehicles.html" class="table-cell-link">${d.assignedVehicle}</a>`
+      ? `<a href="vehicle-detail?id=${encodeURIComponent(d.assignedVehicle)}" class="table-cell-link">${d.assignedVehicle}</a>`
       : '<span style="color:var(--color-steel)">—</span>';
     const expiry = d.licenseExpiry ? new Date(d.licenseExpiry).toLocaleDateString('en-IN', { day:'2-digit', month:'short', year:'numeric' }) : '—';
     const joined = d.joined ? new Date(d.joined).toLocaleDateString('en-IN', { day:'2-digit', month:'short', year:'numeric' }) : '—';
@@ -55,12 +57,11 @@
         <div class="vehicle-list-name">
           ${avatarCell(d)}
           <div>
-            <a href="driver.html" class="table-cell-link">${d.name}</a>
+            <a href="${detailUrl}" class="table-cell-link">${d.name}</a>
             <span class="vehicle-list-vin">${d.id}</span>
           </div>
         </div>
       </td>
-      <td>${d.phone}</td>
       <td>${d.group}</td>
       <td>${vehicle}</td>
       <td>${statusDot(d.status)}</td>
@@ -76,8 +77,8 @@
             <span class="row-actions__dots"></span>
           </button>
           <div class="row-actions__menu" hidden>
-            <a href="driver.html" class="row-actions__item">View Profile</a>
-            <button class="row-actions__item row-actions__item--btn" type="button">Edit</button>
+            <a href="${detailUrl}" class="row-actions__item">View Profile</a>
+            <a href="${editUrl}" class="row-actions__item">Edit</a>
             <button class="row-actions__item row-actions__item--btn" type="button">Assign Vehicle</button>
             <button class="row-actions__item row-actions__item--btn" type="button" style="color:var(--color-error)">Deactivate</button>
           </div>
@@ -106,7 +107,7 @@
 
     tbody.innerHTML = filtered.length
       ? filtered.map(renderRow).join('')
-      : `<tr><td colspan="13" style="text-align:center;padding:40px;color:var(--color-graphite);">No drivers found</td></tr>`;
+      : `<tr><td colspan="12" style="text-align:center;padding:40px;color:var(--color-graphite);">No drivers found</td></tr>`;
 
     countEl.textContent = `${filtered.length} driver${filtered.length !== 1 ? 's' : ''}`;
   }

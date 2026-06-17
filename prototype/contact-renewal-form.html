@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>New Contact Renewal Reminder — YSOAM</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/pages.css">
+</head>
+<body data-page="drivers" data-subpage="contact-renewal-form">
+  <div class="sidebar-backdrop" id="sidebar-backdrop"></div>
+  <div class="app-shell">
+    <div id="sidebar-root"></div>
+    <div class="main-area">
+      <div id="topbar-root"></div>
+      <main class="content content--contact-form">
+        <header class="vehicle-form-topbar contact-form-topbar">
+          <div class="vehicle-form-topbar__main">
+            <a class="vehicle-form-back" href="#" id="renewal-form-back"><span class="vehicle-form-back__icon" data-form-icon="arrowLeft" aria-hidden="true"></span> Contact Renewal Reminders</a>
+            <h1>New Contact Renewal Reminder</h1>
+          </div>
+          <div class="vehicle-form-topbar__actions">
+            <a class="btn btn-text btn-sm" id="renewal-form-cancel-top" href="#">Cancel</a>
+            <button type="submit" form="renewal-form" class="btn btn-primary btn-sm">Save Contact Renewal Reminder</button>
+          </div>
+        </header>
+
+        <div class="contact-form-body">
+          <form class="contact-form-main" id="renewal-form" novalidate>
+            <div class="vehicle-form-card contact-form-card">
+              <h2 class="vehicle-form-card__title">Details</h2>
+              <div class="form-grid form-grid--2">
+                <div class="form-field form-field--full">
+                  <label for="renewal-contact-trigger">Contact <span class="required">*</span></label>
+                  <div class="assign-picker assign-picker--readonly" id="renewal-contact-picker">
+                    <div class="assign-picker__trigger assign-picker__trigger--readonly" id="renewal-contact-trigger" tabindex="-1">
+                      <span class="assign-picker__placeholder">Please select</span>
+                    </div>
+                  </div>
+                  <input type="hidden" id="renewal-contact-id" name="contactId">
+                </div>
+
+                <div class="form-field form-field--full">
+                  <label for="renewal-type">Contact Renewal Type <span class="required">*</span></label>
+                  <select id="renewal-type" name="renewalType" required>
+                    <option value="">Please select</option>
+                    <option value="License Renewal">License Renewal</option>
+                    <option value="Certification">Certification</option>
+                    <option value="Medical Certificate">Medical Certificate</option>
+                    <option value="Training Renewal">Training Renewal</option>
+                  </select>
+                </div>
+
+                <div class="form-field">
+                  <label for="renewal-due-date">Due Date <span class="required">*</span></label>
+                  <input type="date" id="renewal-due-date" name="dueDate" required>
+                </div>
+
+                <div class="form-field">
+                  <label for="renewal-threshold-value">Due Soon Threshold <span class="renewal-info" title="When to mark this reminder as due soon">ⓘ</span></label>
+                  <div class="renewal-threshold-row">
+                    <input type="number" id="renewal-threshold-value" name="thresholdValue" min="1" value="3">
+                    <select id="renewal-threshold-unit" name="thresholdUnit">
+                      <option value="weeks">week(s)</option>
+                      <option value="days">day(s)</option>
+                      <option value="months">month(s)</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="form-field form-field--full">
+                  <label class="contact-form-class contact-form-class--inline">
+                    <input type="checkbox" name="enableNotifications" id="renewal-notifications" checked>
+                    <span class="contact-form-class__body">
+                      <strong>Enable Notifications</strong>
+                      <span>When enabled, notifications may be sent according to each Watcher's User Notification Settings.</span>
+                    </span>
+                  </label>
+                </div>
+
+                <div class="form-field form-field--full">
+                  <label for="renewal-watcher-input">Watchers</label>
+                  <div class="renewal-watchers" id="renewal-watchers">
+                    <span class="renewal-watcher-tag" id="renewal-watcher-tag">
+                      Admin User
+                      <button type="button" class="renewal-watcher-tag__remove" id="renewal-watcher-remove" aria-label="Remove watcher">×</button>
+                    </span>
+                    <input type="text" class="renewal-watcher-input" id="renewal-watcher-input" placeholder="">
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="vehicle-form-card contact-form-card">
+              <h2 class="vehicle-form-card__title">Comment</h2>
+              <div class="renewal-comment-row">
+                <div class="renewal-comment-avatar" id="renewal-comment-avatar" aria-hidden="true">AU</div>
+                <textarea class="renewal-comment-input" id="renewal-comment" name="comment" rows="4" placeholder="Add an optional comment"></textarea>
+              </div>
+            </div>
+          </form>
+        </div>
+
+        <footer class="vehicle-form-footer contact-form-footer">
+          <a class="btn btn-text btn-sm" id="renewal-form-cancel-footer" href="#">Cancel</a>
+          <div class="vehicle-form-footer__right">
+            <button type="button" class="btn btn-outline btn-sm" id="renewal-save-another">Save &amp; Add Another</button>
+            <button type="submit" form="renewal-form" class="btn btn-primary btn-sm">Save Contact Renewal Reminder</button>
+          </div>
+        </footer>
+      </main>
+    </div>
+  </div>
+  <div id="bottom-nav-root"></div>
+
+  <script src="js/icons.js"></script>
+  <script src="js/shell.js"></script>
+  <script src="js/nav.js"></script>
+  <script src="js/drivers-data.js"></script>
+  <script src="js/contact-renewal-form.js"></script>
+</body>
+</html>
