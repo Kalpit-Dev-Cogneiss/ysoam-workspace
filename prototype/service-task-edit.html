@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Fuel — YSOAM Prototype</title>
+  <title>Edit Service Task — YSOAM</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -12,24 +12,23 @@
   <link rel="stylesheet" href="css/layout.css">
   <link rel="stylesheet" href="css/pages.css">
 </head>
-<body data-page="fuel" data-subpage="fuel-overview">
+<body data-page="service" data-subpage="service-task-edit">
   <div class="sidebar-backdrop" id="sidebar-backdrop"></div>
   <div class="app-shell">
     <div id="sidebar-root"></div>
     <div class="main-area">
       <div id="topbar-root"></div>
-      <main class="content">
-        <div class="page-header"><h1>Fuel</h1><p>Consumption, mileage, and anomaly detection</p></div>
-        <div class="card card-dashboard stub-notice">
-          <p>Module screen stub — fuel entry form and consumption charts in review pass.</p>
-          <p style="font-size:14px;">Trip TRP-2026-0142 fuel cost: ₹2,100 · <a href="reports.html">View in P&amp;L</a></p>
-        </div>
+      <main class="content content--service-entry-form content--service-task-form" id="service-task-edit-root">
+        <p class="service-history-empty">Loading…</p>
       </main>
     </div>
   </div>
   <div id="bottom-nav-root"></div>
   <script src="js/icons.js"></script>
+  <script src="js/lucide-icons.js"></script>
   <script src="js/shell.js"></script>
   <script src="js/nav.js"></script>
+  <script src="js/service-tasks-data.js"></script>
+  <script src="js/service-task-edit.js"></script>
 </body>
 </html>

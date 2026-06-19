@@ -78,6 +78,13 @@
       var serviceToggle = serviceGroup.querySelector('.nav-group__toggle');
       if (serviceToggle) serviceToggle.setAttribute('aria-expanded', 'true');
     }
+
+    var fuelGroup = document.querySelector('.nav-group--fuel');
+    if (fuelGroup && currentPage === 'fuel') {
+      fuelGroup.classList.add('is-open');
+      var fuelToggle = fuelGroup.querySelector('.nav-group__toggle');
+      if (fuelToggle) fuelToggle.setAttribute('aria-expanded', 'true');
+    }
   }
 
   function initSidebar() {

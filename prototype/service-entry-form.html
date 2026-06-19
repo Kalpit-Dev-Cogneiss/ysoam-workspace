@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>New Service Entry — YSOAM</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/pages.css">
+</head>
+<body data-page="service" data-subpage="service-entry-form">
+  <div class="sidebar-backdrop" id="sidebar-backdrop"></div>
+  <div class="app-shell">
+    <div id="sidebar-root"></div>
+    <div class="main-area">
+      <div id="topbar-root"></div>
+      <main class="content content--service-entry-form">
+        <header class="vehicle-form-topbar expense-form-topbar">
+          <div class="vehicle-form-topbar__main">
+            <a class="vehicle-form-back" href="service-history"><span class="vehicle-form-back__icon" data-form-icon="arrowLeft" aria-hidden="true"></span> Service Entries</a>
+            <h1>New Service Entry</h1>
+          </div>
+          <div class="vehicle-form-topbar__actions">
+            <a class="btn btn-text btn-sm" href="service-history">Cancel</a>
+            <button type="submit" form="service-entry-form" class="btn btn-primary btn-sm" id="service-save-top" disabled>Save Service Entry</button>
+          </div>
+        </header>
+
+        <div class="expense-form-body">
+          <form class="expense-form-main" id="service-entry-form" novalidate>
+            <div class="vehicle-form-card expense-form-card">
+              <h2 class="vehicle-form-card__title">Details</h2>
+              <div class="form-grid form-grid--2">
+                <div class="form-field form-field--full">
+                  <label for="service-vehicle-trigger">Vehicle <span class="required">*</span></label>
+                  <div class="assign-picker" id="service-vehicle-picker">
+                    <input type="hidden" id="service-vehicle-id" name="vehicleId" value="">
+                    <button type="button" class="assign-picker__trigger" id="service-vehicle-trigger" aria-haspopup="listbox" aria-expanded="false" aria-controls="service-vehicle-menu">
+                      <span class="assign-picker__placeholder">Please select</span>
+                      <span class="assign-picker__chevron" data-lucide-icon="chevronDown" data-lucide-icon-size="14" aria-hidden="true"></span>
+                    </button>
+                    <div class="assign-picker__menu assign-picker__menu--searchable" id="service-vehicle-menu" role="listbox" hidden>
+                      <div class="assign-picker__menu-search">
+                        <input type="search" class="text-input" id="service-vehicle-search" placeholder="Search vehicles" aria-label="Search vehicles">
+                      </div>
+                      <div class="assign-picker__menu-list" id="service-vehicle-list"></div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-field form-field--full">
+                  <label for="service-priority">Repair Priority Class</label>
+                  <select id="service-priority" name="priority">
+                    <option value="">Please select</option>
+                  </select>
+                  <p class="form-hint">Repair Priority Class (VMRS Code Key 16) is a simple way to classify whether a service or repair was scheduled, non-scheduled, or an emergency.</p>
+                </div>
+
+                <div class="form-field form-field--full">
+                  <span class="service-form-label">Completion Date <span class="required">*</span></span>
+                  <div class="service-form-datetime-row">
+                    <div class="service-form-datetime-field">
+                      <span class="service-form-datetime-field__icon" data-lucide-icon="calendar" aria-hidden="true"></span>
+                      <input type="date" id="service-completion-date" name="completionDate" class="text-input" required>
+                    </div>
+                    <div class="service-form-datetime-field">
+                      <span class="service-form-datetime-field__icon" data-lucide-icon="clock" aria-hidden="true"></span>
+                      <input type="time" id="service-completion-time" name="completionTime" class="text-input" required>
+                    </div>
+                  </div>
+                  <label class="service-form-checkbox">
+                    <input type="checkbox" id="service-set-start-date" name="setStartDate">
+                    <span>Set Start Date</span>
+                  </label>
+                  <div class="service-form-start-fields" id="service-start-fields" hidden>
+                    <div class="service-form-datetime-row">
+                      <div class="service-form-datetime-field">
+                        <span class="service-form-datetime-field__icon" data-lucide-icon="calendar" aria-hidden="true"></span>
+                        <input type="date" id="service-start-date" name="startDate" class="text-input">
+                      </div>
+                      <div class="service-form-datetime-field">
+                        <span class="service-form-datetime-field__icon" data-lucide-icon="clock" aria-hidden="true"></span>
+                        <input type="time" id="service-start-time" name="startTime" class="text-input">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-field">
+                  <label for="service-reference">Reference</label>
+                  <input type="text" id="service-reference" name="reference" class="text-input">
+                </div>
+
+                <div class="form-field">
+                  <label for="service-vendor">Vendor</label>
+                  <select id="service-vendor" name="vendor">
+                    <option value="">Please select</option>
+                  </select>
+                </div>
+
+                <div class="form-field form-field--full">
+                  <label for="service-labels">Labels</label>
+                  <select id="service-labels" name="labels">
+                    <option value="">Please select</option>
+                    <option value="Warranty">Warranty</option>
+                    <option value="Fleet Maintenance">Fleet Maintenance</option>
+                    <option value="Expressway">Expressway</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div class="vehicle-form-card expense-form-card" id="service-issues-card">
+              <h2 class="vehicle-form-card__title">Issues</h2>
+              <div class="service-form-section-placeholder" id="service-issues-placeholder">Select a vehicle first.</div>
+              <div class="service-form-section-body" id="service-issues-body" hidden>
+                <p class="service-form-section-empty">No issues linked to this service entry.</p>
+                <button type="button" class="btn btn-outline btn-sm" disabled>Link Issue</button>
+              </div>
+            </div>
+
+            <div class="vehicle-form-card expense-form-card" id="service-line-items-card">
+              <h2 class="vehicle-form-card__title">Line Items</h2>
+              <div class="service-form-section-placeholder" id="service-line-items-placeholder">Select a vehicle first.</div>
+              <div class="service-form-section-body" id="service-line-items-body" hidden>
+                <div class="service-form-line-items" id="service-line-items-list"></div>
+                <button type="button" class="btn btn-outline btn-sm" id="service-add-line-item">+ Add Line Item</button>
+              </div>
+            </div>
+
+            <div class="expense-form-upload-grid">
+              <div class="vehicle-form-card expense-form-card">
+                <h2 class="vehicle-form-card__title">Photos</h2>
+                <label class="expense-form-dropzone" id="service-photos-dropzone">
+                  <input type="file" id="service-photos" name="photos" accept="image/*" multiple hidden>
+                  <span class="expense-form-dropzone__icon" aria-hidden="true">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+                  </span>
+                  <span class="expense-form-dropzone__text">Drag and drop files to upload or click to pick files</span>
+                </label>
+              </div>
+
+              <div class="vehicle-form-card expense-form-card">
+                <h2 class="vehicle-form-card__title">Documents</h2>
+                <label class="expense-form-dropzone" id="service-documents-dropzone">
+                  <input type="file" id="service-documents" name="documents" multiple hidden>
+                  <span class="expense-form-dropzone__icon" aria-hidden="true">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6z" stroke="currentColor" stroke-width="1.5"/><path d="M14 2v6h6M12 18v-6M9 15l3-3 3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  </span>
+                  <span class="expense-form-dropzone__text">Drag and drop files to upload or click to pick files</span>
+                </label>
+              </div>
+            </div>
+
+            <div class="vehicle-form-card expense-form-card">
+              <h2 class="vehicle-form-card__title">Comments</h2>
+              <div class="service-form-comments">
+                <span class="expense-watcher-avatar" aria-hidden="true">DM</span>
+                <textarea id="service-comments" name="comments" class="text-input service-form-comments__input" rows="4" placeholder="Add an optional comment"></textarea>
+              </div>
+            </div>
+          </form>
+        </div>
+
+        <footer class="vehicle-form-footer expense-form-footer">
+          <a class="btn btn-text btn-sm" href="service-history">Cancel</a>
+          <div class="vehicle-form-footer__right">
+            <button type="button" class="btn btn-outline btn-sm" id="service-save-another" disabled>Save &amp; Add Another</button>
+            <button type="submit" form="service-entry-form" class="btn btn-primary btn-sm" id="service-save-footer" disabled>Save Service Entry</button>
+          </div>
+        </footer>
+      </main>
+    </div>
+  </div>
+  <div id="bottom-nav-root"></div>
+
+  <script src="js/icons.js"></script>
+  <script src="js/lucide-icons.js"></script>
+  <script src="js/shell.js"></script>
+  <script src="js/nav.js"></script>
+  <script src="js/vehicles-data.js"></script>
+  <script src="js/fleet-data.js"></script>
+  <script src="js/service-history-data.js"></script>
+  <script src="js/service-entry-form.js"></script>
+</body>
+</html>

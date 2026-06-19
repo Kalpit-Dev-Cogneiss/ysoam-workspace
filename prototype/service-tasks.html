@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Service Tasks — YSOAM</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/pages.css">
+</head>
+<body data-page="service" data-subpage="service-tasks">
+  <div class="sidebar-backdrop" id="sidebar-backdrop"></div>
+  <div class="app-shell">
+    <div id="sidebar-root"></div>
+    <div class="main-area">
+      <div id="topbar-root"></div>
+      <main class="content content--service-tasks">
+        <div class="page-header page-header--compact service-tasks-header">
+          <div class="page-header__text">
+            <h1>Service Tasks</h1>
+          </div>
+          <div class="page-header__actions">
+            <button type="button" class="btn btn-outline btn-sm st-header-more" aria-label="More actions"><span data-lucide-icon="moreHorizontal"></span></button>
+            <button type="button" class="btn btn-primary btn-sm" id="st-add-btn">+ Add Service Task</button>
+          </div>
+        </div>
+
+        <div class="st-view-tabs" role="tablist" aria-label="Service task views">
+          <button type="button" class="st-view-tab is-active" data-tab="active" role="tab" aria-selected="true">Active</button>
+          <button type="button" class="st-view-tab" data-tab="archived" role="tab">Archived</button>
+        </div>
+
+        <div class="panel table-panel service-tasks-panel">
+          <div class="service-tasks-toolbar">
+            <div class="service-tasks-toolbar__left">
+              <div class="table-panel__search">
+                <span class="table-panel__search-icon" data-lucide-icon="search" aria-hidden="true"></span>
+                <input type="search" class="table-panel__search-input" id="st-search" placeholder="Search" aria-label="Search service tasks">
+              </div>
+              <button type="button" class="expense-filter-pill" data-filter="type" aria-expanded="false" aria-haspopup="dialog">Service Task Type</button>
+              <button type="button" class="expense-filter-pill" data-filter="category" aria-expanded="false" aria-haspopup="dialog">Default Category Code</button>
+              <button type="button" class="expense-filter-pill" data-filter="system" aria-expanded="false" aria-haspopup="dialog">Default System Code</button>
+              <button type="button" class="expense-filter-pill" data-filter="reminders" aria-expanded="false" aria-haspopup="dialog">Has Service Reminders</button>
+              <button type="button" class="expense-filters-btn" id="st-filters-btn" aria-expanded="false" aria-controls="st-filters-drawer">
+                <span class="expense-filters-btn__icon" data-lucide-icon="filter" aria-hidden="true"></span>
+                <span class="expense-filters-btn__label" id="st-filters-btn-label">Filters</span>
+              </button>
+            </div>
+            <div class="service-tasks-toolbar__right" id="st-pagination">
+              <span class="st-pagination__count tabular-nums" id="st-count">1 – 50 of 0</span>
+              <button type="button" class="st-page-btn" data-page-prev aria-label="Previous page"><span data-lucide-icon="chevronLeft"></span></button>
+              <button type="button" class="st-page-btn" data-page-next aria-label="Next page"><span data-lucide-icon="chevronRight"></span></button>
+              <button type="button" class="st-page-btn" id="st-table-settings-btn" aria-label="Table settings"><span data-lucide-icon="settings"></span></button>
+            </div>
+          </div>
+
+          <div class="service-tasks-body">
+            <div class="panel__body panel__body--flush service-tasks-table-wrap">
+              <div class="data-table-wrap data-table-wrap--scroll data-table-wrap--service-tasks" id="service-tasks-table"></div>
+            </div>
+            <aside class="expense-filters-drawer" id="st-filters-drawer" aria-label="Filters">
+              <div class="expense-filters-drawer__header">
+                <h2>Filters</h2>
+                <button type="button" class="expense-filters-drawer__close" id="st-filters-drawer-close" aria-label="Close filters"><span data-lucide-icon="x" data-lucide-icon-size="18"></span></button>
+              </div>
+              <div class="expense-filters-drawer__body" id="st-filters-drawer-body"></div>
+            </aside>
+          </div>
+
+          <div class="expense-filter-popover" id="st-filter-popover" hidden role="dialog" aria-modal="true"></div>
+          <div class="expense-table-settings" id="st-table-settings" hidden role="dialog" aria-label="Table settings"></div>
+        </div>
+      </main>
+    </div>
+  </div>
+  <div id="bottom-nav-root"></div>
+  <script src="js/icons.js"></script>
+  <script src="js/lucide-icons.js"></script>
+  <script src="js/shell.js"></script>
+  <script src="js/nav.js"></script>
+  <script src="js/vehicles-data.js"></script>
+  <script src="js/service-history-data.js"></script>
+  <script src="js/service-tasks-data.js"></script>
+  <script src="js/service-tasks.js"></script>
+</body>
+</html>

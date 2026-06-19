@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>New Custom Service Task — YSOAM</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/pages.css">
+</head>
+<body data-page="service" data-subpage="service-task-form">
+  <div class="sidebar-backdrop" id="sidebar-backdrop"></div>
+  <div class="app-shell">
+    <div id="sidebar-root"></div>
+    <div class="main-area">
+      <div id="topbar-root"></div>
+      <main class="content content--service-entry-form content--service-task-form">
+        <header class="vehicle-form-topbar expense-form-topbar">
+          <div class="vehicle-form-topbar__main">
+            <a class="vehicle-form-back" href="service-tasks"><span class="vehicle-form-back__icon" data-form-icon="arrowLeft" aria-hidden="true"></span> Service Tasks</a>
+            <h1 id="st-form-title">New Custom Service Task</h1>
+          </div>
+          <div class="vehicle-form-topbar__actions">
+            <a class="btn btn-text btn-sm" href="service-tasks">Cancel</a>
+            <button type="submit" form="service-task-form" class="btn btn-primary btn-sm" id="st-save-top" disabled>Save Service Task</button>
+          </div>
+        </header>
+
+        <div class="expense-form-body">
+          <div class="expense-form-main st-steps-wrap">
+            <form class="st-steps-form" id="service-task-form" novalidate>
+              <section class="st-step-card is-expanded" data-step="1">
+                <button type="button" class="st-step-card__header" data-step-toggle="1" aria-expanded="true">
+                  <span class="st-step-card__badge">1</span>
+                  <span class="st-step-card__title">Details</span>
+                </button>
+                <div class="st-step-card__body">
+                  <div class="form-field form-field--full">
+                    <label for="st-name">Name <span class="required">*</span></label>
+                    <input type="text" id="st-name" class="text-input" required>
+                    <p class="form-hint">A brief title for your unique task. See examples of Fleetio's comprehensive list of Standard Service Tasks that cover most common repairs and maintenance.</p>
+                  </div>
+                  <div class="form-field form-field--full">
+                    <label for="st-description">Description</label>
+                    <textarea id="st-description" class="text-input" rows="4"></textarea>
+                    <p class="form-hint">Additional details about the service/maintenance task.</p>
+                  </div>
+                  <div class="form-field form-field--full">
+                    <label for="st-subtasks-search">Subtasks</label>
+                    <div class="st-subtask-picker">
+                      <span class="st-subtask-picker__icon" data-lucide-icon="search" aria-hidden="true"></span>
+                      <input type="search" id="st-subtasks-search" class="text-input" placeholder="Select Service Tasks" aria-label="Select service tasks">
+                      <div class="st-subtask-picker__menu" id="st-subtasks-menu" hidden></div>
+                    </div>
+                    <div class="st-subtask-tags" id="st-subtask-tags"></div>
+                    <p class="form-hint">Only Service Tasks without Subtasks can be added.</p>
+                  </div>
+                  <div class="st-step-card__footer">
+                    <button type="button" class="btn btn-primary btn-sm" id="st-continue-1" disabled>Continue</button>
+                  </div>
+                </div>
+              </section>
+
+              <section class="st-step-card" data-step="2">
+                <button type="button" class="st-step-card__header" data-step-toggle="2" aria-expanded="false">
+                  <span class="st-step-card__badge">2</span>
+                  <span class="st-step-card__title">Fleetio Recommendations</span>
+                </button>
+                <div class="st-step-card__body" hidden>
+                  <div class="st-recommendation-empty" id="st-recommendation-box">
+                    <span class="st-recommendation-empty__icon" data-lucide-icon="lightbulb" data-lucide-icon-size="20" aria-hidden="true"></span>
+                    <p class="st-recommendation-empty__title" id="st-recommendation-title">No Service Task Recommendation</p>
+                    <p class="st-recommendation-empty__text">Standard service task recommendations help classify maintenance using VMRS codes. Enter a task name in Details to see suggestions.</p>
+                  </div>
+                  <div class="st-step-card__footer">
+                    <button type="button" class="btn btn-primary btn-sm" id="st-continue-2">Continue</button>
+                  </div>
+                </div>
+              </section>
+
+              <section class="st-step-card" data-step="3">
+                <button type="button" class="st-step-card__header" data-step-toggle="3" aria-expanded="false">
+                  <span class="st-step-card__badge">3</span>
+                  <span class="st-step-card__title">Maintenance Categorization</span>
+                </button>
+                <div class="st-step-card__body" hidden>
+                  <div class="form-field form-field--full">
+                    <label for="st-category">Category Code</label>
+                    <select id="st-category" class="text-input"></select>
+                    <p class="form-hint">Category Code: a one-digit number that identifies the category involved in the repair (chassis, for example).</p>
+                  </div>
+                  <div class="form-field form-field--full">
+                    <label for="st-system">System Code</label>
+                    <select id="st-system" class="text-input"></select>
+                    <p class="form-hint">Code Key 31: System Level Codes — a three-digit number that identifies the system involved in the repair (brakes, for example).</p>
+                  </div>
+                  <div class="form-field form-field--full">
+                    <label for="st-assembly">Assembly Code</label>
+                    <select id="st-assembly" class="text-input"></select>
+                    <p class="form-hint">Code Key 32: Assembly Level Codes — used to further define the system (front brakes, for example).</p>
+                  </div>
+                  <div class="form-field form-field--full">
+                    <label for="st-reason">Reason for Repair Code</label>
+                    <select id="st-reason" class="text-input"></select>
+                    <p class="form-hint">Code Key 14: Divided into the subcategories of maintenance, management decision and outside influence, Reason for Repair codes indicate why the asset has been sent to the shop (breakdown, for example).</p>
+                  </div>
+                </div>
+              </section>
+            </form>
+
+            <div class="st-form-help">
+              Need help getting started with Service Tasks? <a href="roadmap.html">Learn More <span data-lucide-icon="externalLink" data-lucide-icon-size="14" aria-hidden="true"></span></a>
+            </div>
+          </div>
+        </div>
+
+        <footer class="vehicle-form-footer expense-form-footer">
+          <a class="btn btn-text btn-sm" href="service-tasks">Cancel</a>
+          <div class="vehicle-form-footer__right">
+            <button type="button" class="btn btn-outline btn-sm" id="st-save-another" disabled>Save &amp; Add Another</button>
+            <button type="submit" form="service-task-form" class="btn btn-primary btn-sm" id="st-save-footer" disabled>Save Service Task</button>
+          </div>
+        </footer>
+      </main>
+    </div>
+  </div>
+  <div id="bottom-nav-root"></div>
+  <script src="js/icons.js"></script>
+  <script src="js/lucide-icons.js"></script>
+  <script src="js/shell.js"></script>
+  <script src="js/nav.js"></script>
+  <script src="js/vehicles-data.js"></script>
+  <script src="js/service-history-data.js"></script>
+  <script src="js/service-tasks-data.js"></script>
+  <script src="js/service-task-form.js"></script>
+</body>
+</html>

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Work Orders — YSOAM</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/pages.css">
+</head>
+<body data-page="service" data-subpage="work-orders">
+  <div class="sidebar-backdrop" id="sidebar-backdrop"></div>
+  <div class="app-shell">
+    <div id="sidebar-root"></div>
+    <div class="main-area">
+      <div id="topbar-root"></div>
+      <main class="content content--work-orders">
+        <div class="page-header page-header--compact work-orders-header">
+          <div class="page-header__text">
+            <h1>Work Orders <a class="service-learn-link" href="roadmap.html">Learn</a></h1>
+          </div>
+          <div class="page-header__actions">
+            <button type="button" class="btn btn-outline btn-sm wo-header-more" aria-label="More actions"><span data-wo-icon="moreHorizontal"></span></button>
+            <button type="button" class="btn btn-primary btn-sm" id="wo-add-btn">+ Add Work Order</button>
+          </div>
+        </div>
+
+        <div class="work-view-tabs" role="tablist" aria-label="Work order views">
+          <button type="button" class="work-view-tab is-active" data-tab="all" role="tab" aria-selected="true">All</button>
+          <button type="button" class="work-view-tab" data-tab="open" role="tab"><span class="work-view-tab__dot work-view-tab__dot--open"></span>Open</button>
+          <button type="button" class="work-view-tab" data-tab="pending" role="tab"><span class="work-view-tab__dot work-view-tab__dot--pending"></span>Pending</button>
+          <button type="button" class="work-view-tab" data-tab="completed" role="tab"><span class="work-view-tab__dot work-view-tab__dot--completed"></span>Completed</button>
+          <button type="button" class="work-view-tab work-view-tab--add">+ Add Tab</button>
+        </div>
+
+        <div class="panel table-panel work-orders-panel">
+          <div class="work-orders-toolbar">
+            <div class="work-orders-toolbar__left">
+              <div class="table-panel__search">
+                <span class="table-panel__search-icon" data-wo-icon="search" aria-hidden="true"></span>
+                <input type="search" class="table-panel__search-input" id="wo-search" placeholder="Search" aria-label="Search work orders">
+              </div>
+              <button type="button" class="expense-filter-pill" data-filter="status" aria-expanded="false" aria-haspopup="dialog">Status</button>
+              <button type="button" class="expense-filter-pill" data-filter="vehicle" aria-expanded="false" aria-haspopup="dialog">Vehicle</button>
+              <button type="button" class="expense-filter-pill" data-filter="group" aria-expanded="false" aria-haspopup="dialog">Vehicle Group</button>
+              <button type="button" class="expense-filter-pill" data-filter="task" aria-expanded="false" aria-haspopup="dialog">Service Tasks</button>
+              <button type="button" class="expense-filters-btn" id="wo-filters-btn" aria-expanded="false" aria-controls="wo-filters-drawer">
+                <span class="expense-filters-btn__icon" id="wo-filters-btn-icon" data-lucide-icon="filter" aria-hidden="true"></span>
+                <span class="expense-filters-btn__label" id="wo-filters-btn-label">Filters</span>
+              </button>
+            </div>
+            <div class="work-orders-toolbar__right" id="wo-pagination">
+              <span class="work-pagination__count tabular-nums" id="wo-count">1 – 50 of 0</span>
+              <button type="button" class="work-page-btn" data-page-prev aria-label="Previous page"><span data-wo-icon="chevronLeft"></span></button>
+              <button type="button" class="work-page-btn" data-page-next aria-label="Next page"><span data-wo-icon="chevronRight"></span></button>
+              <button type="button" class="work-page-btn" id="wo-table-settings-btn" aria-label="Table settings"><span data-wo-icon="settings"></span></button>
+              <button type="button" class="work-page-btn work-page-btn--view is-active" aria-label="List view"><span data-wo-icon="list"></span></button>
+              <button type="button" class="work-page-btn work-page-btn--view" aria-label="Calendar view"><span data-wo-icon="calendarDays"></span></button>
+              <button type="button" class="btn btn-outline btn-sm wo-save-view-btn" id="wo-save-view-btn">Save View <span data-wo-icon="chevronDown" data-wo-icon-size="14"></span></button>
+            </div>
+          </div>
+
+          <div class="work-orders-body">
+            <div class="panel__body panel__body--flush work-orders-table-wrap">
+              <div class="data-table-wrap data-table-wrap--scroll data-table-wrap--work-orders" id="work-orders-table"></div>
+            </div>
+            <aside class="expense-filters-drawer" id="wo-filters-drawer" aria-label="Filters">
+              <div class="expense-filters-drawer__header">
+                <h2>Filters</h2>
+                <button type="button" class="expense-filters-drawer__close" id="wo-filters-drawer-close" aria-label="Close filters">×</button>
+              </div>
+              <div class="expense-filters-drawer__body" id="wo-filters-drawer-body"></div>
+            </aside>
+          </div>
+
+          <div class="expense-filter-popover" id="wo-filter-popover" hidden role="dialog" aria-modal="true"></div>
+          <div class="expense-table-settings" id="wo-table-settings" hidden role="dialog" aria-label="Table settings"></div>
+          <div class="wo-save-view-popover" id="wo-save-view-popover" hidden role="dialog" aria-label="Save view">
+            <div class="wo-save-view-popover__title">YSOAM Standard View</div>
+            <button type="button" class="wo-save-view-popover__link">Save as New View</button>
+            <button type="button" class="wo-save-view-popover__link wo-save-view-popover__link--muted">Clear Unsaved Changes</button>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+  <div id="bottom-nav-root"></div>
+  <script src="js/icons.js"></script>
+  <script src="js/shell.js"></script>
+  <script src="js/nav.js"></script>
+  <script src="js/vehicles-data.js"></script>
+  <script src="js/fleet-data.js"></script>
+  <script src="js/service-history-data.js"></script>
+  <script src="js/lucide-icons.js"></script>
+  <script src="js/work-orders-data.js"></script>
+  <script src="js/work-orders.js"></script>
+</body>
+</html>

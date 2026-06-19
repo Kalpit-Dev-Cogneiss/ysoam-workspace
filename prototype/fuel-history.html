@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fuel History — YSOAM</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/pages.css">
+</head>
+<body data-page="fuel" data-subpage="fuel-history">
+  <div class="sidebar-backdrop" id="sidebar-backdrop"></div>
+  <div class="app-shell">
+    <div id="sidebar-root"></div>
+    <div class="main-area">
+      <div id="topbar-root"></div>
+      <main class="content content--fuel-history">
+        <div class="page-header page-header--compact fuel-history-header">
+          <div class="page-header__text">
+            <h1>Fuel History <a class="service-learn-link" href="roadmap.html">Learn</a></h1>
+          </div>
+          <div class="page-header__actions">
+            <button type="button" class="btn btn-outline btn-sm fh-header-more" aria-label="More actions"><span data-lucide-icon="moreHorizontal"></span></button>
+            <button type="button" class="btn btn-primary btn-sm" id="fh-add-btn">+ Add Fuel Entry</button>
+          </div>
+        </div>
+
+        <div class="panel table-panel fuel-history-panel">
+          <div class="fuel-history-toolbar">
+            <div class="fuel-history-toolbar__left">
+              <div class="table-panel__search">
+                <span class="table-panel__search-icon" data-lucide-icon="search" aria-hidden="true"></span>
+                <input type="search" class="table-panel__search-input" id="fh-search" placeholder="Search" aria-label="Search fuel history">
+              </div>
+              <button type="button" class="expense-filter-pill" data-filter="date" aria-expanded="false" aria-haspopup="dialog">Date</button>
+              <button type="button" class="expense-filter-pill" data-filter="vehicle" aria-expanded="false" aria-haspopup="dialog">Vehicle</button>
+              <button type="button" class="expense-filter-pill" data-filter="group" aria-expanded="false" aria-haspopup="dialog">Vehicle Group</button>
+              <button type="button" class="expense-filter-pill" data-filter="vendor" aria-expanded="false" aria-haspopup="dialog">Vendor</button>
+              <button type="button" class="expense-filters-btn" id="fh-filters-btn" aria-expanded="false" aria-controls="fh-filters-drawer">
+                <span class="expense-filters-btn__icon" data-lucide-icon="filter" aria-hidden="true"></span>
+                <span class="expense-filters-btn__label" id="fh-filters-btn-label">Filters</span>
+              </button>
+            </div>
+            <div class="fuel-history-toolbar__right" id="fh-pagination">
+              <span class="fh-pagination__count tabular-nums" id="fh-count">1 – 50 of 0</span>
+              <button type="button" class="fh-page-btn" data-page-prev aria-label="Previous page"><span data-lucide-icon="chevronLeft"></span></button>
+              <button type="button" class="fh-page-btn" data-page-next aria-label="Next page"><span data-lucide-icon="chevronRight"></span></button>
+              <button type="button" class="fh-group-btn" id="fh-group-btn">Group: None <span data-lucide-icon="chevronDown" data-lucide-icon-size="14"></span></button>
+              <button type="button" class="fh-page-btn" id="fh-table-settings-btn" aria-label="Table settings"><span data-lucide-icon="settings"></span></button>
+            </div>
+          </div>
+
+          <div class="fuel-history-stats" id="fh-stats"></div>
+
+          <div class="fuel-history-body">
+            <div class="panel__body panel__body--flush fuel-history-table-wrap">
+              <div class="data-table-wrap data-table-wrap--scroll data-table-wrap--fuel-history" id="fuel-history-table"></div>
+            </div>
+            <aside class="expense-filters-drawer" id="fh-filters-drawer" aria-label="Filters">
+              <div class="expense-filters-drawer__header">
+                <h2>Filters</h2>
+                <button type="button" class="expense-filters-drawer__close" id="fh-filters-drawer-close" aria-label="Close filters"><span data-lucide-icon="x" data-lucide-icon-size="18"></span></button>
+              </div>
+              <div class="expense-filters-drawer__body" id="fh-filters-drawer-body"></div>
+            </aside>
+          </div>
+
+          <div class="expense-filter-popover" id="fh-filter-popover" hidden role="dialog" aria-modal="true"></div>
+          <div class="expense-table-settings" id="fh-table-settings" hidden role="dialog" aria-label="Table settings"></div>
+        </div>
+      </main>
+    </div>
+  </div>
+  <div id="bottom-nav-root"></div>
+  <script src="js/icons.js"></script>
+  <script src="js/lucide-icons.js"></script>
+  <script src="js/shell.js"></script>
+  <script src="js/nav.js"></script>
+  <script src="js/vehicles-data.js"></script>
+  <script src="js/fleet-data.js"></script>
+  <script src="js/fuel-history-data.js"></script>
+  <script src="js/fuel-history.js"></script>
+</body>
+</html>

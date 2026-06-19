@@ -80,15 +80,24 @@
           navGroup(
             'Service',
             navChildLink('service-history', 'service-history.html', 'Service History') +
-            navChildLink('work-orders', 'maintenance.html', 'Work Orders') +
-            navChildLink('service-tasks', 'maintenance.html', 'Service Tasks') +
+            navChildLink('work-orders', 'work-orders.html', 'Work Orders') +
+            navChildLink('service-tasks', 'service-tasks.html', 'Service Tasks') +
             navChildLink('service-programs', 'maintenance.html', 'Service Programs'),
             false,
             'maintenance',
             'nav-group--submenu nav-group--service'
           ) +
           navLink('drivers', 'drivers.html', 'Drivers', 'drivers') +
-          navLink('fuel', 'fuel.html', 'Fuel', 'fuel') +
+          navGroup(
+            'Fuel & Energy',
+            '<a class="nav-link nav-link--child" href="fuel-history.html" data-page="fuel" data-subpage="fuel-history">' +
+              '<span class="nav-link__label">Fuel History</span></a>' +
+            '<a class="nav-link nav-link--child" href="fuel.html" data-page="fuel" data-subpage="fuel-overview">' +
+              '<span class="nav-link__label">Fuel Overview</span></a>',
+            false,
+            'fuel',
+            'nav-group--submenu nav-group--fuel'
+          ) +
           navLink('tyres', 'tyres.html', 'Tyres', 'tyres') +
           navLink('battery', 'battery.html', 'Battery', 'battery') +
           navLink('trips', 'trips.html', 'Trips', 'trips') +
