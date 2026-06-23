@@ -29,7 +29,6 @@
   };
 
   window.YSOAM_EDITION_LOGOUT = function () {
-    if (window.YSOAM_AUTH && window.YSOAM_AUTH.logout) window.YSOAM_AUTH.logout();
     return 'login?signedOut=1&edition=' + window.YSOAM_EDITION;
   };
 })();

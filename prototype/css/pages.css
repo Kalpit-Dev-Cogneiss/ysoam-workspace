@@ -13108,6 +13108,43 @@
   }
 }
 
+.content--user-view .cd-avatar--user {
+  color: #fff;
+  border: 2px solid var(--color-paper);
+  box-shadow: 0 0 0 1px var(--color-hairline);
+}
+
+.content--user-view .uv-hero-type,
+.content--user-view .uv-type-cell {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.content--user-view .uv-type-icon {
+  display: inline-flex;
+  color: var(--color-primary);
+}
+
+.cd-section--user-access-active .uv-user-access-grid {
+  padding: 4px 0 8px;
+}
+
+.cd-section--user-access-active .uv-user-access-grid .vd-field-row {
+  padding: 12px 16px;
+}
+
+.content--user-view .um-status-cell {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.content--user-view .lucide-icon,
+.content--user-view [data-lucide-icon] svg {
+  display: block;
+}
+
 /* ── User Management ──────────────────────────────────────── */
 .content--user-management {
   display: flex;

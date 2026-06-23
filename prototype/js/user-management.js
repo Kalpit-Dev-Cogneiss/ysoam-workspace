@@ -96,7 +96,7 @@
         var rowId = btn.closest('[data-row-actions]').getAttribute('data-row-actions');
         var row = data.getById ? data.getById(rowId) : null;
         closeAllRowMenus();
-        window.alert('View user: ' + (row ? row.name : rowId) + ' (prototype demo).');
+        window.location.href = 'user-view?id=' + encodeURIComponent(rowId);
       });
     });
 
@@ -178,7 +178,7 @@
     var color = data.avatarColor(index);
     return '<div class="um-name-cell">' +
       '<span class="um-avatar" style="background:' + escA(color) + '" aria-hidden="true">' + esc(data.initials(row.name)) + '</span>' +
-      '<a href="roadmap.html" class="table-cell-link">' + esc(row.name) + '</a>' +
+      '<a href="user-view?id=' + escA(row.id) + '" class="table-cell-link">' + esc(row.name) + '</a>' +
     '</div>';
   }
 

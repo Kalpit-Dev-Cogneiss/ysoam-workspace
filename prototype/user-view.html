@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="js/auth.js"></script>
+  <title>Contact — YSOAM</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/pages.css">
+</head>
+<body data-page="settings" data-subpage="user-view">
+  <div class="sidebar-backdrop" id="sidebar-backdrop"></div>
+  <div class="app-shell">
+    <div id="sidebar-root"></div>
+    <div class="main-area">
+      <div id="topbar-root"></div>
+      <main class="content content--vehicle-detail content--user-view">
+        <a class="vd-back" href="user-management" id="uv-back"><span data-form-icon="arrowLeft"></span> Contacts</a>
+        <div class="vd-sheet">
+          <header class="vd-hero" id="uv-hero"></header>
+          <nav class="vd-tabs" id="uv-tabs" role="tablist" aria-label="Contact sections"></nav>
+          <div class="vd-body cd-body" id="uv-body">
+            <div id="uv-panel" role="tabpanel"></div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+  <div id="bottom-nav-root"></div>
+
+  <script src="js/icons.js"></script>
+  <script src="js/lucide-icons.js"></script>
+  <script src="js/shell.js"></script>
+  <script src="js/nav.js"></script>
+  <script src="js/user-management-data.js"></script>
+  <script src="js/user-view.js"></script>
+</body>
+</html>

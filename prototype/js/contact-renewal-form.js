@@ -2,11 +2,17 @@
   'use strict';
 
   var drivers = window.YSOAM_DRIVERS;
+  var users = window.YSOAM_USER_MANAGEMENT;
   var icons = window.YSOAM_ICONS;
   var contactId = null;
+  var fromUserManagement = false;
 
   function getQueryId() {
     return new URLSearchParams(window.location.search).get('id') || '';
+  }
+
+  function isFromUserManagement() {
+    return new URLSearchParams(window.location.search).get('from') === 'user-management';
   }
 
   function initials(name) {
@@ -21,11 +27,34 @@
   }
 
   function detailRenewalsUrl() {
+    if (fromUserManagement && contactId) {
+      return 'user-view?id=' + encodeURIComponent(contactId) + '#renewals';
+    }
     return contactId ? 'contact-detail?id=' + encodeURIComponent(contactId) + '#renewals' : 'drivers';
   }
 
+  function backLabel() {
+    return fromUserManagement ? 'Contact Renewal Reminders' : 'Contact Renewal Reminders';
+  }
+
+  function getContactRecord() {
+    if (fromUserManagement && users && users.getDetail) {
+      return users.getDetail(contactId);
+    }
+    if (drivers && drivers.getById) {
+      return drivers.getById(contactId);
+    }
+    return null;
+  }
+
   function bindNavigation() {
-    ['renewal-form-back', 'renewal-form-cancel-top', 'renewal-form-cancel-footer'].forEach(function (id) {
+    var back = document.getElementById('renewal-form-back');
+    if (back) {
+      back.href = detailRenewalsUrl();
+      var label = back.querySelector('.renewal-form-back-label');
+      if (label) label.textContent = backLabel();
+    }
+    ['renewal-form-cancel-top', 'renewal-form-cancel-footer'].forEach(function (id) {
       var el = document.getElementById(id);
       if (el) el.href = detailRenewalsUrl();
     });
@@ -35,6 +64,7 @@
     var trigger = document.getElementById('renewal-contact-trigger');
     var hidden = document.getElementById('renewal-contact-id');
     var avatar = document.getElementById('renewal-comment-avatar');
+    var watcherTag = document.getElementById('renewal-watcher-tag');
     if (trigger) {
       trigger.innerHTML =
         '<span class="assign-picker__avatar">' + initials(d.name) + '</span>' +
@@ -42,10 +72,14 @@
     }
     if (hidden) hidden.value = d.id;
     if (avatar) avatar.textContent = initials(d.name);
+    if (watcherTag) {
+      var nameNode = watcherTag.querySelector('.renewal-watcher-tag__name');
+      if (nameNode) nameNode.textContent = d.name;
+    }
     document.title = 'New Contact Renewal Reminder — ' + d.name + ' — YSOAM';
   }
 
-  function bindSave(addAnother) {
+  function bindSave() {
     var form = document.getElementById('renewal-form');
     if (!form) return;
     form.addEventListener('submit', function (e) {
@@ -54,7 +88,7 @@
         form.reportValidity();
         return;
       }
-      window.location.href = addAnother ? 'contact-renewal-form?id=' + encodeURIComponent(contactId) : detailRenewalsUrl();
+      window.location.href = detailRenewalsUrl();
     });
   }
 
@@ -72,15 +106,21 @@
     if (document.body.getAttribute('data-subpage') !== 'contact-renewal-form') return;
 
     contactId = getQueryId();
-    if (!contactId || !drivers || !drivers.getById) {
-      window.location.href = 'drivers';
+    fromUserManagement = isFromUserManagement();
+
+    if (!contactId) {
+      window.location.href = fromUserManagement ? 'user-management' : 'drivers';
       return;
     }
 
-    var d = drivers.getById(contactId);
+    var d = getContactRecord();
     if (!d) {
-      window.location.href = 'drivers';
+      window.location.href = fromUserManagement ? 'user-management' : 'drivers';
       return;
+    }
+
+    if (fromUserManagement) {
+      document.body.setAttribute('data-page', 'settings');
     }
 
     fillContact(d);
@@ -89,7 +129,7 @@
     var dueDate = document.getElementById('renewal-due-date');
     if (dueDate) dueDate.value = todayIso();
 
-    bindSave(false);
+    bindSave();
     var anotherBtn = document.getElementById('renewal-save-another');
     if (anotherBtn) {
       anotherBtn.addEventListener('click', function () {
@@ -98,7 +138,9 @@
           if (form) form.reportValidity();
           return;
         }
-        window.location.href = 'contact-renewal-form?id=' + encodeURIComponent(contactId);
+        var url = 'contact-renewal-form?id=' + encodeURIComponent(contactId);
+        if (fromUserManagement) url += '&from=user-management';
+        window.location.href = url;
       });
     }
 
