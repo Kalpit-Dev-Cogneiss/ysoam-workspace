@@ -6,9 +6,37 @@
   var contactId = null;
   var isEdit = false;
 
-  function getQueryId() {
+  function getQueryParam(key) {
     var params = new URLSearchParams(window.location.search);
-    return params.get('id') || '';
+    return params.get(key) || '';
+  }
+
+  function getQueryId() {
+    return getQueryParam('id');
+  }
+
+  function isFromUserManagement() {
+    return getQueryParam('from') === 'user-management';
+  }
+
+  function listUrl() {
+    return isFromUserManagement() ? 'user-management' : 'drivers';
+  }
+
+  function listLabel() {
+    return isFromUserManagement() ? 'Contacts' : 'Drivers';
+  }
+
+  function emptyRecord() {
+    if (drivers && drivers.getEmptyFormRecord) return drivers.getEmptyFormRecord();
+    return {
+      firstName: '', middleName: '', lastName: '', email: '', groupPath: '',
+      operator: false, employee: false, technician: false, userAccess: 'none',
+      phoneMobile: '', phoneHome: '', phoneWork: '', phoneOther: '',
+      address: '', addressLine2: '', city: '', state: '', zip: '', country: 'India',
+      jobTitle: '', dob: '', employeeNumber: '', hourlyRate: '',
+      startDate: '', leaveDate: '', license: '', licenseClass: '', licenseState: '', samlId: ''
+    };
   }
 
   function initials(first, last) {
@@ -63,11 +91,106 @@
     setVal('contact-license-state', record.licenseState);
     setVal('contact-saml-id', record.samlId);
 
+    var loginMethod = record.loginMethod || 'email';
+    var loginEl = document.querySelector('input[name="loginMethod"][value="' + loginMethod + '"]');
+    if (loginEl) loginEl.checked = true;
+
+    setChecked('contact-delay-invite', record.delayInvite);
+    setVal('contact-invite-message', record.inviteMessage);
+    setVal('contact-username', record.username);
+    setVal('contact-password', record.password);
+
+    var userType = record.userType || 'regular';
+    var typeEl = document.querySelector('input[name="userType"][value="' + userType + '"]');
+    if (typeEl) typeEl.checked = true;
+
+    setVal('contact-role', record.role || 'fleet-manager');
+    setVal('contact-rs-vehicles', record.recordSetVehicles || 'full');
+    setVal('contact-rs-contacts', record.recordSetContacts || 'full');
+    setVal('contact-rs-work', record.recordSetWork || 'full');
+    setVal('contact-rs-inspections', record.recordSetInspections || 'full');
+
     updateAvatar();
+    syncAccessPanels();
+  }
+
+  function isAccessEnabled() {
+    var el = document.querySelector('input[name="userAccess"]:checked');
+    return el && el.value === 'enabled';
+  }
+
+  function isRegularUser() {
+    var el = document.querySelector('input[name="userType"]:checked');
+    return el && el.value === 'regular';
+  }
+
+  function isEmailLogin() {
+    var el = document.querySelector('input[name="loginMethod"]:checked');
+    return el && el.value === 'email';
+  }
+
+  function syncAccessPanels() {
+    var panel = document.getElementById('contact-access-panel');
+    if (panel) panel.hidden = !isAccessEnabled();
+
+    var emailPanel = document.getElementById('contact-login-email-panel');
+    var credPanel = document.getElementById('contact-login-credentials-panel');
+    if (emailPanel) emailPanel.hidden = !isAccessEnabled() || !isEmailLogin();
+    if (credPanel) credPanel.hidden = !isAccessEnabled() || isEmailLogin();
+
+    var regularPanel = document.getElementById('contact-permissions-regular');
+    if (regularPanel) regularPanel.hidden = !isAccessEnabled() || !isRegularUser();
+
+    syncAccessRequiredFields();
+  }
+
+  function syncAccessRequiredFields() {
+    var enabled = isAccessEnabled();
+    var regular = isRegularUser();
+    var role = document.getElementById('contact-role');
+    var username = document.getElementById('contact-username');
+    var password = document.getElementById('contact-password');
+
+    if (role) {
+      if (enabled && regular) role.setAttribute('required', '');
+      else role.removeAttribute('required');
+    }
+
+    if (username) {
+      if (enabled && !isEmailLogin()) username.setAttribute('required', '');
+      else username.removeAttribute('required');
+    }
+
+    if (password) {
+      if (enabled && !isEmailLogin()) password.setAttribute('required', '');
+      else password.removeAttribute('required');
+    }
+  }
+
+  function bindUserAccess() {
+    document.querySelectorAll('input[name="userAccess"]').forEach(function (el) {
+      el.addEventListener('change', syncAccessPanels);
+      el.addEventListener('click', syncAccessPanels);
+    });
+    document.querySelectorAll('input[name="loginMethod"]').forEach(function (el) {
+      el.addEventListener('change', syncAccessPanels);
+    });
+    document.querySelectorAll('input[name="userType"]').forEach(function (el) {
+      el.addEventListener('change', syncAccessPanels);
+    });
+
+    var copyBtn = document.getElementById('contact-copy-permissions');
+    if (copyBtn) {
+      copyBtn.addEventListener('click', function () {
+        window.alert('Copy from Existing Contact is not available in this prototype.');
+      });
+    }
+
+    syncAccessPanels();
   }
 
   function resetFormForAnother() {
-    var record = drivers.getEmptyFormRecord ? drivers.getEmptyFormRecord() : {};
+    var record = emptyRecord();
     var form = document.getElementById('contact-form');
     if (form) form.reset();
     fillForm(record);
@@ -91,37 +214,44 @@
   }
 
   function detailUrl() {
-    return contactId ? 'contact-detail?id=' + encodeURIComponent(contactId) : 'drivers';
+    return contactId ? 'contact-detail?id=' + encodeURIComponent(contactId) : listUrl();
+  }
+
+  function configureListContext() {
+    var backLink = document.getElementById('contact-form-back');
+    var backLabel = document.getElementById('contact-form-back-label');
+    var url = listUrl();
+    var label = listLabel();
+
+    if (backLink && !isEdit) backLink.href = url;
+    if (backLabel && !isEdit) backLabel.textContent = label;
+
+    if (isFromUserManagement()) {
+      document.body.setAttribute('data-page', 'settings');
+      document.body.setAttribute('data-subpage', 'contact-form');
+    }
   }
 
   function configureMode() {
     var titleEl = document.getElementById('contact-form-title');
     var backLink = document.getElementById('contact-form-back');
-    var crumb = document.getElementById('contact-form-crumb');
-    var crumbName = document.getElementById('contact-form-crumb-name');
-    var addMultiple = document.getElementById('contact-form-add-multiple');
     var saveAnother = document.getElementById('contact-form-save-another');
 
     if (isEdit) {
       document.title = 'Edit Contact — YSOAM';
       if (titleEl) titleEl.textContent = 'Edit Contact';
-      if (backLink) backLink.hidden = true;
-      if (crumb) crumb.hidden = false;
-      if (addMultiple) addMultiple.hidden = true;
+      if (backLink) backLink.hidden = false;
       if (saveAnother) saveAnother.hidden = true;
-      if (crumbName && contactId) crumbName.href = detailUrl();
     } else {
       document.title = 'New Contact — YSOAM';
       if (titleEl) titleEl.textContent = 'New Contact';
-      if (backLink) backLink.hidden = false;
-      if (crumb) crumb.hidden = true;
-      if (addMultiple) addMultiple.hidden = false;
+      if (backLink) backLink.hidden = true;
       if (saveAnother) saveAnother.hidden = false;
     }
   }
 
   function bindNavigation() {
-    var cancelHref = isEdit ? detailUrl() : 'drivers';
+    var cancelHref = isEdit ? detailUrl() : listUrl();
     ['contact-form-cancel-top', 'contact-form-cancel-footer'].forEach(function (id) {
       var link = document.getElementById(id);
       if (link) link.href = cancelHref;
@@ -138,7 +268,7 @@
         form.reportValidity();
         return;
       }
-      window.location.href = isEdit ? detailUrl() : 'drivers';
+      window.location.href = isEdit ? detailUrl() : listUrl();
     });
 
     var anotherBtn = document.getElementById('contact-form-save-another');
@@ -150,13 +280,6 @@
           return;
         }
         resetFormForAnother();
-      });
-    }
-
-    var addMultiple = document.getElementById('contact-form-add-multiple');
-    if (addMultiple) {
-      addMultiple.addEventListener('click', function () {
-        window.alert('Bulk contact import is not available in this prototype.');
       });
     }
   }
@@ -188,29 +311,53 @@
     }
   }
 
+  function initIcons() {
+    if (!icons) return;
+    document.querySelectorAll('[data-form-icon]').forEach(function (el) {
+      var key = el.getAttribute('data-form-icon');
+      if (icons[key]) el.innerHTML = icons[key];
+    });
+  }
+
   function init() {
     if (document.body.getAttribute('data-subpage') !== 'contact-form') return;
-    if (!drivers) {
-      window.location.href = 'drivers';
-      return;
-    }
 
     contactId = getQueryId();
     isEdit = !!contactId;
 
+    configureListContext();
+
+    if (!drivers && !isEdit) {
+      fillForm(emptyRecord());
+      configureMode();
+      bindNavigation();
+      bindSave();
+      bindAvatarPreview();
+      bindUserAccess();
+      initIcons();
+      return;
+    }
+
+    if (!drivers) {
+      window.location.href = listUrl();
+      return;
+    }
+
     var record = isEdit
       ? (drivers.getFormRecord ? drivers.getFormRecord(contactId) : null)
-      : (drivers.getEmptyFormRecord ? drivers.getEmptyFormRecord() : {});
+      : emptyRecord();
 
     if (isEdit && !record) {
-      window.location.href = 'drivers';
+      window.location.href = listUrl();
       return;
     }
 
     if (isEdit) {
       document.title = 'Edit Contact — ' + record.displayName + ' — YSOAM';
-      var crumbName = document.getElementById('contact-form-crumb-name');
-      if (crumbName) crumbName.textContent = record.displayName;
+      var backLink = document.getElementById('contact-form-back');
+      var backLabel = document.getElementById('contact-form-back-label');
+      if (backLink) backLink.href = detailUrl();
+      if (backLabel) backLabel.textContent = record.displayName;
     }
 
     configureMode();
@@ -218,13 +365,8 @@
     bindNavigation();
     bindSave();
     bindAvatarPreview();
-
-    if (icons) {
-      document.querySelectorAll('[data-form-icon]').forEach(function (el) {
-        var key = el.getAttribute('data-form-icon');
-        if (icons[key]) el.innerHTML = icons[key];
-      });
-    }
+    bindUserAccess();
+    initIcons();
   }
 
   if (document.readyState === 'loading') {

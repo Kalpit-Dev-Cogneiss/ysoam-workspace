@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="js/auth.js"></script>
+  <title>New Part — YSOAM</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/pages.css">
+</head>
+<body data-page="inventory" data-subpage="part-form">
+  <div class="sidebar-backdrop" id="sidebar-backdrop"></div>
+  <div class="app-shell">
+    <div id="sidebar-root"></div>
+    <div class="main-area">
+      <div id="topbar-root"></div>
+      <main class="content content--service-entry-form content--part-form">
+        <header class="vehicle-form-topbar expense-form-topbar">
+          <div class="vehicle-form-topbar__main">
+            <a class="vehicle-form-back" href="parts"><span class="vehicle-form-back__icon" data-form-icon="arrowLeft" aria-hidden="true"></span> Parts</a>
+            <h1 id="part-form-title">New Part</h1>
+          </div>
+          <div class="vehicle-form-topbar__actions">
+            <a class="btn btn-text btn-sm" href="parts" id="part-form-cancel-top">Cancel</a>
+            <button type="submit" form="part-form" class="btn btn-primary btn-sm" id="part-form-save-top" disabled>Save Part</button>
+          </div>
+        </header>
+
+        <div class="expense-form-body">
+          <form class="expense-form-main" id="part-form" novalidate>
+            <div class="vehicle-form-card expense-form-card">
+              <h2 class="vehicle-form-card__title">Details</h2>
+              <div class="form-grid form-grid--2">
+                <div class="form-field form-field--full">
+                  <label for="part-number">Part Number <span class="required">*</span></label>
+                  <input type="text" id="part-number" name="partNumber" class="text-input" required>
+                  <p class="form-field__hint">Internal part identifier. Must be unique per part.</p>
+                </div>
+
+                <div class="form-field form-field--full">
+                  <label for="part-description">Description</label>
+                  <textarea id="part-description" name="description" class="text-input part-form-textarea" rows="4"></textarea>
+                </div>
+              </div>
+
+              <div class="expense-form-upload-grid part-form-upload-grid">
+                <div class="part-form-upload-card">
+                  <h3 class="part-form-upload-card__title">Photos</h3>
+                  <label class="expense-form-dropzone" id="part-photos-dropzone">
+                    <input type="file" id="part-photos" name="photos" accept="image/*" multiple hidden>
+                    <span class="expense-form-dropzone__icon" aria-hidden="true">
+                      <svg width="28" height="28" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+                    </span>
+                    <span class="expense-form-dropzone__text">Drag and drop files to upload or click to pick files</span>
+                  </label>
+                </div>
+
+                <div class="part-form-upload-card">
+                  <h3 class="part-form-upload-card__title">Documents</h3>
+                  <label class="expense-form-dropzone" id="part-documents-dropzone">
+                    <input type="file" id="part-documents" name="documents" multiple hidden>
+                    <span class="expense-form-dropzone__icon" aria-hidden="true">
+                      <svg width="28" height="28" viewBox="0 0 24 24" fill="none"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6z" stroke="currentColor" stroke-width="1.5"/><path d="M14 2v6h6M12 18v-6M9 15l3-3 3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </span>
+                    <span class="expense-form-dropzone__text">Drag and drop files to upload or click to pick files</span>
+                  </label>
+                </div>
+              </div>
+
+              <div class="form-grid form-grid--2">
+                <div class="form-field form-field--full">
+                  <label for="part-category">Category</label>
+                  <select id="part-category" name="category">
+                    <option value="">Please select</option>
+                  </select>
+                </div>
+
+                <div class="form-field form-field--full">
+                  <label for="part-manufacturer">Manufacturer</label>
+                  <select id="part-manufacturer" name="manufacturer">
+                    <option value="">Please select</option>
+                  </select>
+                </div>
+
+                <div class="form-field">
+                  <label for="part-mfr-number">Manufacturer Part #</label>
+                  <input type="text" id="part-mfr-number" name="mfrPartNumber" class="text-input">
+                  <p class="form-field__hint">Manufacturer specific part number that can differentiate the part from an internal part number.</p>
+                </div>
+
+                <div class="form-field">
+                  <label for="part-upc">UPC</label>
+                  <input type="text" id="part-upc" name="upc" class="text-input">
+                </div>
+
+                <div class="form-field">
+                  <label for="part-unit-cost">Unit Cost</label>
+                  <div class="part-form-currency">
+                    <span class="part-form-currency__symbol" aria-hidden="true">₹</span>
+                    <input type="number" id="part-unit-cost" name="unitCost" class="text-input" min="0" step="0.01" placeholder="0.00">
+                    <span class="part-form-currency__info" data-lucide-icon="info" data-lucide-icon-size="14" title="Unit cost per measurement unit"></span>
+                  </div>
+                </div>
+
+                <div class="form-field">
+                  <label for="part-unit">Measurement Unit</label>
+                  <select id="part-unit" name="unit">
+                    <option value="">Please select</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div class="vehicle-form-card expense-form-card">
+              <h2 class="vehicle-form-card__title">Locations</h2>
+              <p class="part-form-locations-note">You do not have access to any Part Locations</p>
+              <div class="form-field form-field--full">
+                <label for="part-location">Location</label>
+                <select id="part-location" name="location" disabled>
+                  <option value="">Please select</option>
+                </select>
+              </div>
+            </div>
+          </form>
+        </div>
+
+        <footer class="vehicle-form-footer expense-form-footer part-form-footer">
+          <div class="part-form-footer__inner">
+            <a class="btn btn-text btn-sm part-form-footer__cancel" href="parts">Cancel</a>
+            <div class="part-form-footer__actions">
+              <button type="button" class="btn btn-outline btn-sm" id="part-form-save-another" disabled>Save &amp; Add Another</button>
+              <button type="submit" form="part-form" class="btn btn-primary btn-sm" id="part-form-save-bottom" disabled>Save Part</button>
+            </div>
+          </div>
+        </footer>
+      </main>
+    </div>
+  </div>
+  <div id="bottom-nav-root"></div>
+
+  <script src="js/icons.js"></script>
+  <script src="js/lucide-icons.js"></script>
+  <script src="js/shell.js"></script>
+  <script src="js/nav.js"></script>
+  <script src="js/parts-data.js"></script>
+  <script src="js/part-form.js"></script>
+</body>
+</html>

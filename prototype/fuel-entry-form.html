@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="js/auth.js"></script>
+  <title>New Fuel Entry — YSOAM</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/pages.css">
+</head>
+<body data-page="fuel" data-subpage="fuel-entry-form">
+  <div class="sidebar-backdrop" id="sidebar-backdrop"></div>
+  <div class="app-shell">
+    <div id="sidebar-root"></div>
+    <div class="main-area">
+      <div id="topbar-root"></div>
+      <main class="content content--service-entry-form content--fuel-entry-form">
+        <header class="vehicle-form-topbar expense-form-topbar">
+          <div class="vehicle-form-topbar__main">
+            <a class="vehicle-form-back" href="fuel-history"><span class="vehicle-form-back__icon" data-form-icon="arrowLeft" aria-hidden="true"></span> Fuel History</a>
+            <h1>New Fuel Entry</h1>
+          </div>
+          <div class="vehicle-form-topbar__actions">
+            <a class="btn btn-text btn-sm" href="fuel-history">Cancel</a>
+            <button type="submit" form="fuel-entry-form" class="btn btn-primary btn-sm" id="fuel-save-top" disabled>Save Fuel Entry</button>
+          </div>
+        </header>
+
+        <div class="expense-form-body">
+          <form class="expense-form-main" id="fuel-entry-form" novalidate>
+            <div class="vehicle-form-card expense-form-card">
+              <h2 class="vehicle-form-card__title">Details</h2>
+              <div class="form-grid form-grid--2">
+                <div class="form-field form-field--full">
+                  <label for="fuel-vehicle-trigger">Vehicle <span class="required">*</span></label>
+                  <div class="assign-picker" id="fuel-vehicle-picker">
+                    <input type="hidden" id="fuel-vehicle-id" name="vehicleId" value="">
+                    <button type="button" class="assign-picker__trigger" id="fuel-vehicle-trigger" aria-haspopup="listbox" aria-expanded="false" aria-controls="fuel-vehicle-menu">
+                      <span class="assign-picker__placeholder">Please select</span>
+                      <span class="assign-picker__chevron" data-lucide-icon="chevronDown" data-lucide-icon-size="14" aria-hidden="true"></span>
+                    </button>
+                    <div class="assign-picker__menu assign-picker__menu--searchable" id="fuel-vehicle-menu" role="listbox" hidden>
+                      <div class="assign-picker__menu-search">
+                        <input type="search" class="text-input" id="fuel-vehicle-search" placeholder="Search vehicles" aria-label="Search vehicles">
+                      </div>
+                      <div class="assign-picker__menu-list" id="fuel-vehicle-list"></div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-field form-field--full">
+                  <span class="service-form-label">Fuel Entry Date <span class="required">*</span></span>
+                  <div class="service-form-datetime-row">
+                    <div class="service-form-datetime-field">
+                      <span class="service-form-datetime-field__icon" data-lucide-icon="calendar" aria-hidden="true"></span>
+                      <input type="date" id="fuel-entry-date" name="entryDate" class="text-input" required>
+                    </div>
+                    <div class="service-form-datetime-field">
+                      <span class="service-form-datetime-field__icon" data-lucide-icon="clock" aria-hidden="true"></span>
+                      <input type="time" id="fuel-entry-time" name="entryTime" class="text-input" required>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-field form-field--full">
+                  <label for="fuel-vendor">Vendor Name</label>
+                  <select id="fuel-vendor" name="vendor">
+                    <option value="">Please select</option>
+                  </select>
+                </div>
+
+                <div class="form-field form-field--full">
+                  <label for="fuel-reference">Reference</label>
+                  <input type="text" id="fuel-reference" name="reference" class="text-input" placeholder="e.g. invoice number, transaction ID, etc.">
+                </div>
+
+                <div class="form-field form-field--full fuel-form-flags">
+                  <h3 class="fuel-form-flags__title">Flags</h3>
+                  <p class="fuel-form-flags__intro">Flag fuel transactions to help identify personal use, partial fill-ups, and usage resets.</p>
+                  <div class="fuel-form-flag-list">
+                    <label class="fuel-form-flag">
+                      <input type="checkbox" id="fuel-flag-personal" name="flagPersonal" value="1">
+                      <span>Personal</span>
+                      <span class="fuel-form-flag__hint" data-lucide-icon="info" data-lucide-icon-size="14" title="Mark as personal fuel use"></span>
+                    </label>
+                    <label class="fuel-form-flag">
+                      <input type="checkbox" id="fuel-flag-partial" name="flagPartial" value="1">
+                      <span>Partial fuel-up</span>
+                      <span class="fuel-form-flag__hint" data-lucide-icon="info" data-lucide-icon-size="14" title="Vehicle was not filled to capacity"></span>
+                    </label>
+                    <label class="fuel-form-flag fuel-form-flag--locked">
+                      <input type="checkbox" id="fuel-flag-reset" name="flagReset" value="1" disabled>
+                      <span>Reset usage</span>
+                      <span class="fuel-form-flag__hint" data-lucide-icon="lock" data-lucide-icon-size="14" title="Available on higher plans"></span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="expense-form-upload-grid">
+              <div class="vehicle-form-card expense-form-card">
+                <h2 class="vehicle-form-card__title">Photos</h2>
+                <label class="expense-form-dropzone" id="fuel-photos-dropzone">
+                  <input type="file" id="fuel-photos" name="photos" accept="image/*" multiple hidden>
+                  <span class="expense-form-dropzone__icon" aria-hidden="true">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+                  </span>
+                  <span class="expense-form-dropzone__text">Drag and drop files to upload or click to pick files</span>
+                </label>
+              </div>
+
+              <div class="vehicle-form-card expense-form-card">
+                <h2 class="vehicle-form-card__title">Documents</h2>
+                <label class="expense-form-dropzone" id="fuel-documents-dropzone">
+                  <input type="file" id="fuel-documents" name="documents" multiple hidden>
+                  <span class="expense-form-dropzone__icon" aria-hidden="true">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6z" stroke="currentColor" stroke-width="1.5"/><path d="M14 2v6h6M12 18v-6M9 15l3-3 3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  </span>
+                  <span class="expense-form-dropzone__text">Drag and drop files to upload or click to pick files</span>
+                </label>
+              </div>
+            </div>
+
+            <div class="vehicle-form-card expense-form-card">
+              <h2 class="vehicle-form-card__title">Comments</h2>
+              <div class="service-form-comments">
+                <span class="expense-watcher-avatar" aria-hidden="true">DM</span>
+                <textarea id="fuel-comments" name="comments" class="text-input service-form-comments__input" rows="4" placeholder="Add an optional comment"></textarea>
+              </div>
+            </div>
+          </form>
+        </div>
+
+        <footer class="vehicle-form-footer expense-form-footer">
+          <a class="btn btn-text btn-sm" href="fuel-history">Cancel</a>
+          <div class="vehicle-form-footer__right">
+            <button type="button" class="btn btn-outline btn-sm" id="fuel-save-another" disabled>Save &amp; Add Another</button>
+            <button type="submit" form="fuel-entry-form" class="btn btn-primary btn-sm" id="fuel-save-footer" disabled>Save Fuel Entry</button>
+          </div>
+        </footer>
+      </main>
+    </div>
+  </div>
+  <div id="bottom-nav-root"></div>
+
+  <script src="js/icons.js"></script>
+  <script src="js/lucide-icons.js"></script>
+  <script src="js/shell.js"></script>
+  <script src="js/nav.js"></script>
+  <script src="js/vehicles-data.js"></script>
+  <script src="js/fleet-data.js"></script>
+  <script src="js/fuel-history-data.js"></script>
+  <script src="js/fuel-entry-form.js"></script>
+</body>
+</html>

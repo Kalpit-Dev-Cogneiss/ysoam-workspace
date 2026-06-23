@@ -184,8 +184,9 @@
       if (btn.getAttribute('data-bound')) return;
       btn.setAttribute('data-bound', '1');
       btn.addEventListener('click', function () {
+        var rowId = btn.closest('[data-row-actions]').getAttribute('data-row-actions');
         closeAllRowMenus();
-        window.alert('View fuel entry (prototype demo).');
+        window.location.href = 'fuel-entry-view?id=' + encodeURIComponent(rowId);
       });
     });
 
@@ -193,8 +194,11 @@
       if (btn.getAttribute('data-bound')) return;
       btn.setAttribute('data-bound', '1');
       btn.addEventListener('click', function () {
+        var rowId = btn.closest('[data-row-actions]').getAttribute('data-row-actions');
+        var row = data.getById(rowId);
         closeAllRowMenus();
-        window.alert('Edit fuel entry (prototype demo).');
+        var url = 'fuel-entry-form' + (row && row.vehicleId ? '?vehicle=' + encodeURIComponent(row.vehicleId) : '');
+        window.location.href = url;
       });
     });
 
@@ -576,7 +580,7 @@
     };
 
     document.getElementById('fh-add-btn').onclick = function () {
-      window.alert('Add fuel entry form (prototype demo).');
+      window.location.href = 'fuel-entry-form';
     };
 
     document.getElementById('fh-group-btn').onclick = function () {

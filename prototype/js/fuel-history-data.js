@@ -13,6 +13,14 @@ window.YSOAM_FUEL_HISTORY = (function () {
     'Lonavala, MH', 'Pune, MH', 'Mumbai, MH', 'Khopoli, MH', 'Nashik, MH', null
   ];
 
+  var LOCATION_COORDS = {
+    'Lonavala, MH': { lat: 18.7546, lng: 73.4062 },
+    'Pune, MH': { lat: 18.5204, lng: 73.8567 },
+    'Mumbai, MH': { lat: 19.076, lng: 72.8777 },
+    'Khopoli, MH': { lat: 18.7856, lng: 73.3459 },
+    'Nashik, MH': { lat: 19.9975, lng: 73.7898 }
+  };
+
   var LIST_SIZE = 50;
 
   var DAYS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
@@ -31,6 +39,83 @@ window.YSOAM_FUEL_HISTORY = (function () {
 
   function formatMoney(n) {
     return '₹ ' + Number(n).toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  }
+
+  function formatShortDateTime(iso) {
+    var d = new Date(iso);
+    var h = d.getHours();
+    var ampm = h >= 12 ? 'pm' : 'am';
+    h = h % 12 || 12;
+    return pad(d.getMonth() + 1) + '/' + pad(d.getDate()) + '/' + d.getFullYear() +
+      ' ' + h + ':' + pad(d.getMinutes()) + ampm;
+  }
+
+  function formatRelativeMeta(createdIso, updatedIso) {
+    var now = new Date(2026, 5, 22, 12, 0, 0);
+    function daysAgo(iso) {
+      var d = new Date(iso);
+      var days = Math.max(0, Math.floor((now - d) / 86400000));
+      if (days === 0) return 'today';
+      if (days === 1) return '1 day ago';
+      return days + ' days ago';
+    }
+    return 'Created ' + daysAgo(createdIso) + ' • Updated ' + daysAgo(updatedIso);
+  }
+
+  function compareMetric(current, previous, higherIsBad) {
+    if (previous == null || previous === 0) {
+      if (!current) return null;
+      return { delta: current, pct: null, up: true, good: !higherIsBad };
+    }
+    var delta = Math.round((current - previous) * 1000) / 1000;
+    var pct = Math.round(Math.abs((delta / previous) * 100) * 10) / 10;
+    var up = delta > 0;
+    var good = higherIsBad ? !up : up;
+    if (delta < 0 && !higherIsBad) good = true;
+    if (delta < 0 && higherIsBad) good = true;
+    return { delta: Math.abs(delta), pct: pct, up: up, good: good };
+  }
+
+  function buildComparisons(row, previous) {
+    if (!previous) {
+      return {
+        volume: row.volume ? { delta: row.volume, pct: null, up: true, good: false } : null,
+        price: row.pricePerUnit ? { delta: row.pricePerUnit, pct: null, up: true, good: false } : null,
+        total: row.total ? { delta: row.total, pct: 0, up: true, good: false } : null,
+        usage: row.usageKm ? { delta: row.usageKm, pct: null, up: true, good: true } : null,
+        economy: row.fuelEconomy ? { delta: row.fuelEconomy, pct: null, up: true, good: true } : null,
+        cost: row.costPerMeter ? { delta: row.costPerMeter, pct: null, up: false, good: true } : null
+      };
+    }
+    return {
+      volume: compareMetric(row.volume, previous.volume, true),
+      price: compareMetric(row.pricePerUnit, previous.pricePerUnit, true),
+      total: compareMetric(row.total, previous.total, true),
+      usage: compareMetric(row.usageKm, previous.usageKm, false),
+      economy: compareMetric(row.fuelEconomy, previous.fuelEconomy, false),
+      cost: compareMetric(row.costPerMeter, previous.costPerMeter, true)
+    };
+  }
+
+  function assignPreviousEntries(list) {
+    var byVehicle = {};
+    list.forEach(function (r) {
+      if (!byVehicle[r.vehicleId]) byVehicle[r.vehicleId] = [];
+      byVehicle[r.vehicleId].push(r);
+    });
+    Object.keys(byVehicle).forEach(function (vid) {
+      var entries = byVehicle[vid].sort(function (a, b) {
+        return new Date(b.date) - new Date(a.date);
+      });
+      entries.forEach(function (r, i) {
+        r.previousEntry = entries[i + 1] || null;
+        r.comparisons = buildComparisons(r, r.previousEntry);
+      });
+    });
+  }
+
+  function getCoords(location) {
+    return location && LOCATION_COORDS[location] ? LOCATION_COORDS[location] : null;
   }
 
   function buildList() {
@@ -60,10 +145,14 @@ window.YSOAM_FUEL_HISTORY = (function () {
 
       list.push({
         id: 'FH-' + (i + 1),
+        entryNumber: String(214695700 + i + 1),
         vehicleId: v.id,
         date: d.toISOString(),
+        createdAt: new Date(d.getTime() - 86400000 * (1 + (i % 3))).toISOString(),
+        updatedAt: new Date(d.getTime() - 86400000 * (i % 2)).toISOString(),
         vendor: vendor,
         meterEntry: meter.toLocaleString('en-IN') + ' km',
+        meter: meter,
         usage: usageHrs ? usageHrs + ' hr' : usageKm + ' km',
         usageKm: usageKm,
         usageHrs: usageHrs,
@@ -71,6 +160,9 @@ window.YSOAM_FUEL_HISTORY = (function () {
         volumeUnit: 'L',
         total: total,
         pricePerUnit: pricePerLiter,
+        fuelType: i % 7 === 0 ? null : 'Diesel',
+        fuelCard: i % 5 === 0,
+        reference: i % 4 === 0 ? null : 'INV-' + (10000 + i),
         fuelEconomy: economy,
         fuelEconomyUnit: 'km/L',
         fuelEconomyHrs: usageHrs ? Math.round((liters / usageHrs) * 100) / 100 : null,
@@ -79,11 +171,13 @@ window.YSOAM_FUEL_HISTORY = (function () {
         alerts: null,
         capacityException: null,
         location: LOCATIONS[i % LOCATIONS.length],
+        coords: getCoords(LOCATIONS[i % LOCATIONS.length]),
         isSample: i < 12
       });
     }
 
     list.sort(function (a, b) { return new Date(b.date) - new Date(a.date); });
+    assignPreviousEntries(list);
     return list;
   }
 
@@ -130,8 +224,11 @@ window.YSOAM_FUEL_HISTORY = (function () {
     list: list,
     vendors: VENDORS,
     formatDateTime: formatDateTime,
+    formatShortDateTime: formatShortDateTime,
+    formatRelativeMeta: formatRelativeMeta,
     formatMoney: formatMoney,
     getById: getById,
+    getCoords: getCoords,
     groups: groups,
     computeStats: computeStats
   };

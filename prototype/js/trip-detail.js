@@ -66,7 +66,7 @@
       root.innerHTML =
         '<div class="panel"><div class="panel__body">' +
           '<p>Trip not found.</p>' +
-          '<a class="btn btn-primary btn-sm" href="trips.html">Back to trips</a>' +
+          '<a class="btn btn-primary btn-sm" href="trips">Back to Trip &amp; Operations</a>' +
         '</div></div>';
     }
     document.title = 'Trip not found — YSOAM Prototype';
@@ -90,7 +90,7 @@
     if (stepper) stepper.innerHTML = renderStepper(trip);
 
     if (playbackLink) {
-      playbackLink.href = 'trip-playback.html?id=' + encodeURIComponent(trip.id);
+      playbackLink.href = 'trip-playback?id=' + encodeURIComponent(trip.id);
     }
 
     if (meta) {

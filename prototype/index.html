@@ -3,11 +3,101 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="js/auth.js"></script>
   <title>YSOAM Prototype</title>
-  <meta http-equiv="refresh" content="0; url=dashboard.html">
-  <link rel="canonical" href="dashboard.html">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/components.css">
+  <style>
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      font-family: var(--font-family);
+      background: #f3f4f6;
+      color: var(--color-ink-deep);
+    }
+    .launch-shell {
+      width: min(560px, 100%);
+      text-align: center;
+    }
+    .launch-shell img {
+      margin-bottom: 24px;
+    }
+    .launch-shell h1 {
+      margin: 0 0 8px;
+      font-size: 28px;
+    }
+    .launch-shell p {
+      margin: 0 0 32px;
+      color: var(--color-graphite);
+      font-size: 15px;
+      line-height: 1.5;
+    }
+    .launch-cards {
+      display: grid;
+      gap: 16px;
+      text-align: left;
+    }
+    .launch-card {
+      display: block;
+      padding: 20px 22px;
+      background: #fff;
+      border: 1px solid var(--color-hairline);
+      border-radius: 12px;
+      text-decoration: none;
+      color: inherit;
+      box-shadow: var(--shadow-soft);
+      transition: border-color 0.15s, box-shadow 0.15s;
+    }
+    .launch-card:hover {
+      border-color: var(--color-primary);
+      box-shadow: var(--shadow-floating);
+    }
+    .launch-card strong {
+      display: block;
+      font-size: 17px;
+      margin-bottom: 6px;
+      color: var(--color-primary);
+    }
+    .launch-card span {
+      font-size: 14px;
+      color: var(--color-graphite);
+      line-height: 1.45;
+    }
+    .launch-card code {
+      display: inline-block;
+      margin-top: 10px;
+      font-size: 12px;
+      background: var(--color-cloud);
+      padding: 4px 8px;
+      border-radius: 6px;
+      color: var(--color-ink-soft);
+    }
+  </style>
 </head>
 <body>
-  <p>Open <a href="dashboard.html">dashboard.html</a> directly in your browser — no server required.</p>
+  <div class="launch-shell">
+    <img src="assets/logo.svg" alt="YSOAM" width="140" height="36">
+    <h1>Choose prototype</h1>
+    <p>Select the experience to demo. MVP shows launch modules only; Full Platform includes all modules in the sidebar.</p>
+    <div class="launch-cards">
+      <a class="launch-card" href="mvp">
+        <strong>MVP Prototype</strong>
+        <span>Login, Dashboard, Tracking, Vehicles, Drivers, Trip &amp; Operations, Fuel, Inventory, Documents.</span>
+        <code>/mvp</code>
+      </a>
+      <a class="launch-card" href="full">
+        <strong>Full Platform Prototype</strong>
+        <span>All modules — Service, Tyres, Battery, IoT, Billing, Reports, AI, and full vehicle sub-menus.</span>
+        <code>/full</code>
+      </a>
+    </div>
+  </div>
 </body>
 </html>

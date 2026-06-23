@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="js/auth.js"></script>
+  <title>New Charging Entry — YSOAM</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/pages.css">
+</head>
+<body data-page="fuel" data-subpage="charging-entry-form">
+  <div class="sidebar-backdrop" id="sidebar-backdrop"></div>
+  <div class="app-shell">
+    <div id="sidebar-root"></div>
+    <div class="main-area">
+      <div id="topbar-root"></div>
+      <main class="content content--service-entry-form content--fuel-entry-form content--charging-entry-form">
+        <header class="vehicle-form-topbar expense-form-topbar">
+          <div class="vehicle-form-topbar__main">
+            <a class="vehicle-form-back" href="charging-history"><span class="vehicle-form-back__icon" data-form-icon="arrowLeft" aria-hidden="true"></span> Charging History</a>
+            <h1 id="charging-form-title">New Charging Entry</h1>
+          </div>
+          <div class="vehicle-form-topbar__actions">
+            <a class="btn btn-text btn-sm" href="charging-history">Cancel</a>
+            <button type="submit" form="charging-entry-form" class="btn btn-primary btn-sm" id="charging-save-top" disabled>Save Charging Entry</button>
+          </div>
+        </header>
+
+        <div class="expense-form-body">
+          <form class="expense-form-main" id="charging-entry-form" novalidate>
+            <div class="vehicle-form-card expense-form-card">
+              <h2 class="vehicle-form-card__title">Vehicle Details</h2>
+              <div class="form-grid form-grid--2">
+                <div class="form-field form-field--full">
+                  <label for="charging-vehicle-trigger">Vehicle <span class="required">*</span></label>
+                  <div class="assign-picker" id="charging-vehicle-picker">
+                    <input type="hidden" id="charging-vehicle-id" name="vehicleId" value="">
+                    <button type="button" class="assign-picker__trigger" id="charging-vehicle-trigger" aria-haspopup="listbox" aria-expanded="false" aria-controls="charging-vehicle-menu">
+                      <span class="assign-picker__placeholder">Please select</span>
+                      <span class="assign-picker__chevron" data-lucide-icon="chevronDown" data-lucide-icon-size="14" aria-hidden="true"></span>
+                    </button>
+                    <div class="assign-picker__menu assign-picker__menu--searchable" id="charging-vehicle-menu" role="listbox" hidden>
+                      <div class="assign-picker__menu-search">
+                        <input type="search" class="text-input" id="charging-vehicle-search" placeholder="Search vehicles" aria-label="Search vehicles">
+                      </div>
+                      <div class="assign-picker__menu-list" id="charging-vehicle-list"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="vehicle-form-card expense-form-card">
+              <h2 class="vehicle-form-card__title">Charging Event</h2>
+              <div class="form-grid form-grid--2">
+                <div class="form-field form-field--full">
+                  <label for="charging-vendor">Vendor</label>
+                  <select id="charging-vendor" name="vendor">
+                    <option value="">Please select</option>
+                  </select>
+                </div>
+
+                <div class="form-field form-field--full">
+                  <span class="service-form-label">Charging Started <span class="required">*</span></span>
+                  <div class="service-form-datetime-row">
+                    <div class="service-form-datetime-field">
+                      <span class="service-form-datetime-field__icon" data-lucide-icon="calendar" aria-hidden="true"></span>
+                      <input type="date" id="charging-start-date" name="startDate" class="text-input" required>
+                    </div>
+                    <div class="service-form-datetime-field">
+                      <span class="service-form-datetime-field__icon" data-lucide-icon="clock" aria-hidden="true"></span>
+                      <input type="time" id="charging-start-time" name="startTime" class="text-input" required>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-field">
+                  <span class="service-form-label">Charging Ended</span>
+                  <div class="service-form-datetime-row">
+                    <div class="service-form-datetime-field">
+                      <span class="service-form-datetime-field__icon" data-lucide-icon="calendar" aria-hidden="true"></span>
+                      <input type="date" id="charging-end-date" name="endDate" class="text-input">
+                    </div>
+                    <div class="service-form-datetime-field">
+                      <span class="service-form-datetime-field__icon" data-lucide-icon="clock" aria-hidden="true"></span>
+                      <input type="time" id="charging-end-time" name="endTime" class="text-input">
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-field">
+                  <label for="charging-duration">Charging Duration</label>
+                  <div class="input-with-suffix">
+                    <input type="number" id="charging-duration" name="durationMin" class="text-input" min="0" step="1" placeholder="0">
+                    <span class="input-with-suffix__suffix">min</span>
+                  </div>
+                </div>
+
+                <div class="form-field">
+                  <label for="charging-energy">Total Energy <span class="required">*</span></label>
+                  <div class="input-with-suffix">
+                    <input type="number" id="charging-energy" name="totalEnergy" class="text-input" min="0" step="0.1" required>
+                    <span class="input-with-suffix__suffix">kWh</span>
+                  </div>
+                </div>
+
+                <div class="form-field">
+                  <label for="charging-unit-price">Energy Price</label>
+                  <div class="input-with-prefix-suffix">
+                    <span class="input-with-prefix-suffix__prefix">₹</span>
+                    <input type="number" id="charging-unit-price" name="unitPrice" class="text-input" min="0" step="0.01">
+                    <span class="input-with-prefix-suffix__suffix">/ kWh</span>
+                  </div>
+                </div>
+
+                <div class="form-field">
+                  <label for="charging-energy-cost">Energy Cost</label>
+                  <div class="input-with-prefix-suffix">
+                    <span class="input-with-prefix-suffix__prefix">₹</span>
+                    <input type="number" id="charging-energy-cost" name="energyCost" class="text-input" min="0" step="0.01">
+                  </div>
+                </div>
+
+                <div class="form-field form-field--full">
+                  <button type="button" class="btn btn-text btn-sm charging-fees-link" id="charging-fees-link">+ Add fees or discounts</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="vehicle-form-card expense-form-card">
+              <h2 class="vehicle-form-card__title">Additional Details</h2>
+              <div class="form-grid form-grid--2">
+                <div class="form-field form-field--full">
+                  <label for="charging-reference">Reference</label>
+                  <input type="text" id="charging-reference" name="reference" class="text-input" placeholder="e.g. Invoice number, transaction ID, etc.">
+                </div>
+
+                <div class="form-field form-field--full fuel-form-flags">
+                  <h3 class="fuel-form-flags__title">Flags</h3>
+                  <p class="fuel-form-flags__intro">Enable the option below to flag transactions for personal use.</p>
+                  <div class="fuel-form-flag-list">
+                    <label class="fuel-form-flag">
+                      <input type="checkbox" id="charging-flag-personal" name="flagPersonal" value="1">
+                      <span>Personal</span>
+                      <span class="fuel-form-flag__hint" data-lucide-icon="info" data-lucide-icon-size="14" title="Mark as personal charging"></span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="expense-form-upload-grid">
+              <div class="vehicle-form-card expense-form-card">
+                <h2 class="vehicle-form-card__title">Photos</h2>
+                <label class="expense-form-dropzone" id="charging-photos-dropzone">
+                  <input type="file" id="charging-photos" name="photos" accept="image/*" multiple hidden>
+                  <span class="expense-form-dropzone__icon" aria-hidden="true">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+                  </span>
+                  <span class="expense-form-dropzone__text">Drag and drop files to upload or click to pick files</span>
+                </label>
+              </div>
+
+              <div class="vehicle-form-card expense-form-card">
+                <h2 class="vehicle-form-card__title">Documents</h2>
+                <label class="expense-form-dropzone" id="charging-documents-dropzone">
+                  <input type="file" id="charging-documents" name="documents" multiple hidden>
+                  <span class="expense-form-dropzone__icon" aria-hidden="true">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6z" stroke="currentColor" stroke-width="1.5"/><path d="M14 2v6h6M12 18v-6M9 15l3-3 3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  </span>
+                  <span class="expense-form-dropzone__text">Drag and drop files to upload or click to pick files</span>
+                </label>
+              </div>
+            </div>
+
+            <div class="vehicle-form-card expense-form-card">
+              <h2 class="vehicle-form-card__title">Comments</h2>
+              <div class="service-form-comments">
+                <span class="expense-watcher-avatar" aria-hidden="true">DM</span>
+                <textarea id="charging-comments" name="comments" class="text-input service-form-comments__input" rows="4" placeholder="Add an optional comment"></textarea>
+              </div>
+            </div>
+          </form>
+        </div>
+
+        <footer class="vehicle-form-footer expense-form-footer">
+          <a class="btn btn-text btn-sm" href="charging-history">Cancel</a>
+          <div class="vehicle-form-footer__right">
+            <button type="button" class="btn btn-outline btn-sm" id="charging-save-another" disabled>Save &amp; Add Another</button>
+            <button type="submit" form="charging-entry-form" class="btn btn-primary btn-sm" id="charging-save-footer" disabled>Save Charging Entry</button>
+          </div>
+        </footer>
+      </main>
+    </div>
+  </div>
+  <div id="bottom-nav-root"></div>
+
+  <script src="js/icons.js"></script>
+  <script src="js/lucide-icons.js"></script>
+  <script src="js/shell.js"></script>
+  <script src="js/nav.js"></script>
+  <script src="js/vehicles-data.js"></script>
+  <script src="js/fleet-data.js"></script>
+  <script src="js/charging-history-data.js"></script>
+  <script src="js/charging-entry-form.js"></script>
+</body>
+</html>

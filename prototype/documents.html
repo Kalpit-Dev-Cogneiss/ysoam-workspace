@@ -3,7 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Documents — YSOAM Prototype</title>
+  <script src="js/auth.js"></script>
+  <title>Documents — YSOAM</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -18,18 +19,99 @@
     <div id="sidebar-root"></div>
     <div class="main-area">
       <div id="topbar-root"></div>
-      <main class="content">
-        <div class="page-header"><h1>Documents</h1><p>Storage and expiry reminders</p></div>
-        <div class="card card-dashboard stub-notice">
-          <p>Module screen stub — document vault and expiry alerts in review pass.</p>
-          <p style="font-size:14px;">Alert: MH-09-FG-9012 insurance expires 15 Jun 2026.</p>
+      <main class="content content--documents">
+        <div class="page-header page-header--compact documents-header">
+          <div class="page-header__text">
+            <h1>Documents <a class="service-learn-link" href="roadmap.html">Learn</a></h1>
+          </div>
+          <div class="page-header__actions">
+            <button type="button" class="btn btn-primary btn-sm" id="doc-upload-btn">
+              <span data-lucide-icon="upload" data-lucide-icon-size="14" aria-hidden="true"></span>
+              Upload Document
+            </button>
+          </div>
+        </div>
+
+        <div class="st-view-tabs documents-tabs" role="tablist" aria-label="Document folders">
+          <button type="button" class="st-view-tab is-active" data-tab="all" role="tab" aria-selected="true">All Documents</button>
+          <button type="button" class="st-view-tab" data-tab="ysoam" role="tab" aria-selected="false">YSOAM</button>
+        </div>
+
+        <div class="panel table-panel documents-panel">
+          <div class="documents-toolbar">
+            <div class="documents-toolbar__left">
+              <div class="table-panel__search">
+                <span class="table-panel__search-icon" data-lucide-icon="search" aria-hidden="true"></span>
+                <input type="search" class="table-panel__search-input" id="doc-search" placeholder="Search" aria-label="Search documents">
+              </div>
+              <button type="button" class="expense-filter-pill" data-filter="fileType" aria-expanded="false" aria-haspopup="dialog">Document File Type</button>
+              <button type="button" class="expense-filter-pill" data-filter="locationType" aria-expanded="false" aria-haspopup="dialog">Document Location Type</button>
+              <button type="button" class="expense-filters-btn" id="doc-filters-btn" aria-expanded="false" aria-controls="doc-filters-drawer">
+                <span class="expense-filters-btn__icon" data-lucide-icon="filter" aria-hidden="true"></span>
+                <span class="expense-filters-btn__label" id="doc-filters-btn-label">Filters</span>
+              </button>
+            </div>
+            <div class="documents-toolbar__right" id="doc-pagination">
+              <span class="doc-pagination__count tabular-nums" id="doc-count">1 – 50 of 0</span>
+              <button type="button" class="doc-page-btn" data-page-prev aria-label="Previous page"><span data-lucide-icon="chevronLeft"></span></button>
+              <button type="button" class="doc-page-btn" data-page-next aria-label="Next page"><span data-lucide-icon="chevronRight"></span></button>
+              <button type="button" class="doc-page-btn" id="doc-table-settings-btn" aria-label="Table settings"><span data-lucide-icon="settings"></span></button>
+            </div>
+          </div>
+
+          <div class="documents-body">
+            <div class="panel__body panel__body--flush documents-table-wrap">
+              <div class="data-table-wrap data-table-wrap--scroll data-table-wrap--documents" id="documents-table"></div>
+            </div>
+            <aside class="expense-filters-drawer" id="doc-filters-drawer" aria-label="Filters">
+              <div class="expense-filters-drawer__header">
+                <h2>Filters</h2>
+                <button type="button" class="expense-filters-drawer__close" id="doc-filters-drawer-close" aria-label="Close filters">
+                  <span data-lucide-icon="x" data-lucide-icon-size="18"></span>
+                </button>
+              </div>
+              <div class="expense-filters-drawer__body" id="doc-filters-drawer-body"></div>
+            </aside>
+          </div>
+
+          <div class="expense-filter-popover" id="doc-filter-popover" hidden role="dialog" aria-modal="true"></div>
+          <div class="expense-table-settings" id="doc-table-settings" hidden role="dialog" aria-label="Table settings"></div>
         </div>
       </main>
     </div>
   </div>
   <div id="bottom-nav-root"></div>
+
+  <div class="modal-overlay" id="doc-upload-modal" role="dialog" aria-labelledby="doc-upload-title" aria-modal="true">
+    <div class="modal modal--doc-upload">
+      <div class="modal__header">
+        <h2 class="modal__title" id="doc-upload-title">Upload Document</h2>
+        <button type="button" class="modal__close" id="doc-upload-close" aria-label="Close">
+          <span data-lucide-icon="x" data-lucide-icon-size="18"></span>
+        </button>
+      </div>
+      <div class="modal__body">
+        <label class="doc-upload-dropzone" id="doc-upload-dropzone">
+          <input type="file" id="doc-upload-input" multiple hidden>
+          <span class="doc-upload-dropzone__icon" aria-hidden="true">
+            <span data-lucide-icon="fileText" data-lucide-icon-size="40"></span>
+            <span class="doc-upload-dropzone__plus" data-lucide-icon="plus" data-lucide-icon-size="16"></span>
+          </span>
+          <span class="doc-upload-dropzone__title">Select Files to Upload</span>
+          <span class="doc-upload-dropzone__text">or Drag and Drop, Copy and Paste Files</span>
+        </label>
+        <p class="doc-upload-hint">Files upload from your computer only.</p>
+      </div>
+    </div>
+  </div>
+
   <script src="js/icons.js"></script>
+  <script src="js/lucide-icons.js"></script>
   <script src="js/shell.js"></script>
   <script src="js/nav.js"></script>
+  <script src="js/documents-data.js"></script>
+  <script src="js/vehicles-data.js"></script>
+  <script src="js/documents-attach-vehicles.js"></script>
+  <script src="js/documents.js"></script>
 </body>
 </html>

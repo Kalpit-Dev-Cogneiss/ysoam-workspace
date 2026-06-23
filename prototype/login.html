@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="js/auth.js"></script>
+  <title>Log in — YSOAM</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/pages.css">
+</head>
+<body class="login-page">
+  <div class="login-shell">
+    <header class="login-brand">
+      <a href="login" class="login-brand__link" aria-label="YSOAM home">
+        <img src="assets/logo.svg" alt="YSOAM" class="login-brand__logo" width="140" height="36">
+      </a>
+    </header>
+
+    <div class="login-grid">
+      <section class="login-card" aria-labelledby="login-title">
+        <div class="login-card__header">
+          <p class="login-edition-badge" id="login-edition-badge" hidden></p>
+          <h1 id="login-title">Log in to YSOAM</h1>
+          <p class="login-card__subtitle">Don&rsquo;t have an account? <a href="roadmap.html">Start a free trial</a></p>
+          <p class="login-edition-switch-wrap"><a href="full" class="login-edition-switch" id="login-edition-switch">Switch prototype</a></p>
+        </div>
+
+        <div class="login-alert login-alert--success" id="login-signed-out-alert" hidden role="status">
+          Signed out successfully.
+        </div>
+
+        <form class="login-form" id="login-form" novalidate>
+          <div class="form-field">
+            <label for="login-email">Email address or username</label>
+            <input type="text" id="login-email" name="email" class="text-input" autocomplete="username" required>
+          </div>
+
+          <div class="form-field">
+            <div class="login-password-label">
+              <label for="login-password">Password</label>
+              <button type="button" class="btn btn-text btn-sm login-show-password" id="login-show-password" aria-pressed="false">Show password</button>
+            </div>
+            <input type="password" id="login-password" name="password" class="text-input" autocomplete="current-password" required>
+          </div>
+
+          <div class="login-form__options">
+            <label class="login-remember">
+              <input type="checkbox" id="login-remember" name="remember">
+              <span>Keep me logged in</span>
+            </label>
+            <a class="login-forgot" href="roadmap.html">Forgot password?</a>
+          </div>
+
+          <button type="submit" class="btn btn-primary login-submit">Log in</button>
+
+          <div class="login-divider" role="separator"><span>or</span></div>
+
+          <div class="login-social">
+            <button type="button" class="btn btn-outline login-social-btn" id="login-google">
+              <span class="login-social-btn__icon" aria-hidden="true">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M21.6 12.227c0-.709-.064-1.39-.182-2.045H12v3.868h5.382a4.908 4.908 0 0 1-2.126 3.221v2.668h3.437c2.018-1.858 3.187-4.593 3.187-7.712Z" fill="#4285F4"/><path d="M12 22c2.7 0 4.964-.894 6.618-2.423l-3.437-2.668c-.952.64-2.17 1.013-4.181 1.013-3.213 0-5.937-2.17-6.907-5.09H1.49v2.756A11.996 11.996 0 0 0 12 22Z" fill="#34A853"/><path d="M5.093 13.832A7.18 7.18 0 0 1 4.5 12c0-.636.109-1.253.304-1.832V7.412H1.49A11.996 11.996 0 0 0 0 12c0 1.935.464 3.764 1.49 5.588l3.603-2.756Z" fill="#FBBC05"/><path d="M12 4.778c1.469 0 2.786.505 3.823 1.496l2.868-2.868C16.955 1.791 14.7.727 12 .727A11.996 11.996 0 0 0 1.49 7.412l3.603 2.756C6.063 7.09 8.787 4.778 12 4.778Z" fill="#EA4335"/></svg>
+              </span>
+              Log in with Google
+            </button>
+            <button type="button" class="btn btn-outline login-social-btn" id="login-sso">Log in with SSO</button>
+          </div>
+        </form>
+
+        <p class="login-card__footer">
+          <a href="roadmap.html">Resend confirmation email</a>
+        </p>
+      </section>
+
+      <aside class="login-whats-new" aria-labelledby="whats-new-title">
+        <div class="login-whats-new__header">
+          <h2 id="whats-new-title">What&rsquo;s New</h2>
+          <a href="roadmap.html" class="login-whats-new__external" aria-label="View all updates">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg>
+          </a>
+        </div>
+
+        <ul class="login-news-list" id="login-news-list"></ul>
+      </aside>
+    </div>
+  </div>
+
+  <script src="js/edition.js"></script>
+  <script src="js/login.js"></script>
+</body>
+</html>

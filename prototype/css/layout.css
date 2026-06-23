@@ -660,6 +660,29 @@
   flex-shrink: 0;
 }
 
+.topbar__edition-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.topbar__edition-badge--mvp {
+  color: #1d4ed8;
+  background: #dbeafe;
+}
+
+.topbar__edition-badge--full {
+  color: #6d28d9;
+  background: #ede9fe;
+}
+
 .topbar__alert {
   position: relative;
   display: flex;

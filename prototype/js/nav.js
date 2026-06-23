@@ -5,6 +5,10 @@
     var shell = window.YSOAM_SHELL;
     if (!shell) return;
 
+    var edition = window.YSOAM_EDITION || 'mvp';
+    document.body.classList.add('edition-' + edition);
+    document.body.setAttribute('data-edition', edition);
+
     var sidebarRoot = document.getElementById('sidebar-root');
     var topbarRoot = document.getElementById('topbar-root');
     var bottomNavRoot = document.getElementById('bottom-nav-root');
@@ -84,6 +88,13 @@
       fuelGroup.classList.add('is-open');
       var fuelToggle = fuelGroup.querySelector('.nav-group__toggle');
       if (fuelToggle) fuelToggle.setAttribute('aria-expanded', 'true');
+    }
+
+    var inventoryGroup = document.querySelector('.nav-group--inventory');
+    if (inventoryGroup && currentPage === 'inventory') {
+      inventoryGroup.classList.add('is-open');
+      var inventoryToggle = inventoryGroup.querySelector('.nav-group__toggle');
+      if (inventoryToggle) inventoryToggle.setAttribute('aria-expanded', 'true');
     }
   }
 

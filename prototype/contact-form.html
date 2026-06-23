@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="js/auth.js"></script>
   <title>New Contact — YSOAM</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -21,17 +22,11 @@
       <main class="content content--contact-form">
         <header class="vehicle-form-topbar contact-form-topbar">
           <div class="vehicle-form-topbar__main">
-            <a class="vehicle-form-back" href="drivers" id="contact-form-back"><span class="vehicle-form-back__icon" data-form-icon="arrowLeft" aria-hidden="true"></span> Drivers</a>
-            <nav class="contact-form-crumb" id="contact-form-crumb" aria-label="Breadcrumb" hidden>
-              <a href="drivers">Drivers</a>
-              <span aria-hidden="true">›</span>
-              <a href="#" id="contact-form-crumb-name">Contact</a>
-            </nav>
+            <a class="vehicle-form-back" href="drivers" id="contact-form-back" hidden><span class="vehicle-form-back__icon" data-form-icon="arrowLeft" aria-hidden="true"></span><span id="contact-form-back-label">Drivers</span></a>
             <h1 id="contact-form-title">New Contact</h1>
           </div>
           <div class="vehicle-form-topbar__actions">
             <a class="btn btn-text btn-sm" id="contact-form-cancel-top" href="drivers">Cancel</a>
-            <button type="button" class="btn btn-outline btn-sm" id="contact-form-add-multiple">Add Multiple Contacts</button>
             <button type="submit" form="contact-form" class="btn btn-primary btn-sm" id="contact-form-save-top">Save Contact</button>
           </div>
         </header>
@@ -58,6 +53,7 @@
                     <div class="form-field">
                       <label for="contact-email">Email</label>
                       <input type="email" id="contact-email" name="email">
+                      <span class="form-hint">If this Contact is granted user access, email notifications will be sent here.</span>
                     </div>
                     <div class="form-field form-field--full">
                       <label for="contact-group">Group</label>
@@ -72,6 +68,7 @@
                   </div>
                 </div>
                 <div class="contact-form-basic__photo">
+                  <span class="contact-form-photo-label">Profile Photo</span>
                   <div class="contact-form-avatar" id="contact-form-avatar" aria-hidden="true">—</div>
                   <button type="button" class="btn btn-outline btn-sm" id="contact-form-pick-file">Pick File</button>
                   <input type="file" id="contact-form-photo-input" accept="image/*" hidden>
@@ -114,16 +111,136 @@
                   <input type="radio" name="userAccess" value="enabled" id="contact-access-enabled">
                   <span class="choice-card__body">
                     <strong>Enable Access to YSOAM</strong>
-                    <span>Allow this Contact to log in, manage data, and receive notifications</span>
+                    <span>This contact will be invited to log in, and will be able to view and manage assets and other data based on their user permissions.</span>
                   </span>
                 </label>
                 <label class="choice-card">
                   <input type="radio" name="userAccess" value="none" id="contact-access-none" checked>
                   <span class="choice-card__body">
                     <strong>No Access</strong>
-                    <span>This Contact will not have access to YSOAM and will not receive notifications</span>
+                    <span>This contact is for internal record only. They cannot sign in and will not be able to view any YSOAM data.</span>
                   </span>
                 </label>
+              </div>
+            </div>
+
+            <div class="contact-access-panel" id="contact-access-panel" hidden>
+              <div class="vehicle-form-card contact-form-card">
+                <h2 class="vehicle-form-card__title">Login Information</h2>
+                <div class="choice-cards">
+                  <label class="choice-card">
+                    <input type="radio" name="loginMethod" value="email" id="contact-login-email" checked>
+                    <span class="choice-card__body">
+                      <strong>Email</strong>
+                      <span>The YSOAM login for this user will be their email address. An email invitation with instructions to create a password will be sent immediately.</span>
+                    </span>
+                  </label>
+                  <label class="choice-card">
+                    <input type="radio" name="loginMethod" value="credentials" id="contact-login-credentials">
+                    <span class="choice-card__body">
+                      <strong>Username / Password</strong>
+                      <span>Manually create a username and password for this user. User names must be at least 3 characters.</span>
+                    </span>
+                  </label>
+                </div>
+                <div class="contact-login-panel" id="contact-login-email-panel">
+                  <label class="contact-form-class contact-form-class--inline contact-login-delay">
+                    <input type="checkbox" name="delayInvite" id="contact-delay-invite">
+                    <span class="contact-form-class__body">
+                      <strong>Delay email invitation and create password manually on a later date</strong>
+                    </span>
+                  </label>
+                  <div class="form-field">
+                    <label for="contact-invite-message">Message (optional)</label>
+                    <textarea id="contact-invite-message" name="inviteMessage" rows="3" placeholder="Include a message with the email invitation"></textarea>
+                  </div>
+                </div>
+                <div class="contact-login-panel" id="contact-login-credentials-panel" hidden>
+                  <div class="form-grid form-grid--2">
+                    <div class="form-field">
+                      <label for="contact-username">Username</label>
+                      <input type="text" id="contact-username" name="username" minlength="3" autocomplete="off">
+                    </div>
+                    <div class="form-field">
+                      <label for="contact-password">Password</label>
+                      <input type="password" id="contact-password" name="password" autocomplete="new-password">
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="vehicle-form-card contact-form-card">
+                <div class="contact-form-card__head">
+                  <h2 class="vehicle-form-card__title">User Type &amp; Permissions</h2>
+                  <button type="button" class="btn btn-text btn-sm" id="contact-copy-permissions">Copy from Existing Contact</button>
+                </div>
+                <div class="choice-cards">
+                  <label class="choice-card">
+                    <input type="radio" name="userType" value="regular" id="contact-user-type-regular" checked>
+                    <span class="choice-card__body">
+                      <strong>Regular User</strong>
+                      <span>A Regular User is restricted to view and manage data that falls within their assigned Record Sets in YSOAM. Record Sets determine which records they can view or manage.</span>
+                    </span>
+                  </label>
+                  <label class="choice-card">
+                    <input type="radio" name="userType" value="administrator" id="contact-user-type-admin">
+                    <span class="choice-card__body">
+                      <strong>Administrator</strong>
+                      <span>An Administrator can view and edit all Account Settings, all records, and all features of the account.</span>
+                    </span>
+                  </label>
+                </div>
+                <div class="contact-permissions-regular" id="contact-permissions-regular">
+                  <div class="form-field">
+                    <label for="contact-role">Role <span class="required">*</span></label>
+                    <select id="contact-role" name="role">
+                      <option value="">Please select</option>
+                      <option value="fleet-manager" selected>Fleet Manager</option>
+                      <option value="operations-manager">Operations Manager</option>
+                      <option value="maintenance-supervisor">Maintenance Supervisor</option>
+                      <option value="driver-coordinator">Driver Coordinator</option>
+                      <option value="read-only">Read Only</option>
+                    </select>
+                    <span class="form-hint">Learn more about how default permissions are assigned to users in our <a href="roadmap.html">Help Center article here</a>.</span>
+                  </div>
+                  <div class="contact-record-sets">
+                    <p class="contact-record-sets__intro">Record Sets determine which records this user can view or manage. Assign access levels for each record type below.</p>
+                    <div class="form-grid form-grid--2">
+                      <div class="form-field">
+                        <label for="contact-rs-vehicles">Vehicles <span class="required">*</span></label>
+                        <select id="contact-rs-vehicles" name="recordSetVehicles">
+                          <option value="full" selected>Full Access</option>
+                          <option value="read">Read Only</option>
+                          <option value="none">No Access</option>
+                        </select>
+                      </div>
+                      <div class="form-field">
+                        <label for="contact-rs-contacts">Contacts <span class="required">*</span></label>
+                        <select id="contact-rs-contacts" name="recordSetContacts">
+                          <option value="full" selected>Full Access</option>
+                          <option value="read">Read Only</option>
+                          <option value="none">No Access</option>
+                        </select>
+                      </div>
+                      <div class="form-field">
+                        <label for="contact-rs-work">Work Solutions <span class="required">*</span></label>
+                        <select id="contact-rs-work" name="recordSetWork">
+                          <option value="full" selected>Full Access</option>
+                          <option value="read">Read Only</option>
+                          <option value="none">No Access</option>
+                        </select>
+                      </div>
+                      <div class="form-field">
+                        <label for="contact-rs-inspections">Inspection Forms <span class="required">*</span></label>
+                        <select id="contact-rs-inspections" name="recordSetInspections">
+                          <option value="full" selected>Full Access</option>
+                          <option value="read">Read Only</option>
+                          <option value="none">No Access</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
 

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="js/auth.js"></script>
+  <title>User Management — YSOAM</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/pages.css">
+</head>
+<body data-page="settings" data-subpage="user-management">
+  <div class="sidebar-backdrop" id="sidebar-backdrop"></div>
+  <div class="app-shell">
+    <div id="sidebar-root"></div>
+    <div class="main-area">
+      <div id="topbar-root"></div>
+      <main class="content content--user-management">
+        <div class="page-header page-header--compact um-header">
+          <div class="page-header__text">
+            <h1>User Management <a class="service-learn-link" href="roadmap.html">Learn</a></h1>
+          </div>
+          <div class="page-header__actions">
+            <button type="button" class="btn btn-outline btn-sm um-header-more" aria-label="More actions"><span data-lucide-icon="moreHorizontal"></span></button>
+            <button type="button" class="btn btn-primary btn-sm" id="um-add-btn">+ Add Contact</button>
+          </div>
+        </div>
+
+        <div class="st-view-tabs um-tabs" role="tablist" aria-label="User views">
+          <button type="button" class="st-view-tab is-active" data-um-tab="all" role="tab" aria-selected="true">All</button>
+          <button type="button" class="st-view-tab" data-um-tab="users" role="tab" aria-selected="false">Users</button>
+          <button type="button" class="st-view-tab" data-um-tab="no-access" role="tab" aria-selected="false">No User Access</button>
+          <button type="button" class="st-view-tab" data-um-tab="archived" role="tab" aria-selected="false">Archived</button>
+        </div>
+
+        <div class="panel table-panel um-panel">
+          <div class="um-toolbar">
+            <div class="um-toolbar__left">
+              <div class="table-panel__search">
+                <span class="table-panel__search-icon" data-lucide-icon="search" aria-hidden="true"></span>
+                <input type="search" class="table-panel__search-input" id="um-search" placeholder="Search" aria-label="Search users">
+              </div>
+              <button type="button" class="expense-filter-pill" data-filter="status" aria-expanded="false" aria-haspopup="dialog">User Status</button>
+              <button type="button" class="expense-filter-pill" data-filter="type" aria-expanded="false" aria-haspopup="dialog">User Type</button>
+              <button type="button" class="expense-filter-pill" data-filter="unconfirmed" aria-expanded="false" aria-haspopup="dialog">Unconfirmed Email</button>
+              <button type="button" class="expense-filter-pill" data-filter="group" aria-expanded="false" aria-haspopup="dialog">Group</button>
+              <button type="button" class="expense-filters-btn" id="um-filters-btn" aria-expanded="false" aria-controls="um-filters-drawer">
+                <span class="expense-filters-btn__icon" data-lucide-icon="filter" aria-hidden="true"></span>
+                <span class="expense-filters-btn__label" id="um-filters-btn-label">Filters</span>
+              </button>
+            </div>
+            <div class="um-toolbar__right" id="um-pagination">
+              <span class="um-pagination__count tabular-nums" id="um-count">1 – 50 of 0</span>
+              <button type="button" class="um-page-btn" data-page-prev aria-label="Previous page"><span data-lucide-icon="chevronLeft"></span></button>
+              <button type="button" class="um-page-btn" data-page-next aria-label="Next page"><span data-lucide-icon="chevronRight"></span></button>
+              <button type="button" class="um-page-btn" id="um-table-settings-btn" aria-label="Table settings"><span data-lucide-icon="settings"></span></button>
+            </div>
+          </div>
+
+          <div class="um-body">
+            <div class="panel__body panel__body--flush um-table-wrap">
+              <div class="data-table-wrap data-table-wrap--scroll data-table-wrap--user-management" id="user-management-table"></div>
+            </div>
+            <aside class="expense-filters-drawer" id="um-filters-drawer" aria-label="Filters">
+              <div class="expense-filters-drawer__header">
+                <h2>Filters</h2>
+                <button type="button" class="expense-filters-drawer__close" id="um-filters-drawer-close" aria-label="Close filters"><span data-lucide-icon="x" data-lucide-icon-size="18"></span></button>
+              </div>
+              <div class="expense-filters-drawer__body" id="um-filters-drawer-body"></div>
+            </aside>
+          </div>
+
+          <div class="expense-filter-popover" id="um-filter-popover" hidden role="dialog" aria-modal="true"></div>
+          <div class="expense-table-settings" id="um-table-settings" hidden role="dialog" aria-label="Table settings"></div>
+        </div>
+      </main>
+    </div>
+  </div>
+  <div id="bottom-nav-root"></div>
+  <script src="js/icons.js"></script>
+  <script src="js/lucide-icons.js"></script>
+  <script src="js/shell.js"></script>
+  <script src="js/nav.js"></script>
+  <script src="js/user-management-data.js"></script>
+  <script src="js/user-management.js"></script>
+</body>
+</html>

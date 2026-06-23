@@ -3,7 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Trips — YSOAM Prototype</title>
+  <script src="js/auth.js"></script>
+  <title>Trip &amp; Operations — YSOAM</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -12,124 +13,122 @@
   <link rel="stylesheet" href="css/layout.css">
   <link rel="stylesheet" href="css/pages.css">
 </head>
-<body data-page="trips">
+<body data-page="trips" data-subpage="trip-ops">
   <div class="sidebar-backdrop" id="sidebar-backdrop"></div>
   <div class="app-shell">
     <div id="sidebar-root"></div>
     <div class="main-area">
       <div id="topbar-root"></div>
-      <main class="content">
-        <div class="page-header">
+      <main class="content content--trip-ops">
+        <div class="page-header page-header--compact trip-ops-header">
           <div class="page-header__text">
-            <div class="page-header__eyebrow">Operations</div>
-            <h1>Trips</h1>
-            <p>Create, dispatch, and track lifecycle with inline profitability</p>
+            <h1>Trip &amp; Operations <a class="service-learn-link" href="roadmap.html">Learn</a></h1>
           </div>
           <div class="page-header__actions">
-            <button type="button" class="btn btn-outline btn-sm" data-modal-open="dispatch-modal">Dispatch</button>
-            <button type="button" class="btn btn-primary btn-sm" data-modal-open="create-trip-modal">Create Trip</button>
+            <button type="button" class="btn btn-outline btn-sm" id="trip-ops-dispatch-btn">Dispatch</button>
+            <button type="button" class="btn btn-primary btn-sm" id="trip-ops-create-btn">
+              <span data-lucide-icon="plus" data-lucide-icon-size="14" aria-hidden="true"></span>
+              Create Trip
+            </button>
           </div>
         </div>
 
-        <div class="panel table-panel">
-          <div class="panel__header">
-            <div>
-              <h2 class="panel__title">All Trips</h2>
-              <p class="panel__subtitle">Fleet trip registry · open detail for full trip view and playback</p>
+        <div class="trip-ops-summary" id="trip-ops-summary" aria-label="Trip summary"></div>
+
+        <div class="st-view-tabs trip-ops-tabs" role="tablist" aria-label="Trip views">
+          <button type="button" class="st-view-tab is-active" data-tab="all" role="tab" aria-selected="true">All Trips</button>
+          <button type="button" class="st-view-tab" data-tab="active" role="tab" aria-selected="false">Active</button>
+          <button type="button" class="st-view-tab" data-tab="complete" role="tab" aria-selected="false">Completed</button>
+          <button type="button" class="st-view-tab" data-tab="created" role="tab" aria-selected="false">Scheduled</button>
+          <button type="button" class="st-view-tab" data-tab="cancelled" role="tab" aria-selected="false">Cancelled</button>
+        </div>
+
+        <div class="panel table-panel trip-ops-panel">
+          <div class="trip-ops-toolbar">
+            <div class="trip-ops-toolbar__left">
+              <div class="table-panel__search">
+                <span class="table-panel__search-icon" data-lucide-icon="search" aria-hidden="true"></span>
+                <input type="search" class="table-panel__search-input" id="trip-ops-search" placeholder="Search trips" aria-label="Search trips">
+              </div>
+              <button type="button" class="expense-filter-pill" data-filter="status" aria-expanded="false" aria-haspopup="dialog">Status</button>
+              <button type="button" class="expense-filter-pill" data-filter="route" aria-expanded="false" aria-haspopup="dialog">Route</button>
+              <button type="button" class="expense-filters-btn" id="trip-ops-filters-btn" aria-expanded="false" aria-controls="trip-ops-filters-drawer">
+                <span class="expense-filters-btn__icon" data-lucide-icon="filter" aria-hidden="true"></span>
+                <span class="expense-filters-btn__label" id="trip-ops-filters-btn-label">Filters</span>
+              </button>
+            </div>
+            <div class="trip-ops-toolbar__right" id="trip-ops-pagination">
+              <span class="trip-ops-pagination__count tabular-nums" id="trip-ops-count">1 – 20 of 0</span>
+              <button type="button" class="trip-ops-page-btn" data-page-prev aria-label="Previous page"><span data-lucide-icon="chevronLeft"></span></button>
+              <button type="button" class="trip-ops-page-btn" data-page-next aria-label="Next page"><span data-lucide-icon="chevronRight"></span></button>
+              <button type="button" class="trip-ops-page-btn" id="trip-ops-table-settings-btn" aria-label="Table settings"><span data-lucide-icon="settings"></span></button>
             </div>
           </div>
-          <div class="panel__body panel__body--flush">
-            <div class="data-table-wrap data-table-wrap--scroll">
-              <table class="data-table data-table--list data-table--trips">
-                <thead>
-                  <tr>
-                    <th>Trip ID</th>
-                    <th>Vehicle</th>
-                    <th>Driver</th>
-                    <th>Customer</th>
-                    <th>Status</th>
-                    <th>Started</th>
-                    <th>Completed</th>
-                    <th>Distance</th>
-                    <th class="data-table__actions-col">Detail</th>
-                  </tr>
-                </thead>
-                <tbody id="trips-table-body"></tbody>
-              </table>
+
+          <div class="trip-ops-body">
+            <div class="panel__body panel__body--flush trip-ops-table-wrap">
+              <div class="data-table-wrap data-table-wrap--scroll data-table-wrap--trip-ops" id="trip-ops-table"></div>
             </div>
+            <aside class="expense-filters-drawer" id="trip-ops-filters-drawer" aria-label="Filters">
+              <div class="expense-filters-drawer__header">
+                <h2>Filters</h2>
+                <button type="button" class="expense-filters-drawer__close" id="trip-ops-filters-drawer-close" aria-label="Close filters">
+                  <span data-lucide-icon="x" data-lucide-icon-size="18"></span>
+                </button>
+              </div>
+              <div class="expense-filters-drawer__body" id="trip-ops-filters-drawer-body"></div>
+            </aside>
           </div>
+
+          <div class="expense-filter-popover" id="trip-ops-filter-popover" hidden role="dialog" aria-modal="true"></div>
+          <div class="expense-table-settings" id="trip-ops-table-settings" hidden role="dialog" aria-label="Table settings"></div>
         </div>
       </main>
     </div>
   </div>
   <div id="bottom-nav-root"></div>
 
-  <div class="modal-overlay" id="create-trip-modal" role="dialog" aria-labelledby="create-trip-title">
+  <div class="modal-overlay" id="trip-ops-create-modal" role="dialog" aria-labelledby="trip-ops-create-title" aria-modal="true">
     <div class="modal">
       <div class="modal__header">
-        <h2 class="modal__title" id="create-trip-title">Create Trip</h2>
-        <button type="button" class="modal__close" data-modal-close aria-label="Close">×</button>
+        <h2 class="modal__title" id="trip-ops-create-title">Create Trip</h2>
+        <button type="button" class="modal__close" id="trip-ops-create-close" aria-label="Close">
+          <span data-lucide-icon="x" data-lucide-icon-size="18"></span>
+        </button>
       </div>
       <div class="modal__body">
-        <div class="form-row">
-          <div class="form-group">
-            <label class="form-label" for="origin">Origin</label>
-            <input class="text-input" id="origin" type="text" value="Mumbai">
+        <div class="form-grid form-grid--2">
+          <div class="form-field">
+            <label for="trip-create-origin">Origin</label>
+            <input type="text" id="trip-create-origin" class="text-input" value="Mumbai">
           </div>
-          <div class="form-group">
-            <label class="form-label" for="destination">Destination</label>
-            <input class="text-input" id="destination" type="text" value="Pune">
+          <div class="form-field">
+            <label for="trip-create-destination">Destination</label>
+            <input type="text" id="trip-create-destination" class="text-input" value="Pune">
           </div>
-        </div>
-        <div class="form-row">
-          <div class="form-group">
-            <label class="form-label" for="vehicle">Vehicle</label>
-            <select class="select-input" id="vehicle">
-              <option>MH-12-AB-1234</option>
-              <option>MH-14-CD-5678</option>
-              <option>MH-07-RS-8901</option>
-            </select>
+          <div class="form-field">
+            <label for="trip-create-vehicle">Vehicle</label>
+            <select id="trip-create-vehicle" class="text-input"></select>
           </div>
-          <div class="form-group">
-            <label class="form-label" for="driver">Driver</label>
-            <select class="select-input" id="driver">
-              <option>Rajesh K.</option>
-              <option>Suresh P.</option>
-              <option>Amit V.</option>
-            </select>
+          <div class="form-field">
+            <label for="trip-create-driver">Driver</label>
+            <select id="trip-create-driver" class="text-input"></select>
           </div>
-        </div>
-        <div class="form-group">
-          <label class="form-label" for="revenue">Revenue (₹)</label>
-          <input class="text-input tabular-nums" id="revenue" type="text" value="4500">
+          <div class="form-field form-field--full">
+            <label for="trip-create-revenue">Revenue (₹)</label>
+            <input type="number" id="trip-create-revenue" class="text-input tabular-nums" value="4500">
+          </div>
         </div>
       </div>
       <div class="modal__footer">
-        <button type="button" class="btn btn-outline" data-modal-close>Cancel</button>
-        <button type="button" class="btn btn-primary" data-modal-close>Create Trip</button>
-      </div>
-    </div>
-  </div>
-
-  <div class="modal-overlay" id="dispatch-modal" role="dialog" aria-labelledby="dispatch-title">
-    <div class="modal">
-      <div class="modal__header">
-        <h2 class="modal__title" id="dispatch-title">Dispatch Trip</h2>
-        <button type="button" class="modal__close" data-modal-close aria-label="Close">×</button>
-      </div>
-      <div class="modal__body">
-        <p><strong>TRP-2026-0140</strong> · Mumbai → Nashik</p>
-        <p style="color:var(--color-graphite);">Vehicle MH-01-EF-7890 · Driver Amit V.</p>
-        <p style="margin-top:var(--spacing-md);">Confirm dispatch to driver mobile app?</p>
-      </div>
-      <div class="modal__footer">
-        <button type="button" class="btn btn-outline" data-modal-close>Cancel</button>
-        <button type="button" class="btn btn-primary" data-modal-close>Dispatch Now</button>
+        <button type="button" class="btn btn-outline btn-sm" id="trip-ops-create-cancel">Cancel</button>
+        <button type="button" class="btn btn-primary btn-sm" id="trip-ops-create-save">Create Trip</button>
       </div>
     </div>
   </div>
 
   <script src="js/icons.js"></script>
+  <script src="js/lucide-icons.js"></script>
   <script src="js/shell.js"></script>
   <script src="js/nav.js"></script>
   <script src="js/trips-data.js"></script>
