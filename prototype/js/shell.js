@@ -91,15 +91,55 @@
     );
   }
 
+  function vehiclesNavGroup() {
+    return navGroup(
+      'Vehicles',
+      navChildLink('vehicles', 'vehicle-list', 'vehicles.html', 'Vehicle List') +
+      navChildLink('vehicles', 'assignments', 'vehicle-assignments.html', 'Vehicle Assignments') +
+      navChildLink('vehicles', 'meter-history', 'meter-history.html', 'Meter History') +
+      navChildLink('vehicles', 'tire-readings', 'tyres.html', 'Tire Readings') +
+      navChildLink('vehicles', 'expense-history', 'vehicle-expenses.html', 'Expense History') +
+      navChildLink('vehicles', 'replacement', 'vehicle-replacement.html', 'Replacement Analysis'),
+      false,
+      'vehicles',
+      'nav-group--submenu nav-group--vehicles'
+    );
+  }
+
+  function serviceNavGroup() {
+    return navGroup(
+      'Service',
+      navChildLink('service', 'service-history', 'service-history.html', 'Service History') +
+      navChildLink('service', 'work-orders', 'work-orders.html', 'Work Orders') +
+      navChildLink('service', 'service-tasks', 'service-tasks.html', 'Service Tasks') +
+      navChildLink('service', 'service-programs', 'maintenance.html', 'Service Programs'),
+      false,
+      'maintenance',
+      'nav-group--submenu nav-group--service'
+    );
+  }
+
+  function fuelNavGroup() {
+    return navGroup(
+      'Fuel &amp; Energy',
+      navChildLink('fuel', 'fuel-history', 'fuel-history.html', 'Fuel History') +
+      navChildLink('fuel', 'charging-history', 'charging-history.html', 'Charging History'),
+      false,
+      'fuel',
+      'nav-group--submenu nav-group--fuel'
+    );
+  }
+
   function buildSidebarNav() {
     if (!isFull) {
       return (
         navLink('dashboard', 'dashboard.html', 'Dashboard', 'dashboard') +
         navLink('gps', 'gps.html', 'Tracking', 'gps') +
-        navLink('vehicles', 'vehicles.html', 'Vehicles', 'vehicles') +
+        vehiclesNavGroup() +
+        serviceNavGroup() +
         navLink('drivers', 'drivers.html', 'Drivers', 'drivers') +
         navLink('trips', 'trips.html', 'Trip &amp; Operations', 'trips') +
-        navLink('fuel', 'fuel-history.html', 'Fuel', 'fuel') +
+        fuelNavGroup() +
         navLink('inventory', 'parts.html', 'Inventory', 'inventory') +
         navLink('documents', 'documents.html', 'Documents', 'documents')
       );
@@ -108,38 +148,11 @@
     return (
       navLink('dashboard', 'dashboard.html', 'Dashboard', 'dashboard') +
       navLink('gps', 'gps.html', 'Live Tracking', 'gps') +
-      navGroup(
-        'Vehicles',
-        navChildLink('vehicles', 'vehicle-list', 'vehicles.html', 'Vehicle List') +
-        navChildLink('vehicles', 'assignments', 'vehicle-assignments.html', 'Vehicle Assignments') +
-        navChildLink('vehicles', 'meter-history', 'meter-history.html', 'Meter History') +
-        navChildLink('vehicles', 'tire-readings', 'tyres.html', 'Tire Readings') +
-        navChildLink('vehicles', 'expense-history', 'vehicle-expenses.html', 'Expense History') +
-        navChildLink('vehicles', 'replacement', 'vehicle-replacement.html', 'Replacement Analysis'),
-        false,
-        'vehicles',
-        'nav-group--submenu nav-group--vehicles'
-      ) +
-      navGroup(
-        'Service',
-        navChildLink('service', 'service-history', 'service-history.html', 'Service History') +
-        navChildLink('service', 'work-orders', 'work-orders.html', 'Work Orders') +
-        navChildLink('service', 'service-tasks', 'service-tasks.html', 'Service Tasks') +
-        navChildLink('service', 'service-programs', 'maintenance.html', 'Service Programs'),
-        false,
-        'maintenance',
-        'nav-group--submenu nav-group--service'
-      ) +
+      vehiclesNavGroup() +
+      serviceNavGroup() +
       navLink('drivers', 'drivers.html', 'Drivers', 'drivers') +
       navLink('trips', 'trips.html', 'Trip &amp; Operations', 'trips') +
-      navGroup(
-        'Fuel &amp; Energy',
-        navChildLink('fuel', 'fuel-history', 'fuel-history.html', 'Fuel History') +
-        navChildLink('fuel', 'charging-history', 'charging-history.html', 'Charging History'),
-        false,
-        'fuel',
-        'nav-group--submenu nav-group--fuel'
-      ) +
+      fuelNavGroup() +
       navLink('tyres', 'tyres.html', 'Tyres', 'tyres') +
       navLink('battery', 'battery.html', 'Battery', 'battery') +
       navGroup(

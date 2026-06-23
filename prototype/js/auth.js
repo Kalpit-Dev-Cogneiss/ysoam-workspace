@@ -34,7 +34,7 @@
 
   function login(remember) {
     writeSession(AUTH_KEY, '1');
-    if (remember) writePersist(PERSIST_KEY, '1');
+    if (remember !== false) writePersist(PERSIST_KEY, '1');
     else removePersist(PERSIST_KEY);
   }
 
