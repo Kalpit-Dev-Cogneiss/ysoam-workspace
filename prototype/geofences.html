@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="js/auth.js"></script>
+  <title>Geofence — YSOAM</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/pages.css">
+</head>
+<body data-page="geofences">
+  <div class="sidebar-backdrop" id="sidebar-backdrop"></div>
+  <div class="app-shell">
+    <div id="sidebar-root"></div>
+    <div class="main-area">
+      <div id="topbar-root"></div>
+      <main class="content content--geofences">
+        <div class="page-header page-header--compact geofences-header">
+          <div class="page-header__text">
+            <h1>Geofence <a class="service-learn-link" href="roadmap.html">Learn</a></h1>
+          </div>
+          <div class="page-header__actions">
+            <button type="button" class="btn btn-outline btn-sm geofences-more-btn" id="geofences-more-btn" aria-label="More actions">
+              <span class="row-actions__dots" aria-hidden="true"></span>
+            </button>
+            <button type="button" class="btn btn-primary btn-sm" id="geofences-add-btn">
+              <span data-lucide-icon="plus" data-lucide-icon-size="14" aria-hidden="true"></span>
+              Add Geofence
+            </button>
+          </div>
+        </div>
+
+        <div class="panel table-panel geofences-panel">
+          <div class="geofences-toolbar">
+            <div class="geofences-toolbar__left">
+              <div class="table-panel__search">
+                <span class="table-panel__search-icon" data-lucide-icon="search" aria-hidden="true"></span>
+                <input type="search" class="table-panel__search-input" id="geofences-search" placeholder="Search" aria-label="Search geofences">
+              </div>
+              <button type="button" class="expense-filter-pill" data-filter="entryType" aria-expanded="false" aria-haspopup="dialog">Location Entry Type</button>
+              <button type="button" class="expense-filter-pill" data-filter="entryDate" aria-expanded="false" aria-haspopup="dialog">Location Entry Date</button>
+              <button type="button" class="expense-filter-pill" data-filter="radius" aria-expanded="false" aria-haspopup="dialog">Geofence Radius</button>
+              <button type="button" class="expense-filters-btn" id="geofences-filters-btn" aria-expanded="false" aria-controls="geofences-filters-drawer">
+                <span class="expense-filters-btn__icon" data-lucide-icon="filter" aria-hidden="true"></span>
+                <span class="expense-filters-btn__label" id="geofences-filters-btn-label">Filters</span>
+              </button>
+            </div>
+            <div class="geofences-toolbar__right" id="geofences-pagination">
+              <span class="geofences-pagination__count tabular-nums" id="geofences-count">0 of 0</span>
+              <button type="button" class="geofences-page-btn" data-page-prev aria-label="Previous page"><span data-lucide-icon="chevronLeft"></span></button>
+              <button type="button" class="geofences-page-btn" data-page-next aria-label="Next page"><span data-lucide-icon="chevronRight"></span></button>
+              <button type="button" class="geofences-page-btn" id="geofences-table-settings-btn" aria-label="Table settings"><span data-lucide-icon="settings"></span></button>
+            </div>
+          </div>
+
+          <div class="geofences-body">
+            <div class="panel__body panel__body--flush geofences-table-wrap">
+              <div class="data-table-wrap data-table-wrap--scroll" id="geofences-table"></div>
+            </div>
+            <aside class="expense-filters-drawer" id="geofences-filters-drawer" aria-label="Filters">
+              <div class="expense-filters-drawer__header">
+                <h2>Filters</h2>
+                <button type="button" class="expense-filters-drawer__close" id="geofences-filters-drawer-close" aria-label="Close filters">
+                  <span data-lucide-icon="x" data-lucide-icon-size="18"></span>
+                </button>
+              </div>
+              <div class="expense-filters-drawer__body" id="geofences-filters-drawer-body"></div>
+            </aside>
+          </div>
+
+          <div class="expense-filter-popover" id="geofences-filter-popover" hidden role="dialog" aria-modal="true"></div>
+          <div class="expense-table-settings" id="geofences-table-settings" hidden role="dialog" aria-label="Table settings"></div>
+        </div>
+      </main>
+    </div>
+  </div>
+  <div id="bottom-nav-root"></div>
+
+  <script src="js/icons.js"></script>
+  <script src="js/lucide-icons.js"></script>
+  <script src="js/shell.js"></script>
+  <script src="js/nav.js"></script>
+  <script src="js/date-filter-popover.js"></script>
+  <script src="js/geofences-data.js"></script>
+  <script src="js/geofences.js"></script>
+</body>
+</html>

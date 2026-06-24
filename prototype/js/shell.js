@@ -134,6 +134,7 @@
       return (
         navLink('dashboard', 'dashboard.html', 'Dashboard', 'dashboard') +
         navLink('gps', 'gps.html', 'Tracking', 'gps') +
+        navLink('geofences', 'geofences.html', 'Geofence', 'gps') +
         vehiclesNavGroup() +
         serviceNavGroup() +
         navLink('drivers', 'drivers.html', 'Drivers', 'drivers') +
@@ -147,6 +148,7 @@
     return (
       navLink('dashboard', 'dashboard.html', 'Dashboard', 'dashboard') +
       navLink('gps', 'gps.html', 'Live Tracking', 'gps') +
+      navLink('geofences', 'geofences.html', 'Geofence', 'gps') +
       vehiclesNavGroup() +
       serviceNavGroup() +
       navLink('drivers', 'drivers.html', 'Drivers', 'drivers') +

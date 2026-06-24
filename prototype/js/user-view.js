@@ -16,7 +16,7 @@
   var fieldSearch = '';
   var user = null;
   var PAGE_SIZE = 10;
-  var tabState = { search: {}, page: {} };
+  var tabState = { search: {}, page: {}, issueStatus: 'all' };
   var documentBound = false;
 
   function renewalFormUrl() {
@@ -53,20 +53,45 @@
     return { label: 'Not set', dot: '#94A3B8' };
   }
 
-  function listToolbar(tab, count, extraRight) {
+  function toolbar(cfg) {
+    cfg = cfg || {};
+    var tab = cfg.tab || activeTab;
+    var filtersHtml = (cfg.filters || []).map(function (f) {
+      return '<select class="table-panel__filter" data-uv-filter="' + esc(f.key) + '" aria-label="' + esc(f.label) + '">' +
+        f.options.map(function (o) {
+          var val = typeof o === 'object' ? o.value : o;
+          var text = typeof o === 'object' ? o.label : o;
+          return '<option value="' + esc(val) + '"' + (String(val) === String(f.value) ? ' selected' : '') + '>' + esc(text) + '</option>';
+        }).join('') +
+      '</select>';
+    }).join('');
     return (
       '<div class="table-panel__toolbar">' +
         '<div class="table-panel__search">' +
           '<span class="table-panel__search-icon" aria-hidden="true">⌕</span>' +
           '<input type="search" class="table-panel__search-input" data-uv-tab-search="' + tab + '" placeholder="Search" aria-label="Search" value="' + esc(tabSearch(tab)) + '">' +
         '</div>' +
-        '<a href="#" class="table-panel__link">More Actions ↗</a>' +
-        '<span class="table-panel__count tabular-nums">' + esc(count) + '</span>' +
+        filtersHtml +
+        (cfg.moreActions !== false ? '<a href="#" class="table-panel__link">More Actions ↗</a>' : '') +
+        (cfg.count ? '<span class="table-panel__count tabular-nums">' + esc(cfg.count) + '</span>' : '') +
         '<div class="table-panel__pager">' +
           '<button type="button" class="table-panel__pager-btn" data-uv-pager="' + tab + '" data-dir="prev" aria-label="Previous">‹</button>' +
           '<button type="button" class="table-panel__pager-btn" data-uv-pager="' + tab + '" data-dir="next" aria-label="Next">›</button>' +
         '</div>' +
-        (extraRight || '') +
+        (cfg.gear ? '<button type="button" class="table-panel__gear" aria-label="Table settings">⚙</button>' : '') +
+        (cfg.extraRight || '') +
+      '</div>'
+    );
+  }
+
+  function listTablePanel(toolbarHtml, tableHtml, emptyHtml, panelClass) {
+    return (
+      '<div class="panel table-panel list-table-panel' + (panelClass ? ' ' + panelClass : '') + '">' +
+        toolbarHtml +
+        '<div class="panel__body panel__body--flush">' +
+          (tableHtml || '') +
+          (emptyHtml || '') +
+        '</div>' +
       '</div>'
     );
   }
@@ -186,6 +211,79 @@
     if (!iso) return null;
     var d = new Date(iso + 'T12:00:00');
     return d.toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' });
+  }
+
+  function pad(n) { return n < 10 ? '0' + n : String(n); }
+
+  function formatDateTime(iso) {
+    if (!iso) return '—';
+    var d = new Date(iso);
+    var h = d.getHours();
+    var ampm = h >= 12 ? 'pm' : 'am';
+    h = h % 12 || 12;
+    return pad(d.getDate()) + '/' + pad(d.getMonth() + 1) + '/' + d.getFullYear() + ' ' + h + ':' + pad(d.getMinutes()) + ampm;
+  }
+
+  function findVehicle(plateOrId) {
+    var vehicles = window.YSOAM_VEHICLES;
+    if (!plateOrId || !vehicles || !vehicles.list) return null;
+    return vehicles.list.find(function (v) { return v.id === plateOrId || v.name === plateOrId; }) || null;
+  }
+
+  function vehicleCell(vehicleId) {
+    var v = findVehicle(vehicleId);
+    if (!v) return esc(vehicleId || '—');
+    return (
+      '<div class="vehicle-list-name">' +
+        '<img class="vehicle-list-photo" src="' + esc(v.image) + '" alt="">' +
+        '<a href="vehicle-detail?id=' + encodeURIComponent(v.id) + '" class="table-cell-link">' + esc(v.name) + '</a>' +
+      '</div>'
+    );
+  }
+
+  function serviceStatusDot(status) {
+    if (status === 'Due soon') return '#EA580C';
+    if (status === 'Upcoming') return '#16A34A';
+    return '#64748B';
+  }
+
+  function getFilteredTabItems(tab) {
+    var d = user;
+    var q = tabSearch(tab).trim().toLowerCase();
+    if (tab === 'renewals') {
+      return (d.renewals || []).filter(function (r) {
+        var st = renewalStatus(r);
+        return matchesSearch([r.type, st.label, r.dueDate, r.relative].join(' '), q);
+      });
+    }
+    if (tab === 'issues') {
+      var statusFilter = tabState.issueStatus;
+      return (d.issues || []).filter(function (i) {
+        if (statusFilter !== 'all' && i.status !== statusFilter) return false;
+        return matchesSearch([i.name, i.priority, i.issue, i.summary, i.status, i.source, i.assigned, i.labels].join(' '), q);
+      });
+    }
+    if (tab === 'service-reminders') {
+      return (d.serviceReminders || []).filter(function (r) {
+        return matchesSearch([r.vehicleId, r.task, r.assignee, r.status, r.nextDue, r.incompleteWo].join(' '), q);
+      });
+    }
+    if (tab === 'inspections') {
+      return (d.inspections || []).filter(function (i) {
+        return matchesSearch([i.vehicleId, i.form, i.duration, i.locationException].join(' '), q);
+      });
+    }
+    return [];
+  }
+
+  function refreshTabPanel() {
+    var panel = document.getElementById('uv-panel');
+    if (!panel) return;
+    panel.innerHTML = renderPanel();
+    bindTabPanelEvents();
+    bindRenewalRowActions();
+    bindMenus();
+    initLucide(panel);
   }
 
   function linkPrimary(href, text) {
@@ -436,11 +534,7 @@
 
   function renderRenewalsTab(d) {
     var tab = 'renewals';
-    var q = tabSearch(tab).trim().toLowerCase();
-    var all = (d.renewals || []).filter(function (r) {
-      var st = renewalStatus(r);
-      return matchesSearch([r.type, st.label, r.dueDate, r.relative].join(' '), q);
-    });
+    var all = getFilteredTabItems(tab);
     var paged = paginate(all, tab);
     var rows = paged.rows.map(function (r, i) {
       var st = renewalStatus(r);
@@ -458,26 +552,119 @@
       '</tr>';
     }).join('');
 
-    return (
-      '<div class="panel table-panel list-table-panel uv-renewals-panel">' +
-        listToolbar(tab, paginationCount(paged.total, paged.page)) +
-        '<div class="panel__body panel__body--flush">' +
-          (paged.rows.length ? dataTable(
-            ['Type', 'Status', 'Due Date', 'Notifications Enabled', 'Watchers', { className: 'data-table__actions-col', label: 'Actions', html: '' }],
-            rows,
-            { tableClass: 'data-table--user-view-renewals' }
-          ) : tableEmpty('No results to show.')) +
-        '</div>' +
-      '</div>'
+    return listTablePanel(
+      toolbar({ tab: tab, count: paginationCount(paged.total, paged.page) }),
+      paged.rows.length ? dataTable(
+        ['Type', 'Status', 'Due Date', 'Notifications Enabled', 'Watchers', { className: 'data-table__actions-col', label: 'Actions', html: '' }],
+        rows,
+        { tableClass: 'data-table--user-view-renewals' }
+      ) : '',
+      paged.rows.length ? '' : tableEmpty('No results to show.'),
+      'uv-renewals-panel'
     );
   }
 
-  function emptyWidget(title, message, icon, addLabel, viewAll, addHref) {
+  function renderIssuesTab(d) {
+    var tab = 'issues';
+    var all = getFilteredTabItems(tab);
+    var paged = paginate(all, tab);
+    var rows = paged.rows.map(function (i) {
+      return '<tr>' +
+        '<td><a href="#" class="table-cell-link">' + esc(i.name) + '</a></td>' +
+        '<td>' + esc(i.priority) + '</td>' +
+        '<td><a href="#" class="table-cell-link">' + esc(i.issue) + '</a></td>' +
+        '<td>' + esc(i.summary) + '</td>' +
+        '<td><span class="data-table__status-dot" style="background:' + esc(i.statusDot || '#64748B') + '"></span>' + esc(i.status) + '</td>' +
+        '<td>' + esc(i.source) + '</td>' +
+        '<td class="tabular-nums">' + esc(formatDateTime(i.reportedDate)) + '</td>' +
+        '<td>' + esc(i.assigned) + '</td>' +
+        '<td>' + esc(i.labels || '—') + '</td>' +
+        '<td class="tabular-nums">' + (i.watchers != null ? esc(String(i.watchers)) : dash(null)) + '</td>' +
+      '</tr>';
+    }).join('');
+    return listTablePanel(
+      toolbar({
+        tab: tab,
+        filters: [{
+          key: 'issueStatus',
+          label: 'Issue Status',
+          value: tabState.issueStatus,
+          options: [
+            { value: 'all', label: 'Issue Status' },
+            { value: 'Open', label: 'Open' },
+            { value: 'Resolved', label: 'Resolved' },
+            { value: 'Overdue', label: 'Overdue' }
+          ]
+        }],
+        count: paginationCount(paged.total, paged.page),
+        gear: true
+      }),
+      paged.rows.length ? dataTable(['Name', 'Priority', 'Issue', 'Summary', 'Issue Status', 'Source', 'Reported Date ↓', 'Assigned', 'Labels', 'Watchers'], rows, { tableClass: 'data-table--user-view-issues' }) : '',
+      paged.rows.length ? '' : tableEmpty('No results to show.')
+    );
+  }
+
+  function renderServiceRemindersTab(d) {
+    var tab = 'service-reminders';
+    var all = getFilteredTabItems(tab);
+    var paged = paginate(all, tab);
+    var rows = paged.rows.map(function (r) {
+      return '<tr>' +
+        '<td>' + vehicleCell(r.vehicleId) + '</td>' +
+        '<td><a href="#" class="table-cell-link">' + esc(r.task) + '</a></td>' +
+        '<td>' + esc(r.assignee) + '</td>' +
+        '<td class="tabular-nums">' + esc(formatDate(r.assignedAt)) + '</td>' +
+        '<td><span class="data-table__status-dot" style="background:' + serviceStatusDot(r.status) + '"></span>' + esc(r.status) + '</td>' +
+        '<td>' + (r.nextDue ? esc(formatDate(r.nextDue)) : dash(null)) +
+          (r.nextDueSub ? '<span class="data-table__task-sub">' + esc(r.nextDueSub) + '</span>' : '') +
+        '</td>' +
+        '<td>' + (r.incompleteWo && r.incompleteWo !== '—' ? '<a href="#" class="table-cell-link">' + esc(r.incompleteWo) + '</a>' : dash(null)) + '</td>' +
+        '<td>' + (r.lastCompleted ? '<a href="#" class="table-cell-link">' + esc(formatDate(r.lastCompleted)) + '</a>' : dash(null)) +
+          (r.lastCompletedSub ? '<span class="data-table__task-sub">' + esc(r.lastCompletedSub) + '</span>' : '') +
+        '</td>' +
+        '<td>' + esc(r.compliance) + '</td>' +
+        '<td class="tabular-nums">' + (r.watchers != null ? esc(String(r.watchers)) : dash(null)) + '</td>' +
+      '</tr>';
+    }).join('');
+    return listTablePanel(
+      toolbar({
+        tab: tab,
+        count: paginationCount(paged.total, paged.page),
+        gear: true,
+        extraRight: '<select class="table-panel__filter cd-toolbar-group" aria-label="Group"><option>Group: None</option></select>'
+      }),
+      paged.rows.length ? dataTable(['Vehicle', 'Service Task', 'Assignee', 'Assigned At', 'Status', 'Next Due', 'Incomplete Work Order', 'Last Completed', 'Compliance', 'Watchers'], rows, { tableClass: 'data-table--user-view-service' }) : '',
+      paged.rows.length ? '' : tableEmpty('No results to show.')
+    );
+  }
+
+  function renderInspectionsTab(d) {
+    var tab = 'inspections';
+    var all = getFilteredTabItems(tab);
+    var paged = paginate(all, tab);
+    var rows = paged.rows.map(function (i) {
+      return '<tr>' +
+        '<td>' + vehicleCell(i.vehicleId) + '</td>' +
+        '<td class="tabular-nums">' + esc(formatDateTime(i.submitted)) + '</td>' +
+        '<td>' + esc(i.duration) + '</td>' +
+        '<td><a href="#" class="table-cell-link">' + esc(i.form) + '</a></td>' +
+        '<td>' + dash(i.locationException === '—' ? null : i.locationException) + '</td>' +
+        '<td class="tabular-nums">' + (i.failedItems != null ? esc(String(i.failedItems)) : dash(null)) + '</td>' +
+      '</tr>';
+    }).join('');
+    return listTablePanel(
+      toolbar({ tab: tab, count: paginationCount(paged.total, paged.page), gear: true }),
+      paged.rows.length ? dataTable(['Vehicle', 'Submitted ↓', 'Duration', 'Inspection Form', 'Location Exception', 'Failed Items'], rows, { tableClass: 'data-table--user-view-inspections' }) : '',
+      paged.rows.length ? '' : tableEmpty('No results to show.')
+    );
+  }
+
+  function emptyWidget(title, message, icon, addLabel, viewAll, addHref, gotoTab) {
     var acts = '';
     if (addLabel || viewAll) {
       acts = '<span class="cd-widget__acts">';
       if (addLabel) acts += '<a href="' + esc(addHref || renewalFormUrl()) + '" class="cd-widget__add">' + esc(addLabel) + '</a>';
-      if (viewAll) acts += '<a href="#" class="cd-widget__viewall" data-uv-goto-tab="renewals">View All</a>';
+      if (viewAll) acts += '<a href="#" class="cd-widget__viewall" data-uv-goto-tab="' + esc(gotoTab || 'renewals') + '">View All</a>';
       acts += '</span>';
     }
     return (
@@ -511,18 +698,9 @@
           emptyWidget('Current Vehicle Assignments', vehicleMsg, vehicleIcon(), null, false) +
           renderRenewalsWidget(d) +
           emptyWidget('Incomplete Work Order Assignments', workOrderMsg, workOrderIcon(), null, false) +
-          emptyWidget('Open Issue Assignments', 'No open issues currently assigned.', issueIcon(), null, true) +
-          emptyWidget('Service Reminder Assignments', 'No service reminders currently assigned.', serviceIcon(), null, true) +
+          emptyWidget('Open Issue Assignments', 'No open issues currently assigned.', issueIcon(), null, true, null, 'issues') +
+          emptyWidget('Service Reminder Assignments', 'No service reminders currently assigned.', serviceIcon(), null, true, null, 'service-reminders') +
         '</div>' +
-      '</div>'
-    );
-  }
-
-  function renderPlaceholderTab(message) {
-    return (
-      '<div class="vd-empty">' +
-        '<svg class="vd-empty__icon" viewBox="0 0 64 64" fill="none"><circle cx="28" cy="28" r="18" stroke="#CBD5E1" stroke-width="3"/><line x1="41" y1="41" x2="56" y2="56" stroke="#CBD5E1" stroke-width="3" stroke-linecap="round"/></svg>' +
-        '<p class="vd-empty__msg">' + esc(message) + '</p>' +
       '</div>'
     );
   }
@@ -530,9 +708,9 @@
   function renderPanel() {
     if (activeTab === 'overview') return renderOverview(user);
     if (activeTab === 'renewals') return renderRenewalsTab(user);
-    if (activeTab === 'issues') return renderPlaceholderTab('No issues assigned to this contact.');
-    if (activeTab === 'service-reminders') return renderPlaceholderTab('No service reminders for this contact.');
-    if (activeTab === 'inspections') return renderPlaceholderTab('No inspections for this contact.');
+    if (activeTab === 'issues') return renderIssuesTab(user);
+    if (activeTab === 'service-reminders') return renderServiceRemindersTab(user);
+    if (activeTab === 'inspections') return renderInspectionsTab(user);
     return '';
   }
 
@@ -544,11 +722,7 @@
     document.querySelectorAll('[data-uv-tab-search]').forEach(function (input) {
       input.addEventListener('input', function () {
         setTabSearch(input.getAttribute('data-uv-tab-search'), input.value);
-        document.getElementById('uv-panel').innerHTML = renderPanel();
-        bindTabPanelEvents();
-        bindRenewalRowActions();
-        bindMenus();
-        initLucide(document.getElementById('uv-panel'));
+        refreshTabPanel();
       });
     });
 
@@ -556,17 +730,20 @@
       btn.addEventListener('click', function () {
         var tab = btn.getAttribute('data-uv-pager');
         var dir = btn.getAttribute('data-dir');
-        var all = user.renewals || [];
-        if (tab !== 'renewals') return;
+        var all = getFilteredTabItems(tab);
         var totalPages = Math.max(1, Math.ceil(all.length / PAGE_SIZE));
         var page = tabPage(tab);
         if (dir === 'prev' && page > 1) setTabPage(tab, page - 1);
         if (dir === 'next' && page < totalPages) setTabPage(tab, page + 1);
-        document.getElementById('uv-panel').innerHTML = renderPanel();
-        bindTabPanelEvents();
-        bindRenewalRowActions();
-        bindMenus();
-        initLucide(document.getElementById('uv-panel'));
+        refreshTabPanel();
+      });
+    });
+
+    document.querySelectorAll('[data-uv-filter="issueStatus"]').forEach(function (sel) {
+      sel.addEventListener('change', function () {
+        tabState.issueStatus = sel.value;
+        setTabPage('issues', 1);
+        refreshTabPanel();
       });
     });
 

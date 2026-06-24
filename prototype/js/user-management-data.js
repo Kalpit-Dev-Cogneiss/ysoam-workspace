@@ -283,6 +283,61 @@ window.YSOAM_USER_MANAGEMENT = (function () {
     return [];
   }
 
+  function buildIssues(id) {
+    if (id === 'USR-003') {
+      return [
+        { name: 'Tyre pressure alert', priority: 'Medium', issue: 'ISS-2201', summary: 'Low pressure reported on rear axle during expressway run', status: 'Open', statusDot: '#DC2626', source: 'Telematics', reportedDate: '2026-06-10T14:20:00', assigned: 'Priya Desai', labels: 'Maintenance', watchers: 1 },
+        { name: 'Dashcam offline', priority: 'Low', issue: 'ISS-2188', summary: 'MH-22-LM-6789 dashcam not syncing for 48 hours', status: 'Resolved', statusDot: '#16A34A', source: 'Manual', reportedDate: '2026-05-28T09:00:00', assigned: 'Priya Desai', labels: 'Equipment', watchers: 0 }
+      ];
+    }
+    if (id === 'USR-007') {
+      return [
+        { name: 'Brake warning light', priority: 'High', issue: 'ISS-1042', summary: 'Dashboard brake warning during Mumbai port run', status: 'Open', statusDot: '#DC2626', source: 'Inspection', reportedDate: '2026-06-12T09:15:00', assigned: 'Vikram Patil', labels: 'Safety', watchers: 1 }
+      ];
+    }
+    if (id === 'USR-009') {
+      return [
+        { name: 'AC not cooling', priority: 'Medium', issue: 'ISS-2305', summary: 'Cabin temperature above threshold on Kalyan route', status: 'Overdue', statusDot: '#EA580C', source: 'Driver Report', reportedDate: '2026-06-01T11:30:00', assigned: 'Suresh Iyer', labels: 'Comfort', watchers: 2 }
+      ];
+    }
+    return [];
+  }
+
+  function buildServiceReminders(id) {
+    if (id === 'USR-003') {
+      return [
+        { vehicleId: 'MH-12-AB-1234', task: 'Oil Change', assignee: 'Priya Desai', assignedAt: '2026-01-10', status: 'Upcoming', nextDue: '2026-07-01', nextDueSub: '128,000 km', incompleteWo: '—', lastCompleted: '2026-01-05', lastCompletedSub: '124,500 km', compliance: 'Compliant', watchers: 0 },
+        { vehicleId: 'MH-22-LM-6789', task: 'Annual Inspection', assignee: 'Priya Desai', assignedAt: '2026-03-15', status: 'Due soon', nextDue: '2026-06-30', nextDueSub: '', incompleteWo: 'WO-441', lastCompleted: '2025-06-28', lastCompletedSub: '', compliance: 'At risk', watchers: 2 }
+      ];
+    }
+    if (id === 'USR-009') {
+      return [
+        { vehicleId: 'MH-09-FG-9012', task: 'Tire Rotation', assignee: 'Suresh Iyer', assignedAt: '2026-02-01', status: 'Due soon', nextDue: '2026-06-20', nextDueSub: '157,000 km', incompleteWo: 'WO-882', lastCompleted: '2025-12-01', lastCompletedSub: '152,000 km', compliance: 'At risk', watchers: 2 }
+      ];
+    }
+    return [];
+  }
+
+  function buildInspections(id) {
+    if (id === 'USR-003') {
+      return [
+        { vehicleId: 'MH-12-AB-1234', submitted: '2026-06-14T07:45:00', duration: '12m', form: 'Pre-Trip Inspection', locationException: '—', failedItems: 0 },
+        { vehicleId: 'MH-22-LM-6789', submitted: '2026-06-08T06:15:00', duration: '9m', form: 'Weekly Safety Check', locationException: '—', failedItems: 1 }
+      ];
+    }
+    if (id === 'USR-007') {
+      return [
+        { vehicleId: 'MH-01-EF-7890', submitted: '2026-06-12T06:30:00', duration: '8m', form: 'Daily Vehicle Inspection', locationException: '—', failedItems: 1 }
+      ];
+    }
+    if (id === 'USR-009') {
+      return [
+        { vehicleId: 'MH-09-FG-9012', submitted: '2026-06-16T05:40:00', duration: '10m', form: 'Pre-Trip Inspection', locationException: '—', failedItems: 0 }
+      ];
+    }
+    return [];
+  }
+
   var list = buildList();
 
   function getDetail(id) {
@@ -343,7 +398,10 @@ window.YSOAM_USER_MANAGEMENT = (function () {
       avatarColor: avatarColor(idx >= 0 ? idx : 0),
       createdBy: row.name,
       createdDaysAgo: 13 - (idx % 6),
-      renewals: buildRenewals(id)
+      renewals: buildRenewals(id),
+      issues: buildIssues(id),
+      serviceReminders: buildServiceReminders(id),
+      inspections: buildInspections(id)
     };
   }
 

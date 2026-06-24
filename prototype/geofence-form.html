@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="js/auth.js"></script>
+  <title>New Geofence — YSOAM</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="">
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/pages.css">
+</head>
+<body data-page="geofences" data-subpage="geofence-form">
+  <div class="sidebar-backdrop" id="sidebar-backdrop"></div>
+  <div class="app-shell">
+    <div id="sidebar-root"></div>
+    <div class="main-area">
+      <div id="topbar-root"></div>
+      <main class="content content--geofence-form">
+        <header class="vehicle-form-topbar geofence-form-topbar">
+          <div class="vehicle-form-topbar__main">
+            <a class="vehicle-form-back" href="geofences"><span class="vehicle-form-back__icon" data-form-icon="arrowLeft" aria-hidden="true"></span> Geofence</a>
+            <h1>New Geofence</h1>
+          </div>
+          <div class="vehicle-form-topbar__actions">
+            <a class="btn btn-text btn-sm" href="geofences" id="geofence-form-cancel">Cancel</a>
+            <button type="submit" form="geofence-form" class="btn btn-primary btn-sm">Save Geofence</button>
+          </div>
+        </header>
+
+        <div class="geofence-form-workspace">
+          <form class="geofence-form-pane" id="geofence-form" novalidate>
+            <div class="vehicle-form-card geofence-form-card">
+              <div class="form-field form-field--full">
+                <label for="geofence-name">Name <span class="required">*</span></label>
+                <input type="text" id="geofence-name" name="name" required>
+              </div>
+              <div class="form-field form-field--full">
+                <label for="geofence-description">Description</label>
+                <textarea id="geofence-description" name="description" rows="4"></textarea>
+              </div>
+            </div>
+
+            <div class="vehicle-form-card geofence-form-card">
+              <h2 class="vehicle-form-card__title">Adding a Location</h2>
+              <p class="geofence-form-hint">Use the address search below, or input the latitude and longitude of the location. You can also draw a geofence directly on the map after address or coordinates are input.</p>
+
+              <div class="form-field form-field--full">
+                <label for="geofence-address">Address <span class="required">*</span></label>
+                <input type="text" id="geofence-address" name="address" required value="3R2W+59 Mumbai, Maharashtra, India">
+              </div>
+
+              <div class="form-grid form-grid--2">
+                <div class="form-field">
+                  <label for="geofence-lat">Latitude <span class="required">*</span></label>
+                  <input type="text" id="geofence-lat" name="latitude" required inputmode="decimal" value="19.05040384323184">
+                </div>
+                <div class="form-field">
+                  <label for="geofence-lng">Longitude <span class="required">*</span></label>
+                  <input type="text" id="geofence-lng" name="longitude" required inputmode="decimal" value="72.84595486370135">
+                </div>
+              </div>
+
+              <div class="form-field form-field--full" id="geofence-radius-wrap">
+                <label for="geofence-radius">Geofence Radius <span class="required" id="geofence-radius-required">*</span></label>
+                <div class="geofence-radius-field" id="geofence-radius-field">
+                  <div class="geofence-radius-combo">
+                    <input type="text" id="geofence-radius" name="radiusM" required placeholder="Please select or input a radius (in meters)" inputmode="numeric" autocomplete="off" aria-expanded="false" aria-controls="geofence-radius-menu">
+                    <button type="button" class="geofence-radius-toggle" id="geofence-radius-toggle" aria-label="Show radius options" aria-expanded="false">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m7 15 5-5 5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="m7 9 5 5 5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </button>
+                  </div>
+                  <div class="geofence-radius-menu" id="geofence-radius-menu" role="listbox" hidden>
+                    <button type="button" class="geofence-radius-option" role="option" data-radius="100">100 meters</button>
+                    <button type="button" class="geofence-radius-option" role="option" data-radius="200">200 meters</button>
+                    <button type="button" class="geofence-radius-option" role="option" data-radius="500">500 meters</button>
+                    <button type="button" class="geofence-radius-option" role="option" data-radius="1000">1000 meters</button>
+                    <button type="button" class="geofence-radius-option" role="option" data-radius="2890">2890 meters</button>
+                  </div>
+                </div>
+                <p class="geofence-form-hint geofence-form-hint--sm" id="geofence-radius-hint">The geofence radius is used to determine the location entries that are associated to this geofence. You can use this geofence to send an alert when a location entry is here.</p>
+                <p class="geofence-form-hint geofence-form-hint--sm geofence-shape-note" id="geofence-polygon-note" hidden>Polygon geofences are drawn on the map. Radius does not apply.</p>
+              </div>
+              <input type="hidden" id="geofence-shape" name="shape" value="">
+            </div>
+          </form>
+
+          <div class="geofence-map-pane">
+            <div class="geofence-map-banner" role="note">
+              <span class="geofence-map-banner__icon" data-lucide-icon="info" data-lucide-icon-size="16" aria-hidden="true"></span>
+              <p>You can draw a geofence directly on the map by clicking the circle or polygon icon.</p>
+            </div>
+
+            <div class="geofence-map-tools" role="toolbar" aria-label="Map drawing tools">
+              <button type="button" class="geofence-map-tool is-active" data-map-tool="hand" aria-label="Pan map" aria-pressed="true" title="Pan map">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M18 11V6a2 2 0 0 0-2-2 2 2 0 0 0-2 2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M14 10V4a2 2 0 0 0-2-2 2 2 0 0 0-2 2v2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M10 10.5V6a2 2 0 0 0-2-2 2 2 0 0 0-2 2v8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M18 8a2 2 0 1 1 4 0v6a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.86-5.99-2.34l-3.6-3.6a2 2 0 0 1 2.83-2.82L7 15" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </button>
+              <button type="button" class="geofence-map-tool" data-map-tool="circle" aria-label="Draw circle geofence" aria-pressed="false" title="Draw circle geofence">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="1.8"/></svg>
+              </button>
+              <button type="button" class="geofence-map-tool" data-map-tool="polygon" aria-label="Draw polygon geofence" aria-pressed="false" title="Draw polygon geofence">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3 20 9v8l-8 4-8-4V9l8-6z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
+              </button>
+            </div>
+
+            <div id="geofence-map" class="geofence-map" aria-label="Geofence map"></div>
+            <p class="geofence-map-hint geofence-map-hint--circle" id="geofence-circle-hint" hidden>Click and drag on the map to draw a circular geofence.</p>
+            <p class="geofence-map-hint geofence-map-hint--polygon" id="geofence-polygon-hint" hidden>Click to add corners. Click the first point or double-click to finish.</p>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+  <div id="bottom-nav-root"></div>
+
+  <script src="js/icons.js"></script>
+  <script src="js/lucide-icons.js"></script>
+  <script src="js/shell.js"></script>
+  <script src="js/nav.js"></script>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+  <script src="js/geofence-form.js"></script>
+</body>
+</html>
