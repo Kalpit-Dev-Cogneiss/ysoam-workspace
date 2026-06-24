@@ -17,6 +17,7 @@
   var user = null;
   var PAGE_SIZE = 10;
   var tabState = { search: {}, page: {} };
+  var documentBound = false;
 
   function renewalFormUrl() {
     return 'contact-renewal-form?id=' + encodeURIComponent(user.id) + '&from=user-management';
@@ -70,15 +71,84 @@
     );
   }
 
-  function dataTable(heads, rows) {
+  function dataTable(heads, rows, opts) {
+    opts = opts || {};
+    var tableClass = 'data-table data-table--list' + (opts.tableClass ? ' ' + opts.tableClass : '');
+    var headHtml = heads.map(function (h) {
+      if (typeof h === 'object') return '<th class="' + esc(h.className || '') + '"' + (h.label ? ' aria-label="' + esc(h.label) + '"' : '') + '>' + (h.html || '') + '</th>';
+      return '<th>' + h + '</th>';
+    }).join('');
     return (
       '<div class="data-table-wrap data-table-wrap--scroll">' +
-        '<table class="data-table data-table--list">' +
-          '<thead><tr>' + heads.map(function (h) { return '<th>' + h + '</th>'; }).join('') + '</tr></thead>' +
+        '<table class="' + tableClass + '">' +
+          '<thead><tr>' + headHtml + '</tr></thead>' +
           '<tbody>' + (rows || '') + '</tbody>' +
         '</table>' +
       '</div>'
     );
+  }
+
+  function renewalRowActionsMenu(rowIndex) {
+    return (
+      '<div class="row-actions" data-row-actions="renewal-' + esc(String(rowIndex)) + '">' +
+        '<button type="button" class="row-actions__trigger" aria-label="More actions" aria-haspopup="menu" aria-expanded="false">' +
+          '<span class="row-actions__dots" aria-hidden="true"></span>' +
+        '</button>' +
+        '<div class="row-actions__menu row-actions__menu--wide" role="menu" hidden>' +
+          '<a class="row-actions__item" href="' + esc(renewalFormUrl()) + '" role="menuitem">' +
+            'Add Renewal Reminder <span class="row-actions__item-icon">' + lucide('plus', 16) + '</span>' +
+          '</a>' +
+        '</div>' +
+      '</div>'
+    );
+  }
+
+  function closeRenewalRowMenus() {
+    document.querySelectorAll('.uv-renewals-panel .row-actions__menu').forEach(function (m) {
+      m.hidden = true;
+      m.style.position = '';
+      m.style.top = '';
+      m.style.left = '';
+      m.style.right = '';
+      m.style.zIndex = '';
+    });
+    document.querySelectorAll('.uv-renewals-panel .row-actions__trigger').forEach(function (b) {
+      b.setAttribute('aria-expanded', 'false');
+    });
+  }
+
+  function positionRenewalRowMenu(trigger, menu) {
+    var rect = trigger.getBoundingClientRect();
+    menu.hidden = false;
+    menu.style.position = 'fixed';
+    menu.style.top = (rect.bottom + 4) + 'px';
+    menu.style.left = Math.max(8, rect.right - 220) + 'px';
+    menu.style.right = 'auto';
+    menu.style.zIndex = '120';
+  }
+
+  function bindRenewalRowActions() {
+    document.querySelectorAll('.uv-renewals-panel .row-actions').forEach(function (wrap) {
+      if (wrap.getAttribute('data-bound')) return;
+      wrap.setAttribute('data-bound', '1');
+      wrap.addEventListener('click', function (e) { e.stopPropagation(); });
+    });
+
+    document.querySelectorAll('.uv-renewals-panel .row-actions__trigger').forEach(function (btn) {
+      if (btn.getAttribute('data-bound')) return;
+      btn.setAttribute('data-bound', '1');
+      btn.addEventListener('click', function (e) {
+        e.stopPropagation();
+        var menu = btn.closest('.row-actions').querySelector('.row-actions__menu');
+        var willOpen = menu.hidden;
+        closeRenewalRowMenus();
+        closeMenus();
+        if (willOpen) {
+          positionRenewalRowMenu(btn, menu);
+          btn.setAttribute('aria-expanded', 'true');
+        }
+      });
+    });
   }
 
   function tableEmpty(msg) {
@@ -372,9 +442,10 @@
       return matchesSearch([r.type, st.label, r.dueDate, r.relative].join(' '), q);
     });
     var paged = paginate(all, tab);
-    var rows = paged.rows.map(function (r) {
+    var rows = paged.rows.map(function (r, i) {
       var st = renewalStatus(r);
       var tone = r.relativeTone === 'soon' ? 'cd-renewal-rel--soon' : (r.relativeTone === 'past' ? 'cd-renewal-rel--past' : '');
+      var rowIndex = (paged.page - 1) * PAGE_SIZE + i;
       return '<tr>' +
         '<td>' + esc(r.type) + '</td>' +
         '<td><span class="data-table__status-dot" style="background:' + esc(st.dot) + '"></span>' + esc(st.label) + '</td>' +
@@ -383,25 +454,19 @@
         '</td>' +
         '<td class="tabular-nums">' + (r.notifications ? '✓' : dash(null)) + '</td>' +
         '<td class="tabular-nums">' + (r.watchers ? esc(r.watchers) : dash(null)) + '</td>' +
+        '<td class="data-table__actions-col">' + renewalRowActionsMenu(rowIndex) + '</td>' +
       '</tr>';
     }).join('');
 
-    var addBtn =
-      '<div class="vd-action-menu vd-action-menu--wide uv-renewals-add-menu" data-uv-menu="renewals-add">' +
-        '<button type="button" class="btn btn-primary btn-sm vd-add-trigger">+ Add <span class="vd-add-chevron">▾</span></button>' +
-        '<div class="vd-action-menu__panel" role="menu" hidden>' +
-          '<a class="vd-action-menu__item" href="' + esc(renewalFormUrl()) + '" role="menuitem">' +
-            '<span class="vd-action-menu__label">Add Renewal Reminder</span>' +
-            '<span class="vd-action-menu__icon">' + lucide('plus', 16) + '</span>' +
-          '</a>' +
-        '</div>' +
-      '</div>';
-
     return (
-      '<div class="panel table-panel list-table-panel">' +
-        listToolbar(tab, paginationCount(paged.total, paged.page), addBtn) +
+      '<div class="panel table-panel list-table-panel uv-renewals-panel">' +
+        listToolbar(tab, paginationCount(paged.total, paged.page)) +
         '<div class="panel__body panel__body--flush">' +
-          (paged.rows.length ? dataTable(['Type', 'Status', 'Due Date', 'Notifications Enabled', 'Watchers'], rows) : tableEmpty('No results to show.')) +
+          (paged.rows.length ? dataTable(
+            ['Type', 'Status', 'Due Date', 'Notifications Enabled', 'Watchers', { className: 'data-table__actions-col', label: 'Actions', html: '' }],
+            rows,
+            { tableClass: 'data-table--user-view-renewals' }
+          ) : tableEmpty('No results to show.')) +
         '</div>' +
       '</div>'
     );
@@ -481,6 +546,7 @@
         setTabSearch(input.getAttribute('data-uv-tab-search'), input.value);
         document.getElementById('uv-panel').innerHTML = renderPanel();
         bindTabPanelEvents();
+        bindRenewalRowActions();
         bindMenus();
         initLucide(document.getElementById('uv-panel'));
       });
@@ -498,6 +564,7 @@
         if (dir === 'next' && page < totalPages) setTabPage(tab, page + 1);
         document.getElementById('uv-panel').innerHTML = renderPanel();
         bindTabPanelEvents();
+        bindRenewalRowActions();
         bindMenus();
         initLucide(document.getElementById('uv-panel'));
       });
@@ -529,6 +596,7 @@
     document.querySelectorAll('[data-uv-menu] .vd-action-menu__panel').forEach(function (p) {
       p.hidden = true;
     });
+    closeRenewalRowMenus();
   }
 
   function bindMenus() {
@@ -543,7 +611,13 @@
         panel.hidden = !open;
       });
     });
-    document.addEventListener('click', closeMenus);
+    if (!documentBound) {
+      documentBound = true;
+      document.addEventListener('click', function (e) {
+        if (!e.target.closest('.uv-renewals-panel [data-row-actions]')) closeRenewalRowMenus();
+        closeMenus();
+      });
+    }
   }
 
   function bindTabs() {
@@ -600,6 +674,7 @@
     bindMenus();
     bindAddActions();
     bindTabPanelEvents();
+    bindRenewalRowActions();
     bindFieldSearch();
     bindDetailsToggle();
   }

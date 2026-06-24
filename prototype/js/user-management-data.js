@@ -237,21 +237,47 @@ window.YSOAM_USER_MANAGEMENT = (function () {
   }
 
   function buildRenewals(id) {
+    if (id === 'USR-001') {
+      return [
+        { type: 'Safety Training', status: 'Upcoming', statusDot: '#16A34A', dueDate: '2026-10-01', notifications: true, watchers: '2' },
+        { type: 'Background Check', status: 'Active', statusDot: '#16A34A', dueDate: '2027-01-15', notifications: true, watchers: '1' }
+      ];
+    }
     if (id === 'USR-002') {
       return [
         { type: 'Certification', status: 'Not set', statusDot: '#94A3B8', dueDate: null, notifications: false, watchers: null },
-        { type: 'License Renewal', status: 'Not set', statusDot: '#94A3B8', dueDate: null, notifications: false, watchers: null }
+        { type: 'License Renewal', status: 'Not set', statusDot: '#94A3B8', dueDate: null, notifications: false, watchers: null },
+        { type: 'Medical Certificate', status: 'Due soon', statusDot: '#EA580C', dueDate: '2026-07-01', relative: 'in 2 weeks', relativeTone: 'soon', notifications: true, watchers: '1' },
+        { type: 'Hazmat Certification', status: 'Overdue', statusDot: '#DC2626', dueDate: '2026-05-01', relative: '6 weeks ago', relativeTone: 'past', notifications: true, watchers: '2' },
+        { type: 'Training Renewal', status: 'Upcoming', statusDot: '#16A34A', dueDate: '2026-08-15', relative: 'in 2 months', notifications: true, watchers: '1' },
+        { type: 'Defensive Driving', status: 'Active', statusDot: '#16A34A', dueDate: '2026-11-20', notifications: true, watchers: '1' }
       ];
     }
     if (id === 'USR-003') {
       return [
         { type: 'License Renewal', status: 'Due soon', statusDot: '#EA580C', dueDate: '2026-07-15', relative: 'in 4 weeks', relativeTone: 'soon', notifications: true, watchers: '1' },
-        { type: 'Medical Certificate', status: 'Upcoming', statusDot: '#16A34A', dueDate: '2026-09-01', notifications: true, watchers: '2' }
+        { type: 'Medical Certificate', status: 'Upcoming', statusDot: '#16A34A', dueDate: '2026-09-01', notifications: true, watchers: '2' },
+        { type: 'First Aid Certification', status: 'Active', statusDot: '#16A34A', dueDate: '2027-03-10', notifications: false, watchers: '1' }
+      ];
+    }
+    if (id === 'USR-004') {
+      return [
+        { type: 'License Renewal', status: 'Not set', statusDot: '#94A3B8', dueDate: null, notifications: false, watchers: null },
+        { type: 'Onboarding Training', status: 'Due soon', statusDot: '#EA580C', dueDate: '2026-06-30', relative: 'in 2 weeks', relativeTone: 'soon', notifications: true, watchers: '1' }
+      ];
+    }
+    if (id === 'USR-007') {
+      return [
+        { type: 'License Renewal', status: 'Due soon', statusDot: '#EA580C', dueDate: '2026-06-25', relative: 'in 9 days', relativeTone: 'soon', notifications: true, watchers: '1' },
+        { type: 'Medical Certificate', status: 'Overdue', statusDot: '#DC2626', dueDate: '2026-04-10', relative: '2 months ago', relativeTone: 'past', notifications: true, watchers: '2' },
+        { type: 'Defensive Driving', status: 'Upcoming', statusDot: '#16A34A', dueDate: '2026-09-20', notifications: false, watchers: null }
       ];
     }
     if (id === 'USR-009') {
       return [
-        { type: 'License Renewal', status: 'Active', statusDot: '#16A34A', dueDate: '2026-12-01', notifications: true, watchers: '1' }
+        { type: 'License Renewal', status: 'Active', statusDot: '#16A34A', dueDate: '2026-12-01', notifications: true, watchers: '1' },
+        { type: 'Hazmat Certification', status: 'Due soon', statusDot: '#EA580C', dueDate: '2026-07-08', relative: 'in 3 weeks', relativeTone: 'soon', notifications: true, watchers: '2' },
+        { type: 'Medical Certificate', status: 'Upcoming', statusDot: '#16A34A', dueDate: '2026-10-15', notifications: true, watchers: '1' }
       ];
     }
     return [];

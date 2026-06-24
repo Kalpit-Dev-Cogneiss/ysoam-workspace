@@ -13326,6 +13326,26 @@
   display: block;
 }
 
+.data-table--user-view-renewals .data-table__actions-col {
+  width: 48px;
+  text-align: right;
+  white-space: nowrap;
+}
+
+.data-table--user-view-renewals thead .data-table__actions-col {
+  background: var(--color-cloud);
+}
+
+.data-table--user-view-renewals .row-actions__trigger:hover,
+.data-table--user-view-renewals .row-actions__trigger[aria-expanded="true"] {
+  background: var(--color-cloud);
+  border-color: var(--color-mist);
+}
+
+.data-table--user-view-renewals .row-actions__menu--wide {
+  min-width: 220px;
+}
+
 .um-th-sort {
   display: inline-flex;
   align-items: center;
