@@ -96,7 +96,7 @@
       navChildLink('vehicles', 'vehicle-list', 'vehicles.html', 'Vehicle List') +
       navChildLink('vehicles', 'assignments', 'vehicle-assignments.html', 'Vehicle Assignments') +
       navChildLink('vehicles', 'meter-history', 'meter-history.html', 'Meter History') +
-      navChildLink('vehicles', 'tire-readings', 'tyres.html', 'Tire Readings') +
+      navChildLink('vehicles', 'tire-readings', 'tyres.html', 'Tyre Management') +
       navChildLink('vehicles', 'expense-history', 'vehicle-expenses.html', 'Expense History') +
       navChildLink('vehicles', 'replacement', 'vehicle-replacement.html', 'Replacement Analysis'),
       false,
@@ -118,12 +118,14 @@
     );
   }
 
-  function fuelNavGroup() {
+  function fuelNavGroup(open) {
     return navGroup(
       'Fuel &amp; Energy',
       navChildLink('fuel', 'fuel-history', 'fuel-history.html', 'Fuel History') +
-      navChildLink('fuel', 'charging-history', 'charging-history.html', 'Charging History'),
-      false,
+      navChildLink('fuel', 'charging-history', 'charging-history.html', 'Charging History') +
+      navChildLink('fuel', 'tyres', 'tyres.html', 'Tyre Management') +
+      navChildLink('fuel', 'battery', 'battery.html', 'Battery Management'),
+      !!open,
       'fuel',
       'nav-group--submenu nav-group--fuel'
     );
@@ -133,34 +135,45 @@
     if (!isFull) {
       return (
         navLink('dashboard', 'dashboard.html', 'Dashboard', 'dashboard') +
+        navLink('alerts', 'alerts.html', 'Alerts', 'alerts') +
         navLink('gps', 'gps.html', 'Tracking', 'gps') +
         navLink('geofences', 'geofences.html', 'Geofence', 'gps') +
         vehiclesNavGroup() +
         serviceNavGroup() +
         navLink('drivers', 'drivers.html', 'Drivers', 'drivers') +
+        navLink('vendors', 'vendors.html', 'Vendors', 'vendors') +
         navLink('trips', 'trips.html', 'Trip &amp; Operations', 'trips') +
-        fuelNavGroup() +
-        navLink('inventory', 'parts.html', 'Inventory', 'inventory') +
-        navLink('documents', 'documents.html', 'Documents', 'documents')
+        fuelNavGroup(true) +
+        navGroup(
+          'Parts &amp; Inventory',
+          navChildLink('inventory', 'parts-list', 'parts.html', 'Parts List') +
+          navChildLink('inventory', 'part-outward', 'part-outward.html', 'Part Outward') +
+          navChildLink('inventory', 'parts-consumption', 'parts-consumption.html', 'Parts Consumption'),
+          false,
+          'inventory',
+          'nav-group--submenu nav-group--inventory'
+        ) +
+        navLink('documents', 'documents.html', 'Documents', 'documents') +
+        navLink('settings', 'settings.html', 'Settings', 'settings')
       );
     }
 
     return (
       navLink('dashboard', 'dashboard.html', 'Dashboard', 'dashboard') +
+      navLink('alerts', 'alerts.html', 'Alerts', 'alerts') +
       navLink('gps', 'gps.html', 'Live Tracking', 'gps') +
       navLink('geofences', 'geofences.html', 'Geofence', 'gps') +
       vehiclesNavGroup() +
       serviceNavGroup() +
       navLink('drivers', 'drivers.html', 'Drivers', 'drivers') +
+      navLink('vendors', 'vendors.html', 'Vendors', 'vendors') +
       navLink('trips', 'trips.html', 'Trip &amp; Operations', 'trips') +
-      fuelNavGroup() +
-      navLink('tyres', 'tyres.html', 'Tyres', 'tyres') +
-      navLink('battery', 'battery.html', 'Battery', 'battery') +
+      fuelNavGroup(false) +
       navGroup(
         'Parts &amp; Inventory',
         navChildLink('inventory', 'parts-list', 'parts.html', 'Parts List') +
-        navChildLink('inventory', 'purchase-orders', 'purchase-orders.html', 'Purchase Orders') +
-        navChildLink('inventory', 'bulk-manage', 'inventory.html', 'Bulk Manage'),
+        navChildLink('inventory', 'part-outward', 'part-outward.html', 'Part Outward') +
+        navChildLink('inventory', 'parts-consumption', 'parts-consumption.html', 'Parts Consumption'),
         false,
         'inventory',
         'nav-group--submenu nav-group--inventory'
@@ -216,8 +229,8 @@
     return (
       explore +
       editionBadge() +
-      '<button type="button" class="topbar__alert" aria-label="Alerts">' + I.bell +
-        '<span class="topbar__alert-dot"></span></button>' +
+      '<a href="alerts.html" class="topbar__alert" aria-label="Alerts">' + I.bell +
+        '<span class="topbar__alert-dot"></span></a>' +
       '<div class="topbar__profile">' +
         '<span class="topbar__profile-name">Demo Manager</span>' +
         '<div class="topbar__avatar" aria-hidden="true">DM</div>' +
@@ -235,10 +248,10 @@
             '<span class="bottom-nav__icon">' + I.gps + '</span>Tracking</a>' +
           '<a class="bottom-nav__link" href="trips.html" data-page="trips">' +
             '<span class="bottom-nav__icon">' + I.trips + '</span>Trips</a>' +
-          '<a class="bottom-nav__link" href="vehicles.html" data-page="vehicles">' +
-            '<span class="bottom-nav__icon">' + I.vehicles + '</span>Vehicles</a>' +
-          '<a class="bottom-nav__link" href="drivers.html" data-page="drivers">' +
-            '<span class="bottom-nav__icon">' + I.drivers + '</span>Drivers</a>' +
+          '<a class="bottom-nav__link" href="tyres.html" data-page="fuel" data-subpage="tyres">' +
+            '<span class="bottom-nav__icon">' + I.fuel + '</span>Tyres</a>' +
+          '<a class="bottom-nav__link" href="settings.html" data-page="settings">' +
+            '<span class="bottom-nav__icon">' + I.settings + '</span>Settings</a>' +
         '</nav>'
       );
     }

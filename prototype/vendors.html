@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="js/auth.js"></script>
+  <title>Vendors — YSOAM</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/pages.css">
+</head>
+<body data-page="vendors">
+  <div class="sidebar-backdrop" id="sidebar-backdrop"></div>
+  <div class="app-shell">
+    <div id="sidebar-root"></div>
+    <div class="main-area">
+      <div id="topbar-root"></div>
+      <main class="content content--vendors">
+        <div class="page-header page-header--compact vendors-header">
+          <div class="page-header__text">
+            <h1>Vendors <a class="service-learn-link" href="roadmap.html">Learn</a></h1>
+          </div>
+          <div class="page-header__actions">
+            <a class="btn btn-text btn-sm vendors-find-shops" href="#" id="vendors-find-shops">
+              <span data-lucide-icon="mapPin" data-lucide-icon-size="14" aria-hidden="true"></span>
+              Find Shops
+            </a>
+            <button type="button" class="btn btn-outline btn-sm vendors-more-btn" id="vendors-more-btn" aria-label="More actions">
+              <span class="row-actions__dots" aria-hidden="true"></span>
+            </button>
+            <button type="button" class="btn btn-primary btn-sm" id="vendors-add-btn">
+              <span data-lucide-icon="plus" data-lucide-icon-size="14" aria-hidden="true"></span>
+              Add Vendor
+            </button>
+          </div>
+        </div>
+
+        <div class="vendors-body">
+          <div class="segment-tabs" role="tablist" aria-label="Vendor views">
+            <button type="button" class="segment-tab is-active" data-tab="all" role="tab" aria-selected="true">All</button>
+            <button type="button" class="segment-tab" data-tab="charging" role="tab" aria-selected="false">Charging</button>
+            <button type="button" class="segment-tab" data-tab="fuel" role="tab" aria-selected="false">Fuel</button>
+            <button type="button" class="segment-tab" data-tab="service" role="tab" aria-selected="false">Service</button>
+            <button type="button" class="segment-tab" data-tab="vehicle" role="tab" aria-selected="false">Vehicle</button>
+            <button type="button" class="segment-tab" data-tab="archived" role="tab" aria-selected="false">Archived</button>
+            <button type="button" class="segment-tab segment-tab--add" data-tab="add" role="tab" aria-selected="false" disabled>+ Add Tab</button>
+          </div>
+
+        <div class="panel table-panel vendors-panel">
+          <div class="vendors-toolbar">
+            <div class="vendors-toolbar__left">
+              <div class="table-panel__search">
+                <span class="table-panel__search-icon" data-lucide-icon="search" aria-hidden="true"></span>
+                <input type="search" class="table-panel__search-input" id="vendors-search" placeholder="Search" aria-label="Search vendors">
+              </div>
+              <button type="button" class="expense-filter-pill" data-filter="classification" aria-expanded="false" aria-haspopup="dialog">Classification</button>
+              <button type="button" class="expense-filter-pill" data-filter="contactName" aria-expanded="false" aria-haspopup="dialog">Contact Name</button>
+              <button type="button" class="expense-filter-pill" data-filter="contactPhone" aria-expanded="false" aria-haspopup="dialog">Contact Phone</button>
+              <button type="button" class="expense-filter-pill" data-filter="labels" aria-expanded="false" aria-haspopup="dialog">Labels</button>
+              <button type="button" class="expense-filters-btn" id="vendors-filters-btn" aria-expanded="false" aria-controls="vendors-filters-drawer">
+                <span class="expense-filters-btn__icon" data-lucide-icon="filter" aria-hidden="true"></span>
+                <span class="expense-filters-btn__label" id="vendors-filters-btn-label">Filters</span>
+              </button>
+            </div>
+            <div class="vendors-toolbar__right" id="vendors-pagination">
+              <span class="vendors-pagination__count tabular-nums" id="vendors-count">1 – 15 of 15</span>
+              <button type="button" class="vendors-page-btn" data-page-prev aria-label="Previous page"><span data-lucide-icon="chevronLeft"></span></button>
+              <button type="button" class="vendors-page-btn" data-page-next aria-label="Next page"><span data-lucide-icon="chevronRight"></span></button>
+              <button type="button" class="vendors-page-btn" id="vendors-table-settings-btn" aria-label="Table settings"><span data-lucide-icon="settings"></span></button>
+              <button type="button" class="btn btn-outline btn-sm vendors-save-view-btn" id="vendors-save-view-btn">Save View <span data-lucide-icon="chevronDown" data-lucide-icon-size="14" aria-hidden="true"></span></button>
+            </div>
+          </div>
+
+          <div class="vendors-panel__body">
+            <div class="panel__body panel__body--flush vendors-table-wrap">
+              <div class="data-table-wrap data-table-wrap--scroll data-table-wrap--vendors" id="vendors-table"></div>
+            </div>
+            <aside class="expense-filters-drawer" id="vendors-filters-drawer" aria-label="Filters">
+              <div class="expense-filters-drawer__header">
+                <h2>Filters</h2>
+                <button type="button" class="expense-filters-drawer__close" id="vendors-filters-drawer-close" aria-label="Close filters">
+                  <span data-lucide-icon="x" data-lucide-icon-size="18"></span>
+                </button>
+              </div>
+              <div class="expense-filters-drawer__body" id="vendors-filters-drawer-body"></div>
+            </aside>
+          </div>
+
+          <div class="expense-filter-popover" id="vendors-filter-popover" hidden role="dialog" aria-modal="true"></div>
+          <div class="expense-table-settings" id="vendors-table-settings" hidden role="dialog" aria-label="Table settings"></div>
+        </div>
+        </div>
+      </main>
+    </div>
+  </div>
+  <div id="bottom-nav-root"></div>
+
+  <script src="js/icons.js"></script>
+  <script src="js/lucide-icons.js"></script>
+  <script src="js/shell.js"></script>
+  <script src="js/nav.js"></script>
+  <script src="js/vendors-data.js"></script>
+  <script src="js/vendors.js"></script>
+</body>
+</html>

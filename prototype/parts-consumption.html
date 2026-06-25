@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="js/auth.js"></script>
+  <title>Parts Consumption Analysis — YSOAM</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/pages.css">
+</head>
+<body data-page="inventory" data-subpage="parts-consumption">
+  <div class="sidebar-backdrop" id="sidebar-backdrop"></div>
+  <div class="app-shell">
+    <div id="sidebar-root"></div>
+    <div class="main-area">
+      <div id="topbar-root"></div>
+      <main class="content content--parts-consumption">
+        <div class="page-header page-header--compact parts-consumption-header">
+          <div class="page-header__text">
+            <h1>Parts Consumption Analysis</h1>
+            <p class="parts-consumption-subtitle">Identify vehicles consuming the most parts by period, category, and cost</p>
+          </div>
+          <div class="page-header__actions">
+            <a class="btn btn-outline btn-sm" href="part-outward.html">Part Outward</a>
+            <a class="btn btn-outline btn-sm" href="parts.html">Parts List</a>
+          </div>
+        </div>
+
+        <div class="parts-consumption-controls">
+          <div class="parts-consumption-period" role="tablist" aria-label="Analysis period">
+            <button type="button" class="parts-consumption-period__btn is-active" data-period="last30">Last 30 Days</button>
+            <button type="button" class="parts-consumption-period__btn" data-period="last90">Last 90 Days</button>
+            <button type="button" class="parts-consumption-period__btn" data-period="ytd">Year to Date</button>
+          </div>
+          <div class="parts-consumption-category">
+            <label for="parts-consumption-category">Category</label>
+            <select class="text-input" id="parts-consumption-category">
+              <option value="">All categories</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="parts-consumption-kpis" id="parts-consumption-kpis"></div>
+
+        <div class="parts-consumption-grid">
+          <section class="panel parts-consumption-card">
+            <div class="parts-consumption-card__head">
+              <h2>Top Vehicles by Parts Cost</h2>
+              <p>Highest consumption for maintenance planning</p>
+            </div>
+            <div class="data-table-wrap data-table-wrap--scroll" id="parts-consumption-vehicles"></div>
+          </section>
+
+          <section class="panel parts-consumption-card">
+            <div class="parts-consumption-card__head">
+              <h2>Cost by Category</h2>
+              <p>Share of parts spend in selected period</p>
+            </div>
+            <div class="parts-consumption-bars" id="parts-consumption-categories"></div>
+          </section>
+        </div>
+      </main>
+    </div>
+  </div>
+  <div id="bottom-nav-root"></div>
+
+  <script src="js/icons.js"></script>
+  <script src="js/lucide-icons.js"></script>
+  <script src="js/shell.js"></script>
+  <script src="js/nav.js"></script>
+  <script src="js/parts-data.js"></script>
+  <script src="js/vehicles-data.js"></script>
+  <script src="js/part-outward-data.js"></script>
+  <script src="js/parts-consumption.js"></script>
+</body>
+</html>

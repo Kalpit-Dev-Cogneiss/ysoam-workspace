@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="js/auth.js"></script>
+  <title>Issue Part — YSOAM</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/pages.css">
+</head>
+<body data-page="inventory" data-subpage="part-outward-form">
+  <div class="sidebar-backdrop" id="sidebar-backdrop"></div>
+  <div class="app-shell">
+    <div id="sidebar-root"></div>
+    <div class="main-area">
+      <div id="topbar-root"></div>
+      <main class="content content--part-outward-form">
+        <header class="vehicle-form-topbar expense-form-topbar">
+          <div class="vehicle-form-topbar__main">
+            <a class="vehicle-form-back" href="part-outward"><span class="vehicle-form-back__icon" data-form-icon="arrowLeft" aria-hidden="true"></span> Part Outward</a>
+            <h1 id="po-form-title">Issue Part to Vehicle</h1>
+          </div>
+          <div class="vehicle-form-topbar__actions">
+            <a class="btn btn-text btn-sm" href="part-outward" id="po-form-cancel-top">Cancel</a>
+            <button type="submit" form="po-form" class="btn btn-primary btn-sm" id="po-form-save-top" disabled>Save</button>
+          </div>
+        </header>
+
+        <div class="po-form-layout">
+          <form class="po-form-main" id="po-form" novalidate>
+            <div class="vehicle-form-card expense-form-card">
+              <h2 class="vehicle-form-card__title">Issue Details</h2>
+              <div class="form-grid form-grid--2">
+                <div class="form-field form-field--full">
+                  <label for="po-part">Part <span class="required">*</span></label>
+                  <select class="text-input" id="po-part" name="partId" required>
+                    <option value="">Please select</option>
+                  </select>
+                  <p class="form-field__hint">Select the part being issued from inventory.</p>
+                </div>
+                <div class="form-field form-field--full">
+                  <label for="po-vehicle">Vehicle <span class="required">*</span></label>
+                  <select class="text-input" id="po-vehicle" name="vehicleId" required>
+                    <option value="">Please select</option>
+                  </select>
+                  <p class="form-field__hint">Vehicle receiving this part.</p>
+                </div>
+                <div class="form-field">
+                  <label for="po-qty">Quantity <span class="required">*</span></label>
+                  <input type="number" class="text-input" id="po-qty" name="quantity" min="1" step="1" value="1" required>
+                </div>
+                <div class="form-field">
+                  <label for="po-date">Issue Date <span class="required">*</span></label>
+                  <input type="date" class="text-input" id="po-date" name="issuedOn" required>
+                </div>
+                <div class="form-field">
+                  <label for="po-wo">Work Order</label>
+                  <input type="text" class="text-input" id="po-wo" name="workOrder" placeholder="Optional">
+                </div>
+                <div class="form-field">
+                  <label for="po-issuer">Issued By</label>
+                  <select class="text-input" id="po-issuer" name="issuedBy"></select>
+                </div>
+                <div class="form-field form-field--full">
+                  <label for="po-notes">Notes</label>
+                  <textarea class="text-input" id="po-notes" name="notes" rows="3" placeholder="Optional"></textarea>
+                </div>
+              </div>
+            </div>
+
+            <div class="vehicle-form-card expense-form-card" id="po-part-summary" hidden>
+              <h2 class="vehicle-form-card__title">Selected Part</h2>
+              <div class="po-part-summary" id="po-part-summary-body"></div>
+            </div>
+          </form>
+
+          <aside class="po-form-aside">
+            <div class="vehicle-form-card expense-form-card po-history-card">
+              <div class="po-history-card__head">
+                <h2 class="vehicle-form-card__title">Vehicles That Used This Part</h2>
+                <p class="po-history-card__hint" id="po-history-hint">Select a part to see issuance history.</p>
+              </div>
+              <div class="po-history-table-wrap" id="po-part-history">
+                <p class="po-history-empty">No part selected.</p>
+              </div>
+            </div>
+          </aside>
+        </div>
+
+        <footer class="vehicle-form-footer expense-form-footer">
+          <a class="btn btn-text" href="part-outward">Cancel</a>
+          <div class="vehicle-form-footer__actions">
+            <button type="submit" form="po-form" class="btn btn-outline btn-sm" id="po-form-save-another" disabled>Save &amp; Issue Another</button>
+            <button type="submit" form="po-form" class="btn btn-primary btn-sm" id="po-form-save-bottom" disabled>Save</button>
+          </div>
+        </footer>
+      </main>
+    </div>
+  </div>
+  <div id="bottom-nav-root"></div>
+
+  <script src="js/icons.js"></script>
+  <script src="js/lucide-icons.js"></script>
+  <script src="js/shell.js"></script>
+  <script src="js/nav.js"></script>
+  <script src="js/parts-data.js"></script>
+  <script src="js/vehicles-data.js"></script>
+  <script src="js/part-outward-data.js"></script>
+  <script src="js/part-outward-form.js"></script>
+</body>
+</html>

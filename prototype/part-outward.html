@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="js/auth.js"></script>
+  <title>Part Outward — YSOAM</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/pages.css">
+</head>
+<body data-page="inventory" data-subpage="part-outward">
+  <div class="sidebar-backdrop" id="sidebar-backdrop"></div>
+  <div class="app-shell">
+    <div id="sidebar-root"></div>
+    <div class="main-area">
+      <div id="topbar-root"></div>
+      <main class="content content--parts content--part-outward-list">
+        <div class="page-header page-header--compact parts-header">
+          <div class="page-header__text">
+            <h1>Part Outward <a class="service-learn-link" href="parts-consumption.html">Consumption Analysis</a></h1>
+          </div>
+          <div class="page-header__actions">
+            <a class="btn btn-outline btn-sm" href="parts.html">Parts List</a>
+            <a class="btn btn-primary btn-sm" href="part-outward-form" id="part-outward-add-btn">
+              <span data-lucide-icon="plus" data-lucide-icon-size="14" aria-hidden="true"></span>
+              Issue Part
+            </a>
+          </div>
+        </div>
+
+        <div class="st-view-tabs parts-tabs" role="tablist" aria-label="Part outward views">
+          <button type="button" class="st-view-tab is-active" data-tab="all" role="tab" aria-selected="true">All</button>
+          <button type="button" class="st-view-tab st-view-tab--add" data-tab="add" role="tab" aria-selected="false" disabled>+ Add Tab</button>
+        </div>
+
+        <div class="panel table-panel parts-panel">
+          <div class="parts-toolbar">
+            <div class="parts-toolbar__left">
+              <div class="table-panel__search">
+                <span class="table-panel__search-icon" data-lucide-icon="search" aria-hidden="true"></span>
+                <input type="search" class="table-panel__search-input" id="part-outward-search" placeholder="Search" aria-label="Search part outward entries">
+              </div>
+              <button type="button" class="expense-filter-pill" data-filter="vehicle" aria-expanded="false" aria-haspopup="dialog">Vehicle</button>
+              <button type="button" class="expense-filter-pill" data-filter="category" aria-expanded="false" aria-haspopup="dialog">Part Category</button>
+              <button type="button" class="expense-filter-pill" data-filter="period" aria-expanded="false" aria-haspopup="dialog">Period</button>
+              <button type="button" class="expense-filters-btn" id="part-outward-filters-btn" aria-expanded="false" aria-controls="part-outward-filters-drawer">
+                <span class="expense-filters-btn__icon" data-lucide-icon="filter" aria-hidden="true"></span>
+                <span class="expense-filters-btn__label" id="part-outward-filters-btn-label">Filters</span>
+              </button>
+            </div>
+            <div class="parts-toolbar__right" id="part-outward-pagination">
+              <span class="parts-pagination__count tabular-nums" id="part-outward-count">1 – 50 of 0</span>
+              <button type="button" class="parts-page-btn" data-page-prev aria-label="Previous page"><span data-lucide-icon="chevronLeft"></span></button>
+              <button type="button" class="parts-page-btn" data-page-next aria-label="Next page"><span data-lucide-icon="chevronRight"></span></button>
+              <button type="button" class="parts-page-btn" id="part-outward-table-settings-btn" aria-label="Table settings"><span data-lucide-icon="settings"></span></button>
+              <button type="button" class="btn btn-outline btn-sm parts-save-view-btn" id="part-outward-save-view-btn">Save View <span data-lucide-icon="chevronDown" data-lucide-icon-size="14" aria-hidden="true"></span></button>
+            </div>
+          </div>
+
+          <div class="parts-body">
+            <div class="panel__body panel__body--flush parts-table-wrap">
+              <div class="data-table-wrap data-table-wrap--scroll data-table-wrap--parts" id="part-outward-table"></div>
+            </div>
+            <aside class="expense-filters-drawer" id="part-outward-filters-drawer" aria-label="Filters">
+              <div class="expense-filters-drawer__header">
+                <h2>Filters</h2>
+                <button type="button" class="expense-filters-drawer__close" id="part-outward-filters-drawer-close" aria-label="Close filters">
+                  <span data-lucide-icon="x" data-lucide-icon-size="18"></span>
+                </button>
+              </div>
+              <div class="expense-filters-drawer__body" id="part-outward-filters-drawer-body"></div>
+            </aside>
+          </div>
+
+          <div class="expense-filter-popover" id="part-outward-filter-popover" hidden role="dialog" aria-modal="true"></div>
+          <div class="expense-table-settings" id="part-outward-table-settings" hidden role="dialog" aria-label="Table settings"></div>
+        </div>
+      </main>
+    </div>
+  </div>
+  <div id="bottom-nav-root"></div>
+
+  <script src="js/icons.js"></script>
+  <script src="js/lucide-icons.js"></script>
+  <script src="js/shell.js"></script>
+  <script src="js/nav.js"></script>
+  <script src="js/parts-data.js"></script>
+  <script src="js/vehicles-data.js"></script>
+  <script src="js/part-outward-data.js"></script>
+  <script src="js/part-outward.js"></script>
+</body>
+</html>

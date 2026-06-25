@@ -11,6 +11,7 @@
   <link rel="stylesheet" href="css/tokens.css">
   <link rel="stylesheet" href="css/components.css">
   <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/pages.css">
 </head>
 <body data-page="driver">
   <div class="driver-shell">
@@ -22,10 +23,15 @@
           <p>Rajesh K. · MH-12-AB-1234</p>
         </div>
       </div>
+      <a href="alerts.html" class="driver-header__alerts" aria-label="Alerts">
+        <span class="driver-header__alerts-dot" aria-hidden="true"></span>
+        Alerts
+      </a>
     </header>
 
     <div class="driver-tabs">
       <button type="button" class="driver-tab is-active" data-driver-tab="trips">My Trips</button>
+      <button type="button" class="driver-tab" data-driver-tab="alerts">Alerts</button>
       <button type="button" class="driver-tab" data-driver-tab="fuel">Fuel Log</button>
       <button type="button" class="driver-tab" data-driver-tab="profile">Profile</button>
     </div>
@@ -55,6 +61,8 @@
         </div>
       </div>
 
+      <div class="driver-tab-panel" data-driver-panel="alerts" id="driver-alerts-panel"></div>
+
       <div class="driver-tab-panel" data-driver-panel="fuel">
         <div class="form-group">
           <label class="form-label" for="fuel-litres">Litres</label>
@@ -82,6 +90,9 @@
       </div>
     </div>
   </div>
+  <script src="js/vehicles-data.js"></script>
+  <script src="js/alerts-data.js"></script>
+  <script src="js/driver-alerts.js"></script>
   <script src="js/nav.js"></script>
 </body>
 </html>

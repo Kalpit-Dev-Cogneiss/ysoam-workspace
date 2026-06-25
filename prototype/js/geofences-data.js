@@ -20,7 +20,10 @@ window.YSOAM_GEOFENCES = (function () {
       city: 'Vadodara',
       state: 'Gujarat',
       country: 'India',
-      radiusM: 500,
+      radiusM: 1000,
+      lat: 22.3222,
+      lng: 73.1586,
+      shape: 'circle',
       entryTypes: ['fuel', 'service', 'inspection'],
       lastEntryAt: '2026-06-12T10:30:00'
     },
@@ -33,6 +36,9 @@ window.YSOAM_GEOFENCES = (function () {
       state: 'Maharashtra',
       country: 'India',
       radiusM: 750,
+      lat: 18.4521,
+      lng: 73.8562,
+      shape: 'circle',
       entryTypes: ['fuel', 'service'],
       lastEntryAt: '2026-06-20T06:15:00'
     },
@@ -45,6 +51,9 @@ window.YSOAM_GEOFENCES = (function () {
       state: 'Maharashtra',
       country: 'India',
       radiusM: 1200,
+      lat: 18.7546,
+      lng: 73.4062,
+      shape: 'circle',
       entryTypes: ['inspection'],
       lastEntryAt: '2026-06-18T14:40:00'
     },
@@ -57,6 +66,9 @@ window.YSOAM_GEOFENCES = (function () {
       state: 'Maharashtra',
       country: 'India',
       radiusM: 300,
+      lat: 18.9388,
+      lng: 72.8354,
+      shape: 'circle',
       entryTypes: ['fuel', 'inspection'],
       lastEntryAt: '2026-06-22T09:05:00'
     },
@@ -69,10 +81,44 @@ window.YSOAM_GEOFENCES = (function () {
       state: 'Maharashtra',
       country: 'India',
       radiusM: 400,
+      lat: 19.2437,
+      lng: 73.1355,
+      shape: 'circle',
       entryTypes: ['service'],
       lastEntryAt: '2026-06-10T16:20:00'
     }
   ];
+
+  var locationEntries = {
+    'GEO-002': [
+      { asset: 'MH-12-AB-4521', assetType: 'Vehicle', contact: 'Rahul Mehta', date: '2026-06-20T06:15:00', entryType: 'fuel' },
+      { asset: 'MH-14-CD-8832', assetType: 'Vehicle', contact: 'Priya Shah', date: '2026-06-19T14:22:00', entryType: 'service' }
+    ],
+    'GEO-003': [
+      { asset: 'MH-01-EF-1102', assetType: 'Vehicle', contact: 'Amit Desai', date: '2026-06-18T14:40:00', entryType: 'inspection' }
+    ],
+    'GEO-004': [
+      { asset: 'MH-43-GH-2290', assetType: 'Vehicle', contact: 'Sneha Kulkarni', date: '2026-06-22T09:05:00', entryType: 'fuel' },
+      { asset: 'MH-43-IJ-7711', assetType: 'Vehicle', contact: 'Vikram Rao', date: '2026-06-21T11:30:00', entryType: 'inspection' }
+    ],
+    'GEO-005': [
+      { asset: 'MH-05-KL-3344', assetType: 'Vehicle', contact: 'Karan Patel', date: '2026-06-10T16:20:00', entryType: 'service' }
+    ]
+  };
+
+  function getById(id) {
+    return list.find(function (g) { return g.id === id; }) || null;
+  }
+
+  function getLocationEntries(id) {
+    return (locationEntries[id] || []).slice();
+  }
+
+  function latestLocationEntries(id, limit) {
+    return getLocationEntries(id)
+      .sort(function (a, b) { return b.date.localeCompare(a.date); })
+      .slice(0, limit || 5);
+  }
 
   function entryTypeById(id) {
     return ENTRY_TYPES.find(function (t) { return t.id === id; }) || null;
@@ -92,6 +138,9 @@ window.YSOAM_GEOFENCES = (function () {
     entryTypes: ENTRY_TYPES,
     popularFilters: POPULAR_FILTERS,
     entryTypeById: entryTypeById,
+    getById: getById,
+    getLocationEntries: getLocationEntries,
+    latestLocationEntries: latestLocationEntries,
     cities: function () { return uniqueValues('city'); },
     states: function () { return uniqueValues('state'); },
     countries: function () { return uniqueValues('country'); }

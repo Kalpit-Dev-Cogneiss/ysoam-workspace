@@ -69,6 +69,14 @@
       el.classList.toggle('is-active', el.getAttribute('data-subpage') === currentSubpage);
     });
 
+    document.querySelectorAll('.bottom-nav__link[data-subpage]').forEach(function (el) {
+      el.classList.toggle('is-active', el.getAttribute('data-subpage') === currentSubpage);
+    });
+
+    document.querySelectorAll('.bottom-nav__link[data-page]:not([data-subpage])').forEach(function (el) {
+      el.classList.toggle('is-active', el.getAttribute('data-page') === currentPage);
+    });
+
     var vehiclesGroup = document.querySelector('.nav-group--vehicles');
     if (vehiclesGroup && currentPage === 'vehicles') {
       vehiclesGroup.classList.add('is-open');

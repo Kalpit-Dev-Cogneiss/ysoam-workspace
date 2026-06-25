@@ -79,8 +79,9 @@
   }
 
   function nameCell(g) {
+    var href = 'geofence-view?id=' + encodeURIComponent(g.id);
     return '<span class="geofence-name-cell">' + geofenceThumb() +
-      '<a href="#" class="table-cell-link geofence-name-link" data-geofence-id="' + escA(g.id) + '">' + esc(g.name) + '</a></span>';
+      '<a href="' + href + '" class="table-cell-link geofence-name-link">' + esc(g.name) + '</a></span>';
   }
 
   function renderTable() {
@@ -110,7 +111,7 @@
         '<span class="fh-empty-state"><span class="fh-empty-state__icon" data-lucide-icon="search" data-lucide-icon-size="32" aria-hidden="true"></span>No results to show.</span></td></tr>';
     } else {
       rows.forEach(function (g) {
-        html += '<tr>' +
+        html += '<tr class="geofence-row" data-geofence-id="' + escA(g.id) + '" tabindex="0" role="link" aria-label="View ' + escA(g.name) + '">' +
           '<td class="geofence-col-name">' + nameCell(g) + '</td>' +
           '<td class="geofence-col-desc">' + (g.description ? esc(g.description) : dashCell()) + '</td>' +
           '<td class="geofence-col-address">' + esc(g.address) + '</td>' +
@@ -130,10 +131,19 @@
       };
     }
 
-    root.querySelectorAll('[data-geofence-id]').forEach(function (link) {
-      link.addEventListener('click', function (e) {
-        e.preventDefault();
-        window.alert('Geofence detail view (prototype demo).');
+    root.querySelectorAll('.geofence-row').forEach(function (row) {
+      function go() {
+        window.location.href = 'geofence-view?id=' + encodeURIComponent(row.getAttribute('data-geofence-id'));
+      }
+      row.addEventListener('click', function (e) {
+        if (e.target.closest('a')) return;
+        go();
+      });
+      row.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          go();
+        }
       });
     });
   }

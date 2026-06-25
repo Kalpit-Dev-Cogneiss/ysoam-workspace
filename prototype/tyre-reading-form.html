@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="js/auth.js"></script>
+  <title>Tyre Reading — YSOAM</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/pages.css">
+</head>
+<body data-page="fuel" data-subpage="tyre-reading-form">
+  <div class="sidebar-backdrop" id="sidebar-backdrop"></div>
+  <div class="app-shell">
+    <div id="sidebar-root"></div>
+    <div class="main-area">
+      <div id="topbar-root"></div>
+      <main class="content content--tyre-reading-form">
+        <header class="vehicle-form-topbar expense-form-topbar">
+          <div class="vehicle-form-topbar__main">
+            <a class="vehicle-form-back" href="tyres"><span class="vehicle-form-back__icon" data-form-icon="arrowLeft" aria-hidden="true"></span> Tyre Management</a>
+            <h1 id="tyre-form-title">Add Tyre Reading</h1>
+          </div>
+          <div class="vehicle-form-topbar__actions">
+            <a class="btn btn-text btn-sm" href="tyres" id="tyre-form-cancel-top">Cancel</a>
+            <button type="submit" form="tyre-reading-form" class="btn btn-primary btn-sm" id="tyre-form-save-top" disabled>Save Reading</button>
+          </div>
+        </header>
+
+        <div class="expense-form-body">
+          <form class="expense-form-main" id="tyre-reading-form" novalidate>
+            <div class="vehicle-form-card expense-form-card">
+              <h2 class="vehicle-form-card__title">Reading Details</h2>
+              <div class="form-grid form-grid--2">
+                <div class="form-field form-field--full">
+                  <label for="tyre-vehicle">Vehicle <span class="required">*</span></label>
+                  <select class="text-input" id="tyre-vehicle" name="vehicleId" required>
+                    <option value="">Please select</option>
+                  </select>
+                </div>
+                <div class="form-field">
+                  <label for="tyre-position">Position <span class="required">*</span></label>
+                  <select class="text-input" id="tyre-position" name="position" required>
+                    <option value="">Please select</option>
+                  </select>
+                </div>
+                <div class="form-field">
+                  <label for="tyre-reading-date">Reading Date <span class="required">*</span></label>
+                  <input type="date" class="text-input" id="tyre-reading-date" name="readingDate" required>
+                </div>
+                <div class="form-field">
+                  <label for="tyre-tread">Tread Depth (mm) <span class="required">*</span></label>
+                  <input type="number" class="text-input" id="tyre-tread" name="treadDepthMm" min="0" max="20" step="0.1" required>
+                </div>
+                <div class="form-field">
+                  <label for="tyre-pressure">Pressure (PSI) <span class="required">*</span></label>
+                  <input type="number" class="text-input" id="tyre-pressure" name="pressurePsi" min="0" max="120" step="1" required>
+                </div>
+                <div class="form-field">
+                  <label for="tyre-serial">Serial Number</label>
+                  <input type="text" class="text-input" id="tyre-serial" name="serialNumber" placeholder="e.g. SN880123">
+                </div>
+                <div class="form-field">
+                  <label for="tyre-brand">Brand</label>
+                  <select class="text-input" id="tyre-brand" name="brand">
+                    <option value="">Please select</option>
+                  </select>
+                </div>
+                <div class="form-field">
+                  <label for="tyre-size">Size</label>
+                  <select class="text-input" id="tyre-size" name="size">
+                    <option value="">Please select</option>
+                  </select>
+                </div>
+                <div class="form-field form-field--full">
+                  <label for="tyre-notes">Notes</label>
+                  <textarea class="text-input" id="tyre-notes" name="notes" rows="3" placeholder="Optional notes about this reading"></textarea>
+                </div>
+              </div>
+            </div>
+
+            <div class="vehicle-form-card expense-form-card" id="tyre-form-vehicle-card" hidden>
+              <h2 class="vehicle-form-card__title">Selected Vehicle</h2>
+              <div class="tyre-form-vehicle-summary" id="tyre-form-vehicle-summary"></div>
+            </div>
+          </form>
+        </div>
+
+        <footer class="vehicle-form-footer expense-form-footer">
+          <a class="btn btn-text" href="tyres">Cancel</a>
+          <div class="vehicle-form-footer__actions">
+            <button type="submit" form="tyre-reading-form" class="btn btn-outline btn-sm" id="tyre-form-save-another" disabled>Save &amp; Add Another</button>
+            <button type="submit" form="tyre-reading-form" class="btn btn-primary btn-sm" id="tyre-form-save-bottom" disabled>Save Reading</button>
+          </div>
+        </footer>
+      </main>
+    </div>
+  </div>
+  <div id="bottom-nav-root"></div>
+
+  <script src="js/icons.js"></script>
+  <script src="js/lucide-icons.js"></script>
+  <script src="js/shell.js"></script>
+  <script src="js/nav.js"></script>
+  <script src="js/vehicles-data.js"></script>
+  <script src="js/tyres-data.js"></script>
+  <script src="js/tyre-reading-form.js"></script>
+</body>
+</html>

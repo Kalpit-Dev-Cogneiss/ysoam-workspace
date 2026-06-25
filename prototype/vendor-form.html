@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="js/auth.js"></script>
+  <title>New Vendor — YSOAM</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/pages.css">
+</head>
+<body data-page="vendors" data-subpage="vendor-form">
+  <div class="sidebar-backdrop" id="sidebar-backdrop"></div>
+  <div class="app-shell">
+    <div id="sidebar-root"></div>
+    <div class="main-area">
+      <div id="topbar-root"></div>
+      <main class="content content--vendor-form">
+        <header class="vehicle-form-topbar vendor-form-topbar">
+          <div class="vehicle-form-topbar__main">
+            <a class="vehicle-form-back" href="vendors"><span class="vehicle-form-back__icon" data-form-icon="arrowLeft" aria-hidden="true"></span> Vendors</a>
+            <h1 id="vendor-form-title">New Vendor</h1>
+          </div>
+          <div class="vehicle-form-topbar__actions">
+            <a class="btn btn-text btn-sm" href="vendors" id="vendor-form-cancel-top">Cancel</a>
+            <button type="submit" form="vendor-form" class="btn btn-primary btn-sm" id="vendor-form-save-top">Save Vendor</button>
+          </div>
+        </header>
+
+        <div class="vendor-form-body">
+          <form class="vendor-form-main" id="vendor-form" novalidate>
+            <div class="vehicle-form-card vendor-form-card">
+              <h2 class="vehicle-form-card__title">Details</h2>
+              <div class="form-grid form-grid--2">
+                <div class="form-field form-field--full">
+                  <label for="vendor-name">Name <span class="required">*</span></label>
+                  <input type="text" id="vendor-name" name="name" required>
+                </div>
+                <div class="form-field">
+                  <label for="vendor-phone">Phone</label>
+                  <input type="tel" id="vendor-phone" name="phone">
+                </div>
+                <div class="form-field">
+                  <label for="vendor-website">Website</label>
+                  <input type="url" id="vendor-website" name="website" placeholder="https://">
+                </div>
+                <div class="form-field form-field--full">
+                  <label for="vendor-labels">Labels</label>
+                  <select id="vendor-labels" name="labels">
+                    <option value="">Please select</option>
+                  </select>
+                </div>
+                <div class="form-field form-field--full">
+                  <label for="vendor-address1">Address <span class="required">*</span></label>
+                  <input type="text" id="vendor-address1" name="addressLine1" required>
+                  <p class="form-field__hint">Street address, P.O. box, etc.</p>
+                </div>
+                <div class="form-field form-field--full">
+                  <label for="vendor-address2">Address Line 2</label>
+                  <input type="text" id="vendor-address2" name="addressLine2">
+                  <p class="form-field__hint">Suite, unit, building, floor, etc.</p>
+                </div>
+                <div class="form-field">
+                  <label for="vendor-city">City <span class="required">*</span></label>
+                  <input type="text" id="vendor-city" name="city" required>
+                </div>
+                <div class="form-field">
+                  <label for="vendor-state">State / Province / Region <span class="required">*</span></label>
+                  <input type="text" id="vendor-state" name="state" required>
+                </div>
+                <div class="form-field">
+                  <label for="vendor-zip">Zip / Postal Code <span class="required">*</span></label>
+                  <input type="text" id="vendor-zip" name="zip" required>
+                </div>
+                <div class="form-field">
+                  <label for="vendor-country">Country <span class="required">*</span></label>
+                  <select id="vendor-country" name="country" required></select>
+                </div>
+                <div class="form-field form-field--full">
+                  <label for="vendor-notes">Notes</label>
+                  <textarea id="vendor-notes" name="notes" rows="4"></textarea>
+                </div>
+              </div>
+            </div>
+
+            <div class="vehicle-form-card vendor-form-card">
+              <h2 class="vehicle-form-card__title">Contact Person</h2>
+              <div class="form-grid form-grid--2">
+                <div class="form-field form-field--full">
+                  <label for="vendor-contact-name">Contact Name</label>
+                  <input type="text" id="vendor-contact-name" name="contactName">
+                </div>
+                <div class="form-field">
+                  <label for="vendor-contact-phone">Phone</label>
+                  <input type="tel" id="vendor-contact-phone" name="contactPhone">
+                  <p class="form-field__hint">Contact person's direct line or mobile number</p>
+                </div>
+                <div class="form-field">
+                  <label for="vendor-contact-email">Email</label>
+                  <input type="email" id="vendor-contact-email" name="contactEmail">
+                </div>
+              </div>
+            </div>
+
+            <div class="vehicle-form-card vendor-form-card">
+              <h2 class="vehicle-form-card__title">Classification</h2>
+              <div class="vendor-form-class-list" id="vendor-class-list"></div>
+            </div>
+          </form>
+        </div>
+
+        <footer class="vehicle-form-footer vendor-form-footer">
+          <a class="btn btn-text btn-sm" href="vendors" id="vendor-form-cancel-footer">Cancel</a>
+          <div class="vehicle-form-footer__right">
+            <button type="button" class="btn btn-outline btn-sm" id="vendor-form-save-another">Save &amp; Add Another</button>
+            <button type="submit" form="vendor-form" class="btn btn-primary btn-sm" id="vendor-form-save-footer">Save Vendor</button>
+          </div>
+        </footer>
+      </main>
+    </div>
+  </div>
+  <div id="bottom-nav-root"></div>
+
+  <script src="js/icons.js"></script>
+  <script src="js/lucide-icons.js"></script>
+  <script src="js/shell.js"></script>
+  <script src="js/nav.js"></script>
+  <script src="js/vendors-data.js"></script>
+  <script src="js/vendor-form.js"></script>
+</body>
+</html>

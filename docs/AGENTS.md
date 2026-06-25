@@ -29,6 +29,7 @@ Then consult task-specific docs as needed.
 | [REQUIREMENTS.md](REQUIREMENTS.md) | Features + acceptance criteria | Implementing a feature |
 | [TASKS.md](TASKS.md) | Sprint breakdown | What to work on now |
 | [DESIGN.md](DESIGN.md) | Brand, tokens, UX patterns | Any UI work |
+| [PROTOTYPE_UI.md](PROTOTYPE_UI.md) | HTML prototype patterns, module specs (Vendors, Geofences, etc.) | Prototype / Fleetio-style screens |
 | [API.md](API.md) | REST/WebSocket reference | API routes, payloads |
 | [DATABASE.md](DATABASE.md) | PostgreSQL schema | Migrations, queries |
 | [DECISIONS.md](DECISIONS.md) | ADRs | Architectural choices |
@@ -194,6 +195,7 @@ Run `nx run-many -t typecheck` and relevant tests before claiming work complete.
 - Sidebar navigation lists all 19 modules
 - Status colors: green (active), amber (idle), red (offline/alert)
 - Prototype screens live in `prototype/` during Week 1–2
+- **Fleetio-style list/form patterns:** see [PROTOTYPE_UI.md](PROTOTYPE_UI.md) before adding or changing prototype modules
 
 ---
 

@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="js/auth.js"></script>
-  <title>Settings — YSOAM Prototype</title>
+  <title>Settings — YSOAM</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -19,15 +19,2135 @@
     <div id="sidebar-root"></div>
     <div class="main-area">
       <div id="topbar-root"></div>
-      <main class="content">
-        <div class="page-header"><h1>Settings</h1><p>Organization config and integrations</p></div>
-        <div class="card card-dashboard stub-notice"><p>Module screen stub — org settings and integration keys in review pass.</p></div>
+      <main class="content content--settings">
+        <div class="settings-shell">
+          <nav class="settings-sidebar" id="settings-sidebar" aria-label="Settings navigation">
+            <div class="settings-sidebar__header">
+              <div class="settings-sidebar__toprow">
+                <a class="settings-back" href="dashboard">
+                  <span class="settings-back__icon" data-form-icon="arrowLeft" aria-hidden="true"></span>
+                  Back to Dashboard
+                </a>
+                <button type="button" class="settings-help-btn" aria-label="Settings help" title="Help">
+                  <span data-lucide-icon="info"></span>
+                </button>
+              </div>
+              <h1 class="settings-sidebar__title">Settings</h1>
+              <div class="settings-search">
+                <span class="settings-search__icon" data-lucide-icon="search" aria-hidden="true"></span>
+                <input type="search" class="settings-search__input" id="settings-search" placeholder="Search" aria-label="Search settings">
+                <kbd class="settings-search__kbd">/</kbd>
+              </div>
+            </div>
+            <div class="settings-sidebar__content" id="settings-nav"></div>
+          </nav>
+
+          <div class="settings-main" id="settings-main">
+            <div class="settings-panel is-active" id="settings-panel-user-profile" data-settings-panel="user-profile">
+              <h2 class="settings-panel__title">User Profile</h2>
+              <form class="settings-form-card" id="settings-profile-form" novalidate>
+                <div class="settings-profile-photo">
+                  <span class="settings-profile-photo__label">Photo</span>
+                  <div class="settings-profile-photo__row">
+                    <button type="button" class="btn btn-primary btn-sm" id="settings-pick-file">Pick File</button>
+                    <input type="file" id="settings-photo-input" accept="image/*" hidden>
+                    <label class="settings-profile-drop" for="settings-photo-input">Or drop file here</label>
+                  </div>
+                </div>
+                <div class="form-grid form-grid--2 settings-profile-fields">
+                  <div class="form-field">
+                    <label for="settings-first-name">First Name</label>
+                    <input type="text" id="settings-first-name" name="firstName" value="Rajesh">
+                  </div>
+                  <div class="form-field">
+                    <label for="settings-last-name">Last Name</label>
+                    <input type="text" id="settings-last-name" name="lastName" value="Kumar">
+                  </div>
+                  <div class="form-field form-field--full">
+                    <label for="settings-email">Email</label>
+                    <input type="email" id="settings-email" name="email" value="rajesh.kumar@ysoam.demo">
+                  </div>
+                </div>
+                <fieldset class="settings-fieldset">
+                  <legend>Fuel economy and volume units</legend>
+                  <div class="settings-radio-stack">
+                    <label class="settings-radio"><input type="radio" name="fuel-units" value="metric" checked> km/L · L/hr · Liters</label>
+                    <label class="settings-radio"><input type="radio" name="fuel-units" value="us"> mpg (US) · g/hr (US) · Gallons (US)</label>
+                    <label class="settings-radio"><input type="radio" name="fuel-units" value="uk"> mpg (UK) · g/hr (UK) · Gallons (UK)</label>
+                  </div>
+                </fieldset>
+                <div class="form-field settings-items-per-page">
+                  <label for="settings-items-per-page">Items Per Page</label>
+                  <input type="number" id="settings-items-per-page" name="itemsPerPage" min="10" max="100" step="5" value="50">
+                </div>
+                <fieldset class="settings-fieldset">
+                  <legend>Table Density</legend>
+                  <div class="settings-radio-stack settings-radio-stack--inline">
+                    <label class="settings-radio"><input type="radio" name="table-density" value="default" checked> Default</label>
+                    <label class="settings-radio"><input type="radio" name="table-density" value="compact"> Compact</label>
+                  </div>
+                </fieldset>
+                <div class="settings-form-actions">
+                  <button type="submit" class="btn btn-primary btn-sm">Save Changes</button>
+                </div>
+              </form>
+            </div>
+
+            <div class="settings-panel" id="settings-panel-notification-settings" data-settings-panel="notification-settings">
+              <h2 class="settings-panel__title">Notification Settings</h2>
+              <p class="settings-panel__subtitle">Enable or disable notifications across all record types delivered via email or mobile app.</p>
+
+              <section class="notif-section">
+                <h3 class="notif-section__title">How You Get Notified</h3>
+                <div class="notif-channels">
+                  <div class="notif-channel-card">
+                    <label class="settings-toggle settings-toggle--lg" title="Enable email notifications">
+                      <input type="checkbox" id="notif-channel-email" checked>
+                      <span class="settings-toggle__track" aria-hidden="true"></span>
+                    </label>
+                    <div class="notif-channel-card__body">
+                      <strong>Email</strong>
+                      <p>Choose whether any alerts are sent to rajesh.kumar@ysoam.demo. This does not disable essential communications, Saved Reports, Inspection Workflows, Automation Alerts or Notification Profiles.</p>
+                    </div>
+                    <span class="notif-channel-card__icon" data-lucide-icon="send" aria-hidden="true"></span>
+                  </div>
+                  <div class="notif-channel-card">
+                    <label class="settings-toggle settings-toggle--lg" title="Enable mobile push notifications">
+                      <input type="checkbox" id="notif-channel-mobile" checked>
+                      <span class="settings-toggle__track" aria-hidden="true"></span>
+                    </label>
+                    <div class="notif-channel-card__body">
+                      <strong>Mobile App</strong>
+                      <p>Choose whether you receive any mobile push notifications. These can also be configured in YSOAM Driver app settings.</p>
+                    </div>
+                    <span class="notif-channel-card__icon notif-channel-card__icon--device" aria-hidden="true">📱</span>
+                  </div>
+                </div>
+              </section>
+
+              <section class="notif-section">
+                <h3 class="notif-section__title">What You Get Notified About</h3>
+                <p class="notif-section__hint">Set watching rules and set preferences for individual record types</p>
+
+                <div class="notif-records">
+                  <nav class="notif-records-nav" aria-label="Notification record types">
+                    <p class="notif-records-nav__heading">General Notifications</p>
+                    <button type="button" class="notif-records-nav__item" data-notify-type="collaboration">
+                      <span data-lucide-icon="send" aria-hidden="true"></span> Collaboration
+                    </button>
+                    <p class="notif-records-nav__heading">Record Types</p>
+                    <button type="button" class="notif-records-nav__item is-active" data-notify-type="vehicles">
+                      <span data-lucide-icon="car" aria-hidden="true"></span> Vehicles
+                    </button>
+                    <button type="button" class="notif-records-nav__item" data-notify-type="inspections">
+                      <span data-lucide-icon="clipboardList" aria-hidden="true"></span> Inspections
+                    </button>
+                    <button type="button" class="notif-records-nav__item" data-notify-type="issues">
+                      <span data-lucide-icon="info" aria-hidden="true"></span> Issues
+                    </button>
+                    <button type="button" class="notif-records-nav__item" data-notify-type="work-orders">
+                      <span data-lucide-icon="clipboardList" aria-hidden="true"></span> Work Orders
+                    </button>
+                    <button type="button" class="notif-records-nav__item" data-notify-type="service-entries">
+                      <span data-lucide-icon="settings" aria-hidden="true"></span> Service Entries
+                    </button>
+                    <button type="button" class="notif-records-nav__item" data-notify-type="service-reminders">
+                      <span data-lucide-icon="bell" aria-hidden="true"></span> Service Reminders
+                    </button>
+                    <button type="button" class="notif-records-nav__item" data-notify-type="vehicle-reminders">
+                      <span data-lucide-icon="bell" aria-hidden="true"></span> Vehicle Reminders
+                    </button>
+                    <button type="button" class="notif-records-nav__item" data-notify-type="contact-reminders">
+                      <span data-lucide-icon="bell" aria-hidden="true"></span> Contact Reminders
+                    </button>
+                    <button type="button" class="notif-records-nav__item" data-notify-type="fuel-entries">
+                      <span data-lucide-icon="zap" aria-hidden="true"></span> Fuel Entries
+                    </button>
+                    <button type="button" class="notif-records-nav__item" data-notify-type="charging-entries">
+                      <span data-lucide-icon="zap" aria-hidden="true"></span> Charging Entries
+                    </button>
+                    <button type="button" class="notif-records-nav__item" data-notify-type="parts">
+                      <span data-lucide-icon="package" aria-hidden="true"></span> Parts
+                    </button>
+                    <button type="button" class="notif-records-nav__item" data-notify-type="vendors">
+                      <span data-lucide-icon="building" aria-hidden="true"></span> Vendors
+                    </button>
+                    <button type="button" class="notif-records-nav__item" data-notify-type="expense-entries">
+                      <span data-lucide-icon="fileText" aria-hidden="true"></span> Expense Entries
+                    </button>
+                    <button type="button" class="notif-records-nav__item" data-notify-type="integrations">
+                      <span data-lucide-icon="globe" aria-hidden="true"></span> Integrations
+                    </button>
+                  </nav>
+
+                  <div class="notif-records-detail" id="notif-records-detail"></div>
+                </div>
+              </section>
+            </div>
+
+            <div class="settings-panel" id="settings-panel-login-password" data-settings-panel="login-password">
+              <h2 class="settings-panel__title">Login &amp; Password</h2>
+              <div class="settings-login-tabs" role="tablist" aria-label="Login and password sections">
+                <button type="button" class="settings-login-tab is-active" data-login-tab="info" role="tab" aria-selected="true">Login Information</button>
+                <button type="button" class="settings-login-tab" data-login-tab="password" role="tab" aria-selected="false">Change Password</button>
+              </div>
+
+              <div class="settings-login-pane is-active" data-login-pane="info" role="tabpanel">
+                <form class="settings-form-card" id="settings-login-info-form" novalidate>
+                  <div class="form-field form-field--full">
+                    <label for="settings-login-username">Username <span class="required">*</span></label>
+                    <input type="text" id="settings-login-username" name="username" value="rajesh.kumar" required>
+                    <p class="form-field__hint">You can log in to YSOAM using your username or your email address.</p>
+                  </div>
+                  <div class="form-field form-field--full">
+                    <label for="settings-login-email">Email <span class="required">*</span></label>
+                    <input type="email" id="settings-login-email" name="email" value="rajesh.kumar@ysoam.demo" required>
+                  </div>
+                  <label class="settings-login-checkbox">
+                    <input type="checkbox" id="settings-login-marketing" name="marketing" checked>
+                    <span>Send me email marketing updates about YSOAM</span>
+                  </label>
+                  <div class="settings-login-connect">
+                    <button type="button" class="btn btn-primary btn-sm">Connect Your Google Account</button>
+                    <p class="form-field__hint">Connect your Google account with your user account in order to login with one click.</p>
+                  </div>
+                  <div class="form-field form-field--full">
+                    <label for="settings-login-timezone">Time zone</label>
+                    <select id="settings-login-timezone" name="timezone">
+                      <option value="Asia/Kolkata" selected>(GMT+05:30) India Standard Time — Kolkata</option>
+                      <option value="America/Chicago">(GMT-06:00) Central Time (US &amp; Canada)</option>
+                      <option value="America/New_York">(GMT-05:00) Eastern Time (US &amp; Canada)</option>
+                      <option value="Europe/London">(GMT+00:00) London</option>
+                    </select>
+                    <p class="form-field__hint">Preferred time zone for viewing dates and times. For most consistent experience, this should match your system settings.</p>
+                  </div>
+                  <div class="form-field form-field--full">
+                    <label for="settings-login-language">Language</label>
+                    <select id="settings-login-language" name="language">
+                      <option value="en" selected>English</option>
+                      <option value="hi">Hindi</option>
+                    </select>
+                  </div>
+                  <div class="settings-form-actions settings-form-actions--end">
+                    <button type="submit" class="btn btn-primary btn-sm">Save</button>
+                  </div>
+                </form>
+              </div>
+
+              <div class="settings-login-pane" data-login-pane="password" role="tabpanel" hidden>
+                <form class="settings-form-card" id="settings-change-password-form" novalidate>
+                  <div class="form-field form-field--full">
+                    <label for="settings-current-password">Current password <span class="required">*</span></label>
+                    <input type="password" id="settings-current-password" name="currentPassword" autocomplete="current-password" required>
+                    <p class="form-field__hint">Enter your current password to confirm.</p>
+                  </div>
+                  <div class="form-field form-field--full">
+                    <label for="settings-new-password">New password <span class="required">*</span></label>
+                    <input type="password" id="settings-new-password" name="newPassword" autocomplete="new-password" required>
+                    <p class="form-field__hint">Must be at least 8 characters long. Must contain an uppercase and a lowercase letter (A, z).</p>
+                  </div>
+                  <div class="form-field form-field--full">
+                    <label for="settings-confirm-password">Confirm new password <span class="required">*</span></label>
+                    <input type="password" id="settings-confirm-password" name="confirmPassword" autocomplete="new-password" required>
+                  </div>
+                  <div class="settings-form-actions settings-form-actions--end">
+                    <button type="submit" class="btn btn-primary btn-sm">Change Password</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+
+            <div class="settings-panel" id="settings-panel-api-keys" data-settings-panel="api-keys">
+              <div class="api-keys-header">
+                <h2 class="settings-panel__title api-keys-header__title">API Keys</h2>
+                <button type="button" class="btn btn-primary btn-sm" id="api-keys-add-btn">+ Add API Key</button>
+              </div>
+
+              <div class="api-keys-card">
+                <div class="api-keys-card__intro">
+                  <p>The API allows 3rd-party systems to connect to YSOAM programmatically. <a href="roadmap.html">View API documentation</a>.</p>
+                </div>
+                <div class="api-keys-info-banner">
+                  <span class="api-keys-info-banner__icon" data-lucide-icon="info" aria-hidden="true"></span>
+                  <p>We recommend generating unique API keys for each application. Revoked keys cannot be reactivated.</p>
+                </div>
+                <div class="api-keys-table-toolbar">
+                  <div class="api-keys-search">
+                    <span class="api-keys-search__icon" data-lucide-icon="search" aria-hidden="true"></span>
+                    <input type="search" class="api-keys-search__input" id="api-keys-search" placeholder="Search" aria-label="Search API keys">
+                  </div>
+                  <div class="api-keys-pager" aria-label="API keys pagination">
+                    <button type="button" class="api-keys-pager__btn" id="api-keys-prev" disabled aria-label="Previous page"><span data-lucide-icon="chevronLeft" aria-hidden="true"></span></button>
+                    <button type="button" class="api-keys-pager__btn" id="api-keys-next" disabled aria-label="Next page"><span data-lucide-icon="chevronRight" aria-hidden="true"></span></button>
+                  </div>
+                </div>
+                <div class="api-keys-table-wrap">
+                  <table class="data-table data-table--list api-keys-table">
+                    <thead>
+                      <tr>
+                        <th>Label</th>
+                        <th>Token</th>
+                        <th>API Version</th>
+                        <th><button type="button" class="api-keys-sort-btn is-active" id="api-keys-sort-date">Date Added <span data-lucide-icon="chevronDown" aria-hidden="true"></span></button></th>
+                        <th>Status</th>
+                      </tr>
+                    </thead>
+                    <tbody id="api-keys-table-body"></tbody>
+                  </table>
+                  <div class="api-keys-empty" id="api-keys-empty">
+                    <span class="api-keys-empty__icon" data-lucide-icon="search" data-lucide-icon-size="32" aria-hidden="true"></span>
+                    <p>No results to show</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="api-keys-card">
+                <h3 class="api-keys-card__title">Account Tokens</h3>
+                <p class="api-keys-card__desc">An Account Token (Account ID) is used alongside an API key when integrating with YSOAM.</p>
+                <div class="api-keys-table-wrap api-keys-table-wrap--flush">
+                  <table class="data-table data-table--list api-keys-table">
+                    <thead>
+                      <tr>
+                        <th>Name</th>
+                        <th>Token</th>
+                        <th>Rate Limit (requests/minute)</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>YSOAM Demo Fleet</td>
+                        <td><code class="api-keys-code">ysoam-demo-001</code></td>
+                        <td class="tabular-nums">50</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              <div class="api-keys-card">
+                <h3 class="api-keys-card__title">Making Your First Request</h3>
+                <p class="api-keys-card__desc">Example HTTP request using cURL.</p>
+                <div class="api-keys-curl" id="api-keys-curl">
+                  <p class="api-keys-curl__empty">No active API key. Create a new API key to see a request example.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="settings-panel" id="settings-panel-general-settings" data-settings-panel="general-settings">
+              <div class="settings-general-body">
+                <h2 class="settings-panel__title">General Settings</h2>
+                <form class="settings-general-form" id="settings-general-form" novalidate>
+                  <div class="vehicle-form-card settings-general-card">
+                    <div class="settings-general-card__head">
+                      <h3 class="vehicle-form-card__title">Account Owner</h3>
+                      <button type="button" class="btn btn-outline btn-sm">Change Owner</button>
+                    </div>
+                    <div class="settings-general-owner">
+                      <span class="settings-nav-avatar settings-general-owner__avatar">RK</span>
+                      <div>
+                        <strong>Rajesh Kumar</strong>
+                        <p>rajesh.kumar@ysoam.demo</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="vehicle-form-card settings-general-card">
+                    <div class="settings-general-card__head">
+                      <h3 class="vehicle-form-card__title">Account Usage</h3>
+                      <button type="button" class="btn btn-outline btn-sm">Upgrade plan</button>
+                    </div>
+                    <ul class="settings-usage-list">
+                      <li class="settings-usage-item"><span class="settings-usage-item__label">Documents</span><div class="settings-usage-item__bar"><span style="width:0%"></span></div><span class="settings-usage-item__meta tabular-nums">0 of 15.0 GB</span></li>
+                      <li class="settings-usage-item"><span class="settings-usage-item__label">Users</span><div class="settings-usage-item__bar"><span style="width:27%"></span></div><span class="settings-usage-item__meta tabular-nums">4 of 15</span></li>
+                      <li class="settings-usage-item"><span class="settings-usage-item__label">Vehicles</span><div class="settings-usage-item__bar"><span style="width:24%"></span></div><span class="settings-usage-item__meta tabular-nums">12 of 50</span></li>
+                      <li class="settings-usage-item"><span class="settings-usage-item__label">Custom Fields</span><div class="settings-usage-item__bar"><span style="width:0%"></span></div><span class="settings-usage-item__meta tabular-nums">0 of 50</span></li>
+                      <li class="settings-usage-item"><span class="settings-usage-item__label">Groups</span><div class="settings-usage-item__bar"><span style="width:1%"></span></div><span class="settings-usage-item__meta tabular-nums">1 of 100</span></li>
+                      <li class="settings-usage-item"><span class="settings-usage-item__label">Webhook Events</span><div class="settings-usage-item__bar"><span style="width:0%"></span></div><span class="settings-usage-item__meta tabular-nums">0 of 100,000</span></li>
+                      <li class="settings-usage-item"><span class="settings-usage-item__label">Automation</span><div class="settings-usage-item__bar"><span style="width:0%"></span></div><span class="settings-usage-item__meta tabular-nums">0 of 5</span></li>
+                    </ul>
+                  </div>
+
+                  <div class="vehicle-form-card settings-general-card">
+                    <h3 class="vehicle-form-card__title">General</h3>
+                    <div class="form-grid form-grid--2">
+                      <div class="form-field form-field--full">
+                        <label for="general-company-name">Company Name</label>
+                        <input type="text" id="general-company-name" name="companyName" value="YSOAM Demo Fleet">
+                      </div>
+                      <div class="form-field form-field--full">
+                        <span class="settings-profile-photo__label">Logo</span>
+                        <div class="settings-profile-photo__row">
+                          <button type="button" class="btn btn-primary btn-sm">Pick File</button>
+                          <label class="settings-profile-drop settings-profile-drop--compact">Or drop file here</label>
+                        </div>
+                      </div>
+                      <div class="form-field form-field--full">
+                        <label for="general-address1">Street Address</label>
+                        <input type="text" id="general-address1" name="addressLine1" value="Andheri East Industrial Estate">
+                      </div>
+                      <div class="form-field form-field--full">
+                        <label for="general-address2">Address Line 2</label>
+                        <input type="text" id="general-address2" name="addressLine2" placeholder="Suite, unit, building, floor, etc.">
+                      </div>
+                      <div class="form-field">
+                        <label for="general-city">City</label>
+                        <input type="text" id="general-city" name="city" value="Mumbai">
+                      </div>
+                      <div class="form-field">
+                        <label for="general-state">State / Province / Region</label>
+                        <input type="text" id="general-state" name="state" value="Maharashtra">
+                      </div>
+                      <div class="form-field">
+                        <label for="general-zip">Zip / Postal Code</label>
+                        <input type="text" id="general-zip" name="zip" value="400069">
+                      </div>
+                      <div class="form-field">
+                        <label for="general-country">Country</label>
+                        <select id="general-country" name="country">
+                          <option value="India" selected>India</option>
+                          <option value="United States">United States</option>
+                        </select>
+                      </div>
+                      <div class="form-field form-field--full">
+                        <label for="general-phone">Phone Number</label>
+                        <input type="tel" id="general-phone" name="phone" value="+91 22 4000 1234">
+                      </div>
+                      <div class="form-field form-field--full">
+                        <label for="general-industry">Industry</label>
+                        <select id="general-industry" name="industry">
+                          <option value="Transportation & Logistics" selected>Transportation &amp; Logistics</option>
+                          <option value="Construction">Construction</option>
+                          <option value="Government">Government</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="vehicle-form-card settings-general-card">
+                    <h3 class="vehicle-form-card__title">Regional Settings</h3>
+                    <div class="form-grid form-grid--2">
+                      <div class="form-field">
+                        <label for="general-currency">Currency</label>
+                        <select id="general-currency" name="currency">
+                          <option value="INR" selected>INR: Indian Rupee (₹1,000.00)</option>
+                          <option value="USD">USD: US Dollar ($1,000.00)</option>
+                        </select>
+                      </div>
+                      <div class="form-field">
+                        <label for="general-date-format">Date Format</label>
+                        <select id="general-date-format" name="dateFormat">
+                          <option value="DD/MM/YYYY" selected>DD/MM/YYYY</option>
+                          <option value="MM/DD/YYYY">MM/DD/YYYY</option>
+                          <option value="YYYY-MM-DD">YYYY-MM-DD</option>
+                        </select>
+                      </div>
+                      <div class="form-field">
+                        <label for="general-timezone">Time zone</label>
+                        <select id="general-timezone" name="timezone">
+                          <option value="Asia/Kolkata" selected>(GMT+05:30) Chennai, Kolkata, Mumbai, New Delhi</option>
+                          <option value="America/Chicago">(GMT-06:00) Central Time (US &amp; Canada)</option>
+                        </select>
+                      </div>
+                      <div class="form-field form-field--full">
+                        <span class="settings-profile-photo__label">Time Format</span>
+                        <div class="settings-radio-stack settings-radio-stack--inline">
+                          <label class="settings-radio"><input type="radio" name="time-format" value="12" checked> 12-hour clock</label>
+                          <label class="settings-radio"><input type="radio" name="time-format" value="24"> 24-hour clock</label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="vehicle-form-card settings-general-card">
+                    <h3 class="vehicle-form-card__title">Default Units</h3>
+                    <fieldset class="settings-fieldset">
+                      <legend>Usage</legend>
+                      <div class="settings-radio-stack settings-radio-stack--inline">
+                        <label class="settings-radio"><input type="radio" name="usage-unit" value="miles"> Miles</label>
+                        <label class="settings-radio"><input type="radio" name="usage-unit" value="kilometers" checked> Kilometers</label>
+                        <label class="settings-radio"><input type="radio" name="usage-unit" value="hours"> Hours</label>
+                      </div>
+                    </fieldset>
+                    <fieldset class="settings-fieldset">
+                      <legend>Fuel volume</legend>
+                      <div class="settings-radio-stack settings-radio-stack--inline">
+                        <label class="settings-radio"><input type="radio" name="fuel-volume" value="us"> Gallons (US)</label>
+                        <label class="settings-radio"><input type="radio" name="fuel-volume" value="uk"> Gallons (UK)</label>
+                        <label class="settings-radio"><input type="radio" name="fuel-volume" value="litres" checked> Litres</label>
+                      </div>
+                    </fieldset>
+                    <fieldset class="settings-fieldset">
+                      <legend>System of Measurement</legend>
+                      <div class="settings-radio-stack settings-radio-stack--inline">
+                        <label class="settings-radio"><input type="radio" name="measurement-system" value="imperial"> Imperial</label>
+                        <label class="settings-radio"><input type="radio" name="measurement-system" value="metric" checked> Metric</label>
+                      </div>
+                    </fieldset>
+                    <fieldset class="settings-fieldset">
+                      <legend>Vehicle System Label</legend>
+                      <div class="settings-radio-stack settings-radio-stack--inline">
+                        <label class="settings-radio"><input type="radio" name="vehicle-label" value="vehicle" checked> Vehicle</label>
+                        <label class="settings-radio"><input type="radio" name="vehicle-label" value="asset"> Asset</label>
+                      </div>
+                    </fieldset>
+                  </div>
+
+                  <div class="vehicle-form-card settings-general-card">
+                    <h3 class="vehicle-form-card__title">Tax Settings</h3>
+                    <div class="settings-general-tax-flags">
+                      <label class="settings-login-checkbox"><input type="checkbox" name="exclusiveTax"> Exclusive Tax</label>
+                      <label class="settings-login-checkbox"><input type="checkbox" name="secondaryTax" checked> Secondary Tax</label>
+                    </div>
+                    <div class="form-grid form-grid--2">
+                      <div class="form-field">
+                        <label for="general-tax1">Default Tax 1</label>
+                        <input type="text" id="general-tax1" name="defaultTax1" value="CGST 9%">
+                      </div>
+                      <div class="form-field">
+                        <label for="general-tax2">Default Tax 2</label>
+                        <input type="text" id="general-tax2" name="defaultTax2" value="SGST 9%">
+                      </div>
+                      <div class="form-field form-field--full">
+                        <label for="general-tax-type">Default Tax Type</label>
+                        <select id="general-tax-type" name="defaultTaxType">
+                          <option value="percentage" selected>Percentage</option>
+                          <option value="fixed">Fixed amount</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="vehicle-form-card settings-general-card">
+                    <h3 class="vehicle-form-card__title">Premium Features</h3>
+                    <label class="settings-login-checkbox settings-general-premium-hide">
+                      <input type="checkbox" name="hidePremium">
+                      <span>Hide all premium features</span>
+                    </label>
+                    <ul class="settings-premium-list">
+                      <li class="settings-premium-item"><span>Tire Readings</span><label class="settings-toggle" title="Tire Readings"><input type="checkbox" checked><span class="settings-toggle__track" aria-hidden="true"></span></label></li>
+                      <li class="settings-premium-item"><span>Bulk Manage Parts</span><label class="settings-toggle" title="Bulk Manage Parts"><input type="checkbox" checked><span class="settings-toggle__track" aria-hidden="true"></span></label></li>
+                      <li class="settings-premium-item"><span>Purchase Orders</span><label class="settings-toggle" title="Purchase Orders"><input type="checkbox" checked><span class="settings-toggle__track" aria-hidden="true"></span></label></li>
+                      <li class="settings-premium-item"><span>Warranties</span><label class="settings-toggle" title="Warranties"><input type="checkbox" checked><span class="settings-toggle__track" aria-hidden="true"></span></label></li>
+                      <li class="settings-premium-item"><span>Advanced Analytics</span><label class="settings-toggle" title="Advanced Analytics"><input type="checkbox" checked><span class="settings-toggle__track" aria-hidden="true"></span></label></li>
+                    </ul>
+                  </div>
+
+                  <div class="settings-general-footer">
+                    <button type="submit" class="btn btn-primary btn-sm">Save Account</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+
+            <div class="settings-panel" id="settings-panel-billing-subscriptions" data-settings-panel="billing-subscriptions">
+              <h2 class="settings-panel__title">Billing &amp; Subscriptions</h2>
+
+              <div class="billing-card">
+                <div class="billing-card__head">
+                  <h3 class="billing-card__title">Primary Plan</h3>
+                  <button type="button" class="btn btn-outline btn-sm" id="billing-browse-plans-btn">Browse Plans</button>
+                </div>
+                <div class="billing-plan-row">
+                  <div class="billing-plan-row__main">
+                    <strong class="billing-plan-row__name">YSOAM Manage — Professional 5 Annual</strong>
+                    <p class="billing-plan-row__status"><span class="billing-status-dot" aria-hidden="true"></span> Trialing — 13 days left in trial</p>
+                    <p class="billing-plan-row__usage">Vehicles: <span class="tabular-nums">12 of 50</span> <button type="button" class="btn btn-text btn-sm billing-link-btn">Update</button></p>
+                  </div>
+                  <button type="button" class="btn btn-primary btn-sm">Buy Now</button>
+                </div>
+              </div>
+
+              <div class="billing-card billing-card--addon">
+                <h3 class="billing-card__title">Add-Ons</h3>
+                <div class="billing-addon">
+                  <div class="billing-addon__visual" aria-hidden="true">
+                    <span class="billing-addon__icon" data-lucide-icon="package" data-lucide-icon-size="40"></span>
+                  </div>
+                  <div class="billing-addon__body">
+                    <div class="billing-addon__head">
+                      <strong>Tool Management</strong>
+                      <button type="button" class="btn btn-primary btn-sm">Start Free Trial</button>
+                    </div>
+                    <ul class="billing-feature-list">
+                      <li><span class="billing-feature-list__check" data-lucide-icon="circleCheck" aria-hidden="true"></span> Maintain control of your tools from anywhere.</li>
+                      <li><span class="billing-feature-list__check" data-lucide-icon="circleCheck" aria-hidden="true"></span> Improve accountability and communication.</li>
+                      <li><span class="billing-feature-list__check" data-lucide-icon="circleCheck" aria-hidden="true"></span> Know where your tools are and who is currently responsible for them.</li>
+                      <li><span class="billing-feature-list__check" data-lucide-icon="circleCheck" aria-hidden="true"></span> Ensure your tools always get the job done.</li>
+                    </ul>
+                    <a class="billing-learn-link" href="roadmap.html">Learn More <span data-lucide-icon="externalLink" aria-hidden="true"></span></a>
+                  </div>
+                </div>
+              </div>
+
+              <div class="billing-card">
+                <div class="billing-card__head">
+                  <h3 class="billing-card__title">Billing Profile</h3>
+                  <button type="button" class="btn btn-outline btn-sm">Edit</button>
+                </div>
+                <strong class="billing-profile-name">YSOAM Demo Fleet</strong>
+                <div class="billing-profile-grid">
+                  <div><span class="billing-profile-label">Contact</span><span>Rajesh Kumar</span></div>
+                  <div><span class="billing-profile-label">Email</span><a href="mailto:rajesh.kumar@ysoam.demo">rajesh.kumar@ysoam.demo</a></div>
+                </div>
+              </div>
+
+              <div class="billing-card billing-card--cancel">
+                <h3 class="billing-card__title">Account Cancellation</h3>
+                <p class="billing-cancel-text">If you cancel all subscriptions, your account will remain active until the end of your current billing period. You can reactivate at any time before then. Questions? Contact <a href="mailto:help@ysoam.demo">help@ysoam.demo</a>.</p>
+                <button type="button" class="btn btn-outline btn-sm billing-cancel-btn">Cancel all subscriptions</button>
+              </div>
+            </div>
+
+            <div class="settings-panel" id="settings-panel-billing-plans" data-settings-panel="billing-plans">
+              <a class="billing-plans-back" href="settings?section=billing-subscriptions" id="billing-plans-back">
+                <span data-lucide-icon="chevronLeft" aria-hidden="true"></span> Billing &amp; Subscriptions
+              </a>
+
+              <div class="billing-stepper" role="tablist" aria-label="Checkout steps">
+                <span class="billing-step is-active" role="tab" aria-selected="true">Explore Plans</span>
+                <span class="billing-step" role="tab" aria-selected="false">Review &amp; Pay</span>
+              </div>
+
+              <div class="billing-plans-shell">
+                <div class="billing-plans-shell__head">
+                  <h2 class="billing-plans-shell__title">Select a Plan</h2>
+                  <a class="billing-plans-compare" href="roadmap.html">See Full Plan Comparison</a>
+                </div>
+
+                <div class="billing-plans-grid">
+                  <article class="billing-plan-card">
+                    <span class="billing-plan-card__badge">Small Businesses</span>
+                    <div class="billing-plan-card__tier">
+                      <span class="billing-plan-card__gems" aria-hidden="true">◆</span>
+                      <h3>Essential</h3>
+                    </div>
+                    <p class="billing-plan-card__desc">For smaller fleets to organize vehicle inventory &amp; manage inspections.</p>
+                    <p class="billing-plan-card__price"><span class="billing-plan-card__amount">$4</span></p>
+                    <p class="billing-plan-card__billing">Per vehicle, per month, billed annually or monthly</p>
+                    <button type="button" class="btn btn-outline btn-sm billing-plan-card__cta">Purchase Essential</button>
+                    <a class="billing-plan-card__trial" href="#">Try Essential free</a>
+                    <p class="billing-plan-card__features-title">Top features:</p>
+                    <ul class="billing-plan-features">
+                      <li>Fleets up to 100 vehicles</li>
+                      <li>Vehicle Inventory Management</li>
+                      <li>Inspections &amp; Issues</li>
+                      <li>Fuel &amp; Service Tracking</li>
+                      <li>Mobile App Access</li>
+                    </ul>
+                  </article>
+
+                  <article class="billing-plan-card billing-plan-card--featured is-current">
+                    <span class="billing-plan-card__badge billing-plan-card__badge--popular">Most Popular</span>
+                    <div class="billing-plan-card__tier">
+                      <span class="billing-plan-card__gems" aria-hidden="true">◆◆</span>
+                      <h3>Professional</h3>
+                    </div>
+                    <p class="billing-plan-card__desc">For growing fleets to improve service tracking, communication &amp; reporting.</p>
+                    <p class="billing-plan-card__price"><span class="billing-plan-card__amount">$7</span></p>
+                    <p class="billing-plan-card__billing">Per vehicle, per month, billed annually only*</p>
+                    <button type="button" class="btn btn-primary btn-sm billing-plan-card__cta billing-plan-card__cta--filled"><span data-lucide-icon="circleCheck" aria-hidden="true"></span> Purchase Plan</button>
+                    <span class="billing-plan-card__trial-badge">13 days left in trial</span>
+                    <p class="billing-plan-card__features-title">Everything in Essential, plus:</p>
+                    <ul class="billing-plan-features">
+                      <li>Maintenance Shop Network</li>
+                      <li>Parts Management</li>
+                      <li>Work Orders &amp; Service Reminders</li>
+                      <li>Advanced Reporting</li>
+                      <li>Integrations Directory</li>
+                    </ul>
+                  </article>
+
+                  <article class="billing-plan-card">
+                    <span class="billing-plan-card__badge">Full Automation &amp; Insights</span>
+                    <div class="billing-plan-card__tier">
+                      <span class="billing-plan-card__gems" aria-hidden="true">◆◆◆</span>
+                      <h3>Premium</h3>
+                    </div>
+                    <p class="billing-plan-card__desc">For advanced fleets to integrate fleet systems &amp; customize workflows.</p>
+                    <p class="billing-plan-card__price"><span class="billing-plan-card__amount">$10</span></p>
+                    <p class="billing-plan-card__billing">Per vehicle, per month, billed annually only*</p>
+                    <button type="button" class="btn btn-outline btn-sm billing-plan-card__cta">Purchase Premium</button>
+                    <a class="billing-plan-card__trial" href="#">Try Premium free</a>
+                    <p class="billing-plan-card__features-title">Everything in Professional, plus:</p>
+                    <ul class="billing-plan-features">
+                      <li>Purchase Orders</li>
+                      <li>Tire Management</li>
+                      <li>Custom Fields &amp; Webhooks</li>
+                      <li>Automation Workflows</li>
+                      <li>Advanced Analytics</li>
+                    </ul>
+                  </article>
+                </div>
+
+                <p class="billing-plans-footnote">*Annual billing only for Professional and Premium. Pricing shown assumes a fleet of 5 vehicles. Taxes may apply.</p>
+              </div>
+            </div>
+
+            <div class="settings-panel" id="settings-panel-export-data" data-settings-panel="export-data">
+              <h2 class="settings-panel__title">Export All Account Data</h2>
+              <div class="settings-access-card">
+                <h3 class="settings-access-card__title">Download YSOAM Account Data</h3>
+                <p class="settings-access-card__desc">Export a copy of your account data. Select the record types and format below, then click Export Data. We will email you when your file is ready.</p>
+                <div class="settings-info-banner">
+                  <span class="settings-info-banner__icon" data-lucide-icon="info" aria-hidden="true"></span>
+                  <p>You will receive an email when your export file is ready to download. For security purposes, the download link in the email expires after 7 days.</p>
+                </div>
+                <form class="settings-export-form" id="settings-export-form" novalidate>
+                  <fieldset class="settings-export-fieldset">
+                    <legend class="settings-export-legend">Select Data to Include <span class="settings-required">*</span></legend>
+                    <ul class="settings-export-checklist" id="settings-export-checklist"></ul>
+                  </fieldset>
+                  <fieldset class="settings-export-fieldset">
+                    <legend class="settings-export-legend">Export Format <span class="settings-required">*</span></legend>
+                    <div class="settings-export-format">
+                      <label class="settings-export-radio"><input type="radio" name="exportFormat" value="csv" checked> CSV</label>
+                      <label class="settings-export-radio"><input type="radio" name="exportFormat" value="xls"> Excel (XLS)</label>
+                    </div>
+                    <p class="form-field__hint">CSV is recommended for large datasets and works with most spreadsheet tools.</p>
+                  </fieldset>
+                  <div class="settings-access-footer">
+                    <button type="submit" class="btn btn-primary btn-sm">Export Data</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+
+            <div class="settings-panel" id="settings-panel-security" data-settings-panel="security">
+              <h2 class="settings-panel__title">Security</h2>
+              <form class="settings-security-form" id="settings-security-form" novalidate>
+                <div class="settings-access-card">
+                  <h3 class="settings-access-card__title">Password Requirements</h3>
+                  <p class="settings-access-card__desc">Customize the security level of the passwords your users create for their YSOAM login.</p>
+                  <div class="settings-warning-banner">
+                    <span class="settings-warning-banner__icon" data-lucide-icon="alertTriangle" aria-hidden="true"></span>
+                    <p>Changes apply to new passwords and password resets. They do not affect users who authenticate through external providers (SAML, Okta, etc.).</p>
+                  </div>
+                  <div class="settings-security-grid">
+                    <div class="form-field">
+                      <label for="security-min-length">Minimum Length</label>
+                      <input type="number" id="security-min-length" name="minLength" min="6" max="32" value="8">
+                    </div>
+                    <div class="form-field">
+                      <label for="security-expiration">Expiration Interval</label>
+                      <select id="security-expiration" name="expiration">
+                        <option value="none" selected>None</option>
+                        <option value="30">30 days</option>
+                        <option value="60">60 days</option>
+                        <option value="90">90 days</option>
+                        <option value="180">180 days</option>
+                      </select>
+                    </div>
+                  </div>
+                  <p class="settings-security-subhead">Require at least one:</p>
+                  <div class="settings-security-checks">
+                    <label class="settings-login-checkbox"><input type="checkbox" name="requireMixedCase" checked> Uppercase and lowercase letter (A, z)</label>
+                    <label class="settings-login-checkbox"><input type="checkbox" name="requireNumber"> Numeric character (0–9)</label>
+                    <label class="settings-login-checkbox"><input type="checkbox" name="requireSpecial"> Special character (!, %, @, #, etc.)</label>
+                  </div>
+                  <div class="settings-security-grid">
+                    <div class="form-field">
+                      <label for="security-max-attempts">Maximum invalid login attempts</label>
+                      <input type="number" id="security-max-attempts" name="maxAttempts" min="3" max="20" value="10">
+                    </div>
+                    <div class="form-field">
+                      <label for="security-lockout">Lockout effective period</label>
+                      <select id="security-lockout" name="lockout">
+                        <option value="5">5 minutes</option>
+                        <option value="10" selected>10 minutes</option>
+                        <option value="15">15 minutes</option>
+                        <option value="30">30 minutes</option>
+                        <option value="60">1 hour</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="settings-security-reset">
+                    <button type="button" class="btn btn-danger btn-sm" id="security-reset-passwords-btn">Reset All Passwords</button>
+                    <p class="form-field__hint">All current users will be required to change their password the next time they login.</p>
+                  </div>
+                </div>
+
+                <div class="settings-access-card">
+                  <h3 class="settings-access-card__title">Session Timeout</h3>
+                  <p class="settings-access-card__desc">Control how long users can be inactive before being automatically signed out.</p>
+                  <div class="settings-security-grid">
+                    <div class="form-field">
+                      <label for="security-go-timeout">YSOAM Go</label>
+                      <select id="security-go-timeout" name="goTimeout">
+                        <option value="never" selected>Never</option>
+                        <option value="15">15 minutes</option>
+                        <option value="30">30 minutes</option>
+                        <option value="60">1 hour</option>
+                        <option value="480">8 hours</option>
+                      </select>
+                    </div>
+                    <div class="form-field">
+                      <label for="security-web-timeout">YSOAM Web</label>
+                      <select id="security-web-timeout" name="webTimeout">
+                        <option value="60">1 hour</option>
+                        <option value="480">8 hours</option>
+                        <option value="10080">1 week</option>
+                        <option value="20160" selected>2 weeks</option>
+                        <option value="43200">30 days</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="settings-access-footer settings-access-footer--page">
+                  <button type="submit" class="btn btn-primary btn-sm">Save Security Settings</button>
+                </div>
+              </form>
+            </div>
+
+            <div class="settings-panel" id="settings-panel-roles" data-settings-panel="roles">
+              <div class="settings-access-header">
+                <h2 class="settings-panel__title settings-access-header__title">Roles</h2>
+                <button type="button" class="btn btn-primary btn-sm" id="roles-add-btn">+ Add Role</button>
+              </div>
+              <div class="settings-access-card settings-access-card--flush">
+                <div class="settings-table-toolbar">
+                  <div class="settings-table-search">
+                    <span class="settings-table-search__icon" data-lucide-icon="search" aria-hidden="true"></span>
+                    <input type="search" class="settings-table-search__input" id="roles-search" placeholder="Search" aria-label="Search roles">
+                  </div>
+                  <div class="settings-table-pager" aria-label="Roles pagination">
+                    <span class="settings-table-pager__label" id="roles-pager-label">1 – 4 of 4</span>
+                    <button type="button" class="settings-table-pager__btn" id="roles-prev" disabled aria-label="Previous page"><span data-lucide-icon="chevronLeft" aria-hidden="true"></span></button>
+                    <button type="button" class="settings-table-pager__btn" id="roles-next" disabled aria-label="Next page"><span data-lucide-icon="chevronRight" aria-hidden="true"></span></button>
+                  </div>
+                </div>
+                <div class="settings-table-wrap">
+                  <table class="data-table data-table--list settings-access-table">
+                    <thead>
+                      <tr>
+                        <th class="settings-access-table__check"><input type="checkbox" id="roles-select-all" aria-label="Select all roles"></th>
+                        <th><button type="button" class="settings-sort-btn is-active">Name <span data-lucide-icon="chevronDown" aria-hidden="true"></span></button></th>
+                        <th>Users</th>
+                        <th>Created At</th>
+                        <th>Updated At</th>
+                      </tr>
+                    </thead>
+                    <tbody id="roles-table-body"></tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+
+            <div class="settings-panel" id="settings-panel-vehicle-statuses" data-settings-panel="vehicle-statuses">
+              <div class="settings-access-header">
+                <h2 class="settings-panel__title settings-access-header__title">Vehicle Statuses</h2>
+                <button type="button" class="btn btn-primary btn-sm" id="vehicle-statuses-add-btn">+ Add Vehicle Status</button>
+              </div>
+              <div class="settings-access-card settings-access-card--flush">
+                <div class="settings-table-toolbar">
+                  <div class="settings-table-search">
+                    <span class="settings-table-search__icon" data-lucide-icon="search" aria-hidden="true"></span>
+                    <input type="search" class="settings-table-search__input" id="vehicle-statuses-search" placeholder="Search" aria-label="Search vehicle statuses">
+                  </div>
+                  <div class="settings-table-pager" aria-label="Vehicle statuses pagination">
+                    <span class="settings-table-pager__label" id="vehicle-statuses-pager-label">1 – 5 of 5</span>
+                  </div>
+                </div>
+                <div class="settings-table-wrap">
+                  <table class="data-table data-table--list settings-access-table settings-vehicles-table settings-vehicles-table--statuses">
+                    <thead>
+                      <tr>
+                        <th>Name</th>
+                        <th class="settings-list-usage">Usage</th>
+                      </tr>
+                    </thead>
+                    <tbody id="vehicle-statuses-table-body"></tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+
+            <div class="settings-panel" id="settings-panel-vehicle-types" data-settings-panel="vehicle-types">
+              <div class="settings-access-header">
+                <h2 class="settings-panel__title settings-access-header__title">Vehicle Types</h2>
+                <button type="button" class="btn btn-primary btn-sm" id="vehicle-types-add-btn">+ Add Vehicle Type</button>
+              </div>
+              <div class="settings-access-card settings-access-card--flush">
+                <div class="settings-table-toolbar">
+                  <div class="settings-table-search">
+                    <span class="settings-table-search__icon" data-lucide-icon="search" aria-hidden="true"></span>
+                    <input type="search" class="settings-table-search__input" id="vehicle-types-search" placeholder="Search" aria-label="Search vehicle types">
+                  </div>
+                  <div class="settings-table-pager" aria-label="Vehicle types pagination">
+                    <span class="settings-table-pager__label" id="vehicle-types-pager-label">1 – 30 of 30</span>
+                    <button type="button" class="settings-table-pager__btn" disabled aria-label="Previous page"><span data-lucide-icon="chevronLeft" aria-hidden="true"></span></button>
+                    <button type="button" class="settings-table-pager__btn" disabled aria-label="Next page"><span data-lucide-icon="chevronRight" aria-hidden="true"></span></button>
+                  </div>
+                </div>
+                <div class="settings-table-wrap">
+                  <table class="data-table data-table--list settings-access-table settings-vehicles-table">
+                    <thead>
+                      <tr>
+                        <th class="settings-access-table__check"><input type="checkbox" aria-label="Select all vehicle types"></th>
+                        <th><button type="button" class="settings-sort-btn is-active">Name <span data-lucide-icon="chevronDown" aria-hidden="true"></span></button></th>
+                        <th class="settings-list-usage">Vehicles</th>
+                      </tr>
+                    </thead>
+                    <tbody id="vehicle-types-table-body"></tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+
+            <div class="settings-panel" id="settings-panel-external-vehicle-ids" data-settings-panel="external-vehicle-ids">
+              <div class="settings-access-header">
+                <h2 class="settings-panel__title settings-access-header__title">External Vehicle IDs</h2>
+                <button type="button" class="btn btn-primary btn-sm" id="external-vehicle-ids-add-btn">+ Add External Vehicle ID</button>
+              </div>
+              <div class="settings-access-card settings-access-card--flush">
+                <div class="settings-table-toolbar">
+                  <div class="settings-table-search">
+                    <span class="settings-table-search__icon" data-lucide-icon="search" aria-hidden="true"></span>
+                    <input type="search" class="settings-table-search__input" id="external-vehicle-ids-search" placeholder="Search" aria-label="Search external vehicle IDs">
+                  </div>
+                  <div class="settings-table-pager" aria-label="External vehicle IDs pagination">
+                    <span class="settings-table-pager__label" id="external-vehicle-ids-pager-label">0 of 0</span>
+                    <button type="button" class="settings-table-pager__btn" disabled aria-label="Previous page"><span data-lucide-icon="chevronLeft" aria-hidden="true"></span></button>
+                    <button type="button" class="settings-table-pager__btn" disabled aria-label="Next page"><span data-lucide-icon="chevronRight" aria-hidden="true"></span></button>
+                  </div>
+                </div>
+                <div class="settings-table-wrap settings-table-wrap--empty">
+                  <table class="data-table data-table--list settings-access-table settings-vehicles-table">
+                    <thead>
+                      <tr>
+                        <th class="settings-access-table__check"><input type="checkbox" aria-label="Select all"></th>
+                        <th><button type="button" class="settings-sort-btn is-active">Label <span data-lucide-icon="chevronDown" aria-hidden="true"></span></button></th>
+                        <th>Description</th>
+                        <th>Key</th>
+                      </tr>
+                    </thead>
+                    <tbody id="external-vehicle-ids-table-body"></tbody>
+                  </table>
+                  <div class="settings-list-empty" id="external-vehicle-ids-empty">
+                    <span class="settings-list-empty__icon" data-lucide-icon="search" data-lucide-icon-size="32" aria-hidden="true"></span>
+                    <p>No results to show</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="settings-panel" id="settings-panel-expense-types" data-settings-panel="expense-types">
+              <div class="settings-access-header">
+                <h2 class="settings-panel__title settings-access-header__title">Expense Types</h2>
+                <button type="button" class="btn btn-primary btn-sm" id="expense-types-add-btn">+ Add Expense Type</button>
+              </div>
+              <div class="settings-access-card settings-access-card--flush">
+                <div class="settings-table-toolbar">
+                  <div class="settings-table-search">
+                    <span class="settings-table-search__icon" data-lucide-icon="search" aria-hidden="true"></span>
+                    <input type="search" class="settings-table-search__input" id="expense-types-search" placeholder="Search" aria-label="Search expense types">
+                  </div>
+                  <div class="settings-table-pager" aria-label="Expense types pagination">
+                    <span class="settings-table-pager__label" id="expense-types-pager-label">1 – 17 of 17</span>
+                    <button type="button" class="settings-table-pager__btn" disabled aria-label="Previous page"><span data-lucide-icon="chevronLeft" aria-hidden="true"></span></button>
+                    <button type="button" class="settings-table-pager__btn" disabled aria-label="Next page"><span data-lucide-icon="chevronRight" aria-hidden="true"></span></button>
+                  </div>
+                </div>
+                <div class="settings-table-wrap">
+                  <table class="data-table data-table--list settings-access-table settings-vehicles-table">
+                    <thead>
+                      <tr>
+                        <th class="settings-access-table__check"><input type="checkbox" aria-label="Select all expense types"></th>
+                        <th><button type="button" class="settings-sort-btn is-active">Name <span data-lucide-icon="chevronDown" aria-hidden="true"></span></button></th>
+                        <th class="settings-list-usage">Usage</th>
+                      </tr>
+                    </thead>
+                    <tbody id="expense-types-table-body"></tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+
+            <div class="settings-panel" id="settings-panel-inspection-settings" data-settings-panel="inspection-settings">
+              <h2 class="settings-panel__title">Inspection Settings</h2>
+              <div class="settings-access-card">
+                <div class="settings-ops-card-head">
+                  <h3 class="settings-access-card__title">Inspection Settings</h3>
+                  <a class="settings-ops-learn" href="roadmap.html">Learn More <span data-lucide-icon="externalLink" aria-hidden="true"></span></a>
+                </div>
+                <form class="settings-ops-form" id="inspection-settings-form" novalidate>
+                  <div class="form-field form-field--full">
+                    <label for="inspection-proximity">Proximity Threshold <span class="settings-required">*</span></label>
+                    <input type="text" id="inspection-proximity" name="proximity" value="80%" required>
+                    <p class="form-field__hint">Trigger a Location Exception alert when this percentage of inspection items are completed from the same GPS position.</p>
+                  </div>
+                  <div class="form-field form-field--full">
+                    <label for="inspection-distance">Distance Threshold</label>
+                    <input type="number" id="inspection-distance" name="distance" value="100" min="0">
+                    <p class="form-field__hint">Trigger a Location Exception alert when the submission location of at least 1 inspection item is further than this distance (in meters) from the other items.</p>
+                  </div>
+                  <div class="settings-access-footer">
+                    <button type="submit" class="btn btn-primary btn-sm">Save Inspection Settings</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+
+            <div class="settings-panel" id="settings-panel-issue-priorities" data-settings-panel="issue-priorities">
+              <h2 class="settings-panel__title">Issue Priorities</h2>
+              <p class="settings-ops-intro">Organize your issues by indicating an issue's level of importance with critical, high, medium, and low. You also can create an alias that will replace the priority name or disable the use of a priority level.</p>
+              <div class="settings-access-card settings-access-card--flush">
+                <div class="settings-table-toolbar">
+                  <div class="settings-table-search">
+                    <span class="settings-table-search__icon" data-lucide-icon="search" aria-hidden="true"></span>
+                    <input type="search" class="settings-table-search__input" id="issue-priorities-search" placeholder="Search" aria-label="Search issue priorities">
+                  </div>
+                </div>
+                <div class="settings-table-wrap">
+                  <table class="data-table data-table--list settings-access-table settings-ops-table">
+                    <thead>
+                      <tr>
+                        <th>Name</th>
+                        <th>Alias</th>
+                        <th class="settings-list-usage"># Issues</th>
+                        <th>Enabled</th>
+                      </tr>
+                    </thead>
+                    <tbody id="issue-priorities-table-body"></tbody>
+                  </table>
+                </div>
+              </div>
+              <div class="settings-ops-info-banner">
+                <span class="settings-info-banner__icon" data-lucide-icon="info" aria-hidden="true"></span>
+                <p>The Smart Priorities settings have moved to the AI Service Advisor settings.</p>
+                <a class="settings-ops-info-link" href="roadmap.html">AI Service Advisor Settings →</a>
+              </div>
+            </div>
+
+            <div class="settings-panel" id="settings-panel-fault-rules" data-settings-panel="fault-rules">
+              <div class="settings-access-header">
+                <h2 class="settings-panel__title settings-access-header__title">Fault Rules</h2>
+                <button type="button" class="btn btn-primary btn-sm" id="fault-rules-add-btn">+ Add Fault Rule</button>
+              </div>
+              <div class="settings-access-card settings-access-card--flush">
+                <div class="settings-table-toolbar">
+                  <div class="settings-table-search">
+                    <span class="settings-table-search__icon" data-lucide-icon="search" aria-hidden="true"></span>
+                    <input type="search" class="settings-table-search__input" id="fault-rules-search" placeholder="Search" aria-label="Search fault rules">
+                  </div>
+                  <div class="settings-table-pager" aria-label="Fault rules pagination">
+                    <span class="settings-table-pager__label" id="fault-rules-pager-label">0 of 0</span>
+                    <button type="button" class="settings-table-pager__btn" disabled aria-label="Previous page"><span data-lucide-icon="chevronLeft" aria-hidden="true"></span></button>
+                    <button type="button" class="settings-table-pager__btn" disabled aria-label="Next page"><span data-lucide-icon="chevronRight" aria-hidden="true"></span></button>
+                  </div>
+                </div>
+                <div class="settings-table-wrap settings-table-wrap--empty">
+                  <table class="data-table data-table--list settings-access-table settings-ops-table">
+                    <thead>
+                      <tr>
+                        <th class="settings-access-table__check"><input type="checkbox" aria-label="Select all fault rules"></th>
+                        <th><button type="button" class="settings-sort-btn is-active">Code <span data-lucide-icon="chevronDown" aria-hidden="true"></span></button></th>
+                        <th>Description</th>
+                      </tr>
+                    </thead>
+                    <tbody id="fault-rules-table-body"></tbody>
+                  </table>
+                  <div class="settings-list-empty" id="fault-rules-empty">
+                    <span class="settings-list-empty__icon" data-lucide-icon="search" data-lucide-icon-size="32" aria-hidden="true"></span>
+                    <p>No results to show</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="settings-panel" id="settings-panel-service-reminder-settings" data-settings-panel="service-reminder-settings">
+              <h2 class="settings-panel__title">Service Reminder Settings</h2>
+              <form class="settings-ops-form" id="service-reminder-settings-form" novalidate>
+                <div class="settings-access-card">
+                  <h3 class="settings-access-card__title">Recalculate Fleet's Compliance History</h3>
+                  <p class="settings-access-card__desc">This will recalculate all compliance history for all vehicles</p>
+                  <button type="button" class="btn btn-danger btn-sm settings-ops-recalc-btn" id="service-reminder-recalc-btn">
+                    <span data-lucide-icon="history" aria-hidden="true"></span> Recalculate
+                  </button>
+                </div>
+                <div class="settings-access-card">
+                  <label class="settings-login-checkbox settings-ops-forecast">
+                    <input type="checkbox" id="service-reminder-forecasting" name="forecasting"> Forecasting
+                  </label>
+                  <p class="settings-access-card__desc">YSOAM can use a vehicle's average daily usage to predict the date its Service Reminders will be due. <a href="roadmap.html">Learn More</a></p>
+                </div>
+                <div class="settings-access-footer settings-access-footer--page">
+                  <button type="submit" class="btn btn-primary btn-sm">Save Settings</button>
+                </div>
+              </form>
+            </div>
+
+            <div class="settings-panel" id="settings-panel-vehicle-renewal-types" data-settings-panel="vehicle-renewal-types">
+              <div class="settings-access-header">
+                <h2 class="settings-panel__title settings-access-header__title">Vehicle Renewal Types</h2>
+                <button type="button" class="btn btn-primary btn-sm" id="vehicle-renewal-types-add-btn">+ Add Vehicle Renewal Type</button>
+              </div>
+              <div class="settings-access-card settings-access-card--flush">
+                <div class="settings-table-toolbar">
+                  <div class="settings-table-search">
+                    <span class="settings-table-search__icon" data-lucide-icon="search" aria-hidden="true"></span>
+                    <input type="search" class="settings-table-search__input" id="vehicle-renewal-types-search" placeholder="Search" aria-label="Search vehicle renewal types">
+                  </div>
+                  <div class="settings-table-pager" aria-label="Vehicle renewal types pagination">
+                    <span class="settings-table-pager__label" id="vehicle-renewal-types-pager-label">1 – 4 of 4</span>
+                    <button type="button" class="settings-table-pager__btn" disabled aria-label="Previous page"><span data-lucide-icon="chevronLeft" aria-hidden="true"></span></button>
+                    <button type="button" class="settings-table-pager__btn" disabled aria-label="Next page"><span data-lucide-icon="chevronRight" aria-hidden="true"></span></button>
+                  </div>
+                </div>
+                <div class="settings-table-wrap">
+                  <table class="data-table data-table--list settings-access-table settings-ops-table">
+                    <thead>
+                      <tr>
+                        <th class="settings-access-table__check"><input type="checkbox" aria-label="Select all vehicle renewal types"></th>
+                        <th><button type="button" class="settings-sort-btn is-active">Name <span data-lucide-icon="chevronDown" aria-hidden="true"></span></button></th>
+                        <th class="settings-list-usage">Usage</th>
+                      </tr>
+                    </thead>
+                    <tbody id="vehicle-renewal-types-table-body"></tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+
+            <div class="settings-panel" id="settings-panel-contact-renewal-types" data-settings-panel="contact-renewal-types">
+              <div class="settings-access-header">
+                <h2 class="settings-panel__title settings-access-header__title">Contact Renewal Types</h2>
+                <button type="button" class="btn btn-primary btn-sm" id="contact-renewal-types-add-btn">+ Add Contact Renewal Type</button>
+              </div>
+              <div class="settings-access-card settings-access-card--flush">
+                <div class="settings-table-toolbar">
+                  <div class="settings-table-search">
+                    <span class="settings-table-search__icon" data-lucide-icon="search" aria-hidden="true"></span>
+                    <input type="search" class="settings-table-search__input" id="contact-renewal-types-search" placeholder="Search" aria-label="Search contact renewal types">
+                  </div>
+                  <div class="settings-table-pager" aria-label="Contact renewal types pagination">
+                    <span class="settings-table-pager__label" id="contact-renewal-types-pager-label">1 – 2 of 2</span>
+                    <button type="button" class="settings-table-pager__btn" disabled aria-label="Previous page"><span data-lucide-icon="chevronLeft" aria-hidden="true"></span></button>
+                    <button type="button" class="settings-table-pager__btn" disabled aria-label="Next page"><span data-lucide-icon="chevronRight" aria-hidden="true"></span></button>
+                  </div>
+                </div>
+                <div class="settings-table-wrap">
+                  <table class="data-table data-table--list settings-access-table settings-ops-table">
+                    <thead>
+                      <tr>
+                        <th class="settings-access-table__check"><input type="checkbox" aria-label="Select all contact renewal types"></th>
+                        <th><button type="button" class="settings-sort-btn is-active">Name <span data-lucide-icon="chevronDown" aria-hidden="true"></span></button></th>
+                        <th class="settings-list-usage">Usage</th>
+                      </tr>
+                    </thead>
+                    <tbody id="contact-renewal-types-table-body"></tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+
+            <div class="settings-panel" id="settings-panel-maintenance-settings" data-settings-panel="maintenance-settings">
+              <h2 class="settings-panel__title">Maintenance Settings</h2>
+              <form class="settings-ops-form" id="maintenance-settings-form" novalidate>
+                <div class="settings-access-card">
+                  <label class="settings-login-checkbox settings-service-check">
+                    <input type="checkbox" name="enableWorkOrders" checked> <strong>Enable Work Orders</strong>
+                  </label>
+                  <p class="settings-access-card__desc">If disabled, Work Orders and Parts will be hidden from the system. You can hide the Work Orders module if you do not plan to use it.</p>
+                </div>
+                <div class="settings-access-card">
+                  <h3 class="settings-access-card__title">General</h3>
+                  <div class="form-field form-field--full">
+                    <label for="maintenance-next-wo">Next Work Order Number</label>
+                    <input type="number" id="maintenance-next-wo" name="nextWorkOrder" value="155" min="1">
+                    <p class="form-field__hint">Sets the next Work Order number. The current highest number is 154.</p>
+                  </div>
+                  <label class="settings-login-checkbox settings-service-check">
+                    <input type="checkbox" name="requireMeterReading" checked> <strong>Require a Meter Reading</strong>
+                  </label>
+                  <p class="settings-access-card__desc">If enabled, a meter reading (primary or secondary) must be present to save a Service Entry or completed Work Order. It is strongly suggested that you leave this option turned on.</p>
+                  <div class="form-field form-field--full">
+                    <label for="maintenance-excluded-types">Excluded Vehicle Types</label>
+                    <select id="maintenance-excluded-types" name="excludedTypes" multiple size="4">
+                      <option value="" disabled>Please select</option>
+                    </select>
+                    <p class="form-field__hint">The selected vehicle type(s) are excluded and will NOT require a meter reading to save a Service Entry or completed Work Order.</p>
+                  </div>
+                </div>
+                <div class="settings-access-card">
+                  <h3 class="settings-access-card__title">Line Items</h3>
+                  <p class="settings-service-subhead">Maintenance Categorization</p>
+                  <div class="settings-service-checks">
+                    <label class="settings-login-checkbox settings-service-check">
+                      <input type="checkbox" name="requireRepairPriority"> <strong>Require a Repair Priority Class</strong>
+                      <span class="settings-service-check__hint">Must be present to save a Service Entry or Work Order.</span>
+                    </label>
+                    <label class="settings-login-checkbox settings-service-check">
+                      <input type="checkbox" name="requireRepairReason"> <strong>Require a Reason for Repair on Line Items</strong>
+                      <span class="settings-service-check__hint">Must be present to save a Service Entry or Work Order.</span>
+                    </label>
+                    <label class="settings-login-checkbox settings-service-check">
+                      <input type="checkbox" name="requireCategory"> <strong>Require a Category on Line Items</strong>
+                      <span class="settings-service-check__hint">At least one Category must be present.</span>
+                    </label>
+                    <label class="settings-login-checkbox settings-service-check">
+                      <input type="checkbox" name="disableRepairEdit"> <strong>Disable Editing the Default Reason for Repair Codes on Line Items</strong>
+                      <span class="settings-service-check__hint">Prevents users from editing default codes on line items.</span>
+                    </label>
+                    <label class="settings-login-checkbox settings-service-check">
+                      <input type="checkbox" name="disableVmrsEdit"> <strong>Disable Editing the Default Category, System, Assembly, Component Codes on Line Items</strong>
+                      <span class="settings-service-check__hint">Prevents users from editing these default codes on line items.</span>
+                    </label>
+                  </div>
+                </div>
+                <div class="settings-access-footer settings-access-footer--page">
+                  <button type="submit" class="btn btn-primary btn-sm">Save Maintenance Settings</button>
+                </div>
+              </form>
+            </div>
+
+            <div class="settings-panel" id="settings-panel-work-order-statuses" data-settings-panel="work-order-statuses">
+              <h2 class="settings-panel__title">Work Order Statuses</h2>
+              <div class="settings-access-card settings-access-card--flush">
+                <div class="settings-table-toolbar">
+                  <div class="settings-table-search">
+                    <span class="settings-table-search__icon" data-lucide-icon="search" aria-hidden="true"></span>
+                    <input type="search" class="settings-table-search__input" id="work-order-statuses-search" placeholder="Search" aria-label="Search work order statuses">
+                  </div>
+                  <div class="settings-table-pager" aria-label="Work order statuses pagination">
+                    <span class="settings-table-pager__label" id="work-order-statuses-pager-label">1 – 3 of 3</span>
+                  </div>
+                </div>
+                <div class="settings-table-wrap">
+                  <table class="data-table data-table--list settings-access-table settings-service-table settings-vehicles-table--statuses">
+                    <thead>
+                      <tr>
+                        <th>Name</th>
+                        <th>Type</th>
+                        <th class="settings-list-usage"># Work Orders</th>
+                        <th class="settings-ops-actions-head" aria-label="Actions"></th>
+                      </tr>
+                    </thead>
+                    <tbody id="work-order-statuses-table-body"></tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+
+            <div class="settings-panel" id="settings-panel-repair-codes" data-settings-panel="repair-codes">
+              <div class="settings-access-header">
+                <h2 class="settings-panel__title settings-access-header__title">Reason for Repair Codes</h2>
+                <button type="button" class="btn btn-primary btn-sm" id="repair-codes-add-btn">+ Add Reason for Repair Code</button>
+              </div>
+              <div class="settings-access-card settings-access-card--flush">
+                <div class="settings-table-toolbar settings-table-toolbar--filters">
+                  <div class="settings-table-search">
+                    <span class="settings-table-search__icon" data-lucide-icon="search" aria-hidden="true"></span>
+                    <input type="search" class="settings-table-search__input" id="repair-codes-search" placeholder="Search" aria-label="Search repair codes">
+                  </div>
+                  <div class="settings-table-filters">
+                    <select class="settings-table-filter" aria-label="Filter by type">
+                      <option>Type</option>
+                      <option>All</option>
+                    </select>
+                    <select class="settings-table-filter" aria-label="Filter by status">
+                      <option>Status</option>
+                      <option>Enabled</option>
+                      <option>Disabled</option>
+                    </select>
+                  </div>
+                  <div class="settings-table-pager" aria-label="Repair codes pagination">
+                    <span class="settings-table-pager__label" id="repair-codes-pager-label">1 – 12 of 12</span>
+                    <button type="button" class="settings-table-pager__btn" disabled aria-label="Previous page"><span data-lucide-icon="chevronLeft" aria-hidden="true"></span></button>
+                    <button type="button" class="settings-table-pager__btn" disabled aria-label="Next page"><span data-lucide-icon="chevronRight" aria-hidden="true"></span></button>
+                    <button type="button" class="settings-table-pager__btn" aria-label="Table settings"><span data-lucide-icon="settings" aria-hidden="true"></span></button>
+                  </div>
+                </div>
+                <div class="settings-table-wrap">
+                  <table class="data-table data-table--list settings-access-table settings-service-table">
+                    <thead>
+                      <tr>
+                        <th class="settings-access-table__check"><input type="checkbox" aria-label="Select all"></th>
+                        <th><button type="button" class="settings-sort-btn is-active">Code <span data-lucide-icon="chevronDown" aria-hidden="true"></span></button></th>
+                        <th>Name</th>
+                        <th>Alias</th>
+                        <th>Standard</th>
+                        <th>Enabled</th>
+                      </tr>
+                    </thead>
+                    <tbody id="repair-codes-table-body"></tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+
+            <div class="settings-panel" id="settings-panel-repair-priority-codes" data-settings-panel="repair-priority-codes">
+              <h2 class="settings-panel__title">Repair Priority Class Codes</h2>
+              <p class="settings-ops-intro">Repair Priority Class Codes (VMRS Code Key 16) classify service and repair as scheduled, non-scheduled, or emergency for reporting. Configure how they are used in <a href="settings?section=maintenance-settings">Maintenance Settings</a>.</p>
+              <div class="settings-access-card settings-access-card--flush">
+                <div class="settings-table-toolbar">
+                  <div class="settings-table-search">
+                    <span class="settings-table-search__icon" data-lucide-icon="search" aria-hidden="true"></span>
+                    <input type="search" class="settings-table-search__input" id="repair-priority-codes-search" placeholder="Search" aria-label="Search repair priority codes">
+                  </div>
+                  <div class="settings-table-pager" aria-label="Repair priority codes pagination">
+                    <span class="settings-table-pager__label" id="repair-priority-codes-pager-label">1 – 3 of 3</span>
+                    <button type="button" class="settings-table-pager__btn" disabled aria-label="Previous page"><span data-lucide-icon="chevronLeft" aria-hidden="true"></span></button>
+                    <button type="button" class="settings-table-pager__btn" disabled aria-label="Next page"><span data-lucide-icon="chevronRight" aria-hidden="true"></span></button>
+                  </div>
+                </div>
+                <div class="settings-table-wrap">
+                  <table class="data-table data-table--list settings-access-table settings-service-table">
+                    <thead>
+                      <tr>
+                        <th>Code</th>
+                        <th>Name</th>
+                        <th class="settings-list-usage"># Service Entries</th>
+                        <th class="settings-list-usage"># Work Orders</th>
+                        <th>Enabled</th>
+                      </tr>
+                    </thead>
+                    <tbody id="repair-priority-codes-table-body"></tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+
+            <div class="settings-panel" id="settings-panel-vmrs-codes" data-settings-panel="vmrs-codes">
+              <h2 class="settings-panel__title">System/Assembly/Component Codes</h2>
+              <div id="vmrs-category-system-view" class="vmrs-grid">
+                <div class="vmrs-col">
+                  <h3 class="vmrs-col__title">Category</h3>
+                  <div class="settings-table-search vmrs-col__search">
+                    <span class="settings-table-search__icon" data-lucide-icon="search" aria-hidden="true"></span>
+                    <input type="search" class="settings-table-search__input" id="vmrs-category-search" placeholder="Search Category codes..." aria-label="Search category codes">
+                  </div>
+                  <div class="vmrs-list" id="vmrs-category-list"></div>
+                </div>
+                <div class="vmrs-col">
+                  <div class="vmrs-col__head">
+                    <h3 class="vmrs-col__title">System <span class="vmrs-col__count" id="vmrs-system-count">4</span></h3>
+                    <label class="settings-toggle settings-toggle--sm" title="Enable systems">
+                      <input type="checkbox" checked disabled>
+                      <span class="settings-toggle__track" aria-hidden="true"></span>
+                    </label>
+                  </div>
+                  <div class="settings-table-search vmrs-col__search">
+                    <span class="settings-table-search__icon" data-lucide-icon="search" aria-hidden="true"></span>
+                    <input type="search" class="settings-table-search__input" id="vmrs-system-search" placeholder="Search System codes..." aria-label="Search system codes">
+                  </div>
+                  <div class="vmrs-list" id="vmrs-system-list"></div>
+                </div>
+              </div>
+              <div id="vmrs-assembly-component-view" class="vmrs-grid" hidden>
+                <button type="button" class="vmrs-back btn btn-text btn-sm" id="vmrs-back-systems"><span data-lucide-icon="chevronLeft" aria-hidden="true"></span> Back to Systems</button>
+                <div class="vmrs-grid vmrs-grid--inner">
+                  <div class="vmrs-col">
+                    <div class="vmrs-col__head">
+                      <h3 class="vmrs-col__title">Assembly <span class="vmrs-col__count" id="vmrs-assembly-count">6</span></h3>
+                      <label class="settings-toggle settings-toggle--sm" title="Enable assemblies">
+                        <input type="checkbox" checked disabled>
+                        <span class="settings-toggle__track" aria-hidden="true"></span>
+                      </label>
+                    </div>
+                    <div class="settings-table-search vmrs-col__search">
+                      <span class="settings-table-search__icon" data-lucide-icon="search" aria-hidden="true"></span>
+                      <input type="search" class="settings-table-search__input" id="vmrs-assembly-search" placeholder="Search Assembly codes..." aria-label="Search assembly codes">
+                    </div>
+                    <div class="vmrs-list" id="vmrs-assembly-list"></div>
+                  </div>
+                  <div class="vmrs-col">
+                    <div class="vmrs-col__head">
+                      <h3 class="vmrs-col__title">Component <span class="vmrs-col__count" id="vmrs-component-count">469</span></h3>
+                      <label class="settings-toggle settings-toggle--sm" title="Enable components">
+                        <input type="checkbox" id="vmrs-component-toggle">
+                        <span class="settings-toggle__track" aria-hidden="true"></span>
+                      </label>
+                    </div>
+                    <div class="settings-table-search vmrs-col__search">
+                      <span class="settings-table-search__icon" data-lucide-icon="search" aria-hidden="true"></span>
+                      <input type="search" class="settings-table-search__input" id="vmrs-component-search" placeholder="Search Component codes..." aria-label="Search component codes">
+                    </div>
+                    <div class="vmrs-component-banner" id="vmrs-component-banner">
+                      <span class="settings-warning-banner__icon" data-lucide-icon="alertTriangle" aria-hidden="true"></span>
+                      <p>Component codes are currently disabled. If enabled, these codes will be available for users to select on Work Orders and Service Entries.</p>
+                      <button type="button" class="btn btn-outline btn-sm" id="vmrs-enable-components">Enable</button>
+                    </div>
+                    <div class="vmrs-list vmrs-list--disabled" id="vmrs-component-list"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="settings-panel" id="settings-panel-part-locations" data-settings-panel="part-locations">
+              <div class="settings-access-header">
+                <h2 class="settings-panel__title settings-access-header__title">Part Locations</h2>
+                <button type="button" class="btn btn-primary btn-sm" id="part-locations-add-btn">+ Add Part Location</button>
+              </div>
+              <div class="settings-record-tabs" role="tablist" aria-label="Part location status">
+                <button type="button" class="settings-record-tab is-active" role="tab" aria-selected="true" data-part-location-tab="active">Active</button>
+                <button type="button" class="settings-record-tab" role="tab" aria-selected="false" data-part-location-tab="archived">Archived</button>
+              </div>
+              <div class="settings-access-card settings-access-card--flush">
+                <div class="settings-table-toolbar">
+                  <div class="settings-table-search">
+                    <span class="settings-table-search__icon" data-lucide-icon="search" aria-hidden="true"></span>
+                    <input type="search" class="settings-table-search__input" id="part-locations-search" placeholder="Search" aria-label="Search part locations">
+                  </div>
+                  <div class="settings-table-pager" aria-label="Part locations pagination">
+                    <span class="settings-table-pager__label" id="part-locations-pager-label">0 of 0</span>
+                    <button type="button" class="settings-table-pager__btn" disabled aria-label="Previous page"><span data-lucide-icon="chevronLeft" aria-hidden="true"></span></button>
+                    <button type="button" class="settings-table-pager__btn" disabled aria-label="Next page"><span data-lucide-icon="chevronRight" aria-hidden="true"></span></button>
+                  </div>
+                </div>
+                <div class="settings-table-wrap settings-table-wrap--empty">
+                  <table class="data-table data-table--list settings-access-table settings-parts-table">
+                    <thead>
+                      <tr>
+                        <th class="settings-access-table__check"><input type="checkbox" aria-label="Select all"></th>
+                        <th><button type="button" class="settings-sort-btn is-active">Name <span data-lucide-icon="chevronDown" aria-hidden="true"></span></button></th>
+                        <th>Description</th>
+                      </tr>
+                    </thead>
+                    <tbody id="part-locations-table-body"></tbody>
+                  </table>
+                  <div class="settings-list-empty" id="part-locations-empty">
+                    <span class="settings-list-empty__icon" data-lucide-icon="search" data-lucide-icon-size="32" aria-hidden="true"></span>
+                    <p>No results to show</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="settings-panel" id="settings-panel-part-categories" data-settings-panel="part-categories">
+              <div class="settings-access-header">
+                <h2 class="settings-panel__title settings-access-header__title">Part Categories</h2>
+                <button type="button" class="btn btn-primary btn-sm" id="part-categories-add-btn">+ Add Part Category</button>
+              </div>
+              <div class="settings-access-card settings-access-card--flush">
+                <div class="settings-table-toolbar">
+                  <div class="settings-table-search">
+                    <span class="settings-table-search__icon" data-lucide-icon="search" aria-hidden="true"></span>
+                    <input type="search" class="settings-table-search__input" id="part-categories-search" placeholder="Search" aria-label="Search part categories">
+                  </div>
+                  <div class="settings-table-pager" aria-label="Part categories pagination">
+                    <span class="settings-table-pager__label" id="part-categories-pager-label">1 – 8 of 8</span>
+                    <button type="button" class="settings-table-pager__btn" disabled aria-label="Previous page"><span data-lucide-icon="chevronLeft" aria-hidden="true"></span></button>
+                    <button type="button" class="settings-table-pager__btn" disabled aria-label="Next page"><span data-lucide-icon="chevronRight" aria-hidden="true"></span></button>
+                  </div>
+                </div>
+                <div class="settings-table-wrap">
+                  <table class="data-table data-table--list settings-access-table settings-parts-table">
+                    <thead>
+                      <tr>
+                        <th class="settings-access-table__check"><input type="checkbox" aria-label="Select all"></th>
+                        <th><button type="button" class="settings-sort-btn is-active">Name <span data-lucide-icon="chevronDown" aria-hidden="true"></span></button></th>
+                        <th>Description</th>
+                        <th class="settings-list-usage">Usage</th>
+                      </tr>
+                    </thead>
+                    <tbody id="part-categories-table-body"></tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+
+            <div class="settings-panel" id="settings-panel-part-manufacturers" data-settings-panel="part-manufacturers">
+              <div class="settings-access-header">
+                <h2 class="settings-panel__title settings-access-header__title">Part Manufacturers</h2>
+                <button type="button" class="btn btn-primary btn-sm" id="part-manufacturers-add-btn">+ Add Part Manufacturer</button>
+              </div>
+              <div class="settings-access-card settings-access-card--flush">
+                <div class="settings-table-toolbar">
+                  <div class="settings-table-search">
+                    <span class="settings-table-search__icon" data-lucide-icon="search" aria-hidden="true"></span>
+                    <input type="search" class="settings-table-search__input" id="part-manufacturers-search" placeholder="Search" aria-label="Search part manufacturers">
+                  </div>
+                  <div class="settings-table-pager" aria-label="Part manufacturers pagination">
+                    <span class="settings-table-pager__label" id="part-manufacturers-pager-label">0 of 0</span>
+                    <button type="button" class="settings-table-pager__btn" disabled aria-label="Previous page"><span data-lucide-icon="chevronLeft" aria-hidden="true"></span></button>
+                    <button type="button" class="settings-table-pager__btn" disabled aria-label="Next page"><span data-lucide-icon="chevronRight" aria-hidden="true"></span></button>
+                  </div>
+                </div>
+                <div class="settings-table-wrap settings-table-wrap--empty">
+                  <table class="data-table data-table--list settings-access-table settings-parts-table">
+                    <thead>
+                      <tr>
+                        <th class="settings-access-table__check"><input type="checkbox" aria-label="Select all"></th>
+                        <th><button type="button" class="settings-sort-btn is-active">Name <span data-lucide-icon="chevronDown" aria-hidden="true"></span></button></th>
+                        <th>Description</th>
+                        <th class="settings-list-usage">Usage</th>
+                      </tr>
+                    </thead>
+                    <tbody id="part-manufacturers-table-body"></tbody>
+                  </table>
+                  <div class="settings-list-empty" id="part-manufacturers-empty">
+                    <span class="settings-list-empty__icon" data-lucide-icon="search" data-lucide-icon-size="32" aria-hidden="true"></span>
+                    <p>No results to show</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="settings-panel" id="settings-panel-measurement-units" data-settings-panel="measurement-units">
+              <div class="settings-access-header">
+                <h2 class="settings-panel__title settings-access-header__title">Measurement Units</h2>
+                <button type="button" class="btn btn-primary btn-sm" id="measurement-units-add-btn">+ Add Measurement Unit</button>
+              </div>
+              <div class="settings-access-card settings-access-card--flush">
+                <div class="settings-table-toolbar">
+                  <div class="settings-table-search">
+                    <span class="settings-table-search__icon" data-lucide-icon="search" aria-hidden="true"></span>
+                    <input type="search" class="settings-table-search__input" id="measurement-units-search" placeholder="Search" aria-label="Search measurement units">
+                  </div>
+                  <div class="settings-table-pager" aria-label="Measurement units pagination">
+                    <span class="settings-table-pager__label" id="measurement-units-pager-label">1 – 8 of 8</span>
+                    <button type="button" class="settings-table-pager__btn" disabled aria-label="Previous page"><span data-lucide-icon="chevronLeft" aria-hidden="true"></span></button>
+                    <button type="button" class="settings-table-pager__btn" disabled aria-label="Next page"><span data-lucide-icon="chevronRight" aria-hidden="true"></span></button>
+                  </div>
+                </div>
+                <div class="settings-table-wrap">
+                  <table class="data-table data-table--list settings-access-table settings-parts-table">
+                    <thead>
+                      <tr>
+                        <th class="settings-access-table__check"><input type="checkbox" aria-label="Select all"></th>
+                        <th><button type="button" class="settings-sort-btn is-active">Name <span data-lucide-icon="chevronDown" aria-hidden="true"></span></button></th>
+                        <th>Symbol</th>
+                        <th>Description</th>
+                        <th class="settings-list-usage">Usage</th>
+                      </tr>
+                    </thead>
+                    <tbody id="measurement-units-table-body"></tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+
+            <div class="settings-panel" id="settings-panel-fuel-settings" data-settings-panel="fuel-settings">
+              <h2 class="settings-panel__title">Fuel Settings</h2>
+              <form class="settings-ops-form" id="fuel-settings-form" novalidate>
+                <div class="settings-access-card">
+                  <h3 class="settings-access-card__title">Fuel Alerts</h3>
+                  <div class="form-field form-field--full">
+                    <label for="fuel-alert-radius">Fuel Vendor Location Alert Radius <span class="settings-required">*</span></label>
+                    <select id="fuel-alert-radius" name="alertRadius" required>
+                      <option value="disabled">Disabled</option>
+                      <option value="0.5">0.5 miles</option>
+                      <option value="1">1 mile</option>
+                      <option value="2" selected>2 miles</option>
+                      <option value="5">5 miles</option>
+                      <option value="10">10 miles</option>
+                    </select>
+                    <p class="form-field__hint">Fuel Vendor Location Alerts are triggered when a vehicle's location is outside the above radius from the fuel vendor at the time of transaction. A smaller radius will be more sensitive. Select "Disabled" to turn off alerts altogether. <a href="roadmap.html">Learn More</a></p>
+                  </div>
+                </div>
+                <div class="settings-access-card">
+                  <h3 class="settings-access-card__title">Fuel Cards</h3>
+                  <p class="settings-service-subhead">Auto-Assign Fuel Card Transactions</p>
+                  <label class="settings-toggle settings-toggle--inline settings-fuel-toggle">
+                    <input type="checkbox" id="fuel-auto-assign" name="autoAssign">
+                    <span class="settings-toggle__track" aria-hidden="true"></span>
+                    <span class="settings-toggle__label">Enable Auto-Assigning Fuel Cards Based on Vehicle Name</span>
+                  </label>
+                  <p class="form-field__hint settings-fuel-important">IMPORTANT: The Company Vehicle Number in WEX must match the Vehicle Name in YSOAM or transactions will not auto-assign. <a href="roadmap.html">Learn More</a></p>
+                </div>
+                <div class="settings-access-footer settings-access-footer--page">
+                  <button type="submit" class="btn btn-primary btn-sm">Save Fuel Settings</button>
+                </div>
+              </form>
+            </div>
+
+            <div class="settings-panel" id="settings-panel-fuel-types" data-settings-panel="fuel-types">
+              <div class="settings-access-header">
+                <h2 class="settings-panel__title settings-access-header__title">Fuel Types</h2>
+                <button type="button" class="btn btn-primary btn-sm" id="fuel-types-add-btn">+ Add Fuel Type</button>
+              </div>
+              <div class="settings-access-card settings-access-card--flush">
+                <div class="settings-table-toolbar">
+                  <div class="settings-table-search">
+                    <span class="settings-table-search__icon" data-lucide-icon="search" aria-hidden="true"></span>
+                    <input type="search" class="settings-table-search__input" id="fuel-types-search" placeholder="Search" aria-label="Search fuel types">
+                  </div>
+                  <div class="settings-table-pager" aria-label="Fuel types pagination">
+                    <span class="settings-table-pager__label" id="fuel-types-pager-label">1 – 11 of 11</span>
+                    <button type="button" class="settings-table-pager__btn" disabled aria-label="Previous page"><span data-lucide-icon="chevronLeft" aria-hidden="true"></span></button>
+                    <button type="button" class="settings-table-pager__btn" disabled aria-label="Next page"><span data-lucide-icon="chevronRight" aria-hidden="true"></span></button>
+                  </div>
+                </div>
+                <div class="settings-table-wrap">
+                  <table class="data-table data-table--list settings-access-table settings-parts-table">
+                    <thead>
+                      <tr>
+                        <th class="settings-access-table__check"><input type="checkbox" aria-label="Select all"></th>
+                        <th><button type="button" class="settings-sort-btn is-active">Name <span data-lucide-icon="chevronDown" aria-hidden="true"></span></button></th>
+                        <th class="settings-list-usage">Fuel Entries Usage</th>
+                        <th class="settings-list-usage">Vehicles Usage</th>
+                      </tr>
+                    </thead>
+                    <tbody id="fuel-types-table-body"></tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+
+            <div class="settings-panel" id="settings-panel-record-sets" data-settings-panel="record-sets">
+              <div class="settings-access-header">
+                <h2 class="settings-panel__title settings-access-header__title">Record Sets</h2>
+                <button type="button" class="btn btn-primary btn-sm" id="record-sets-add-btn">+ Add Record Set</button>
+              </div>
+              <div class="settings-record-tabs" role="tablist" aria-label="Record set types">
+                <button type="button" class="settings-record-tab is-active" role="tab" aria-selected="true" data-record-tab="vehicles">Vehicles</button>
+                <button type="button" class="settings-record-tab" role="tab" aria-selected="false" data-record-tab="contacts">Contacts</button>
+                <button type="button" class="settings-record-tab" role="tab" aria-selected="false" data-record-tab="part-locations">Part Locations</button>
+                <button type="button" class="settings-record-tab" role="tab" aria-selected="false" data-record-tab="inspection-forms">Inspection Forms</button>
+              </div>
+              <div class="settings-access-card settings-access-card--flush">
+                <div class="settings-table-toolbar">
+                  <div class="settings-table-search">
+                    <span class="settings-table-search__icon" data-lucide-icon="search" aria-hidden="true"></span>
+                    <input type="search" class="settings-table-search__input" id="record-sets-search" placeholder="Search" aria-label="Search record sets">
+                  </div>
+                  <div class="settings-table-pager" aria-label="Record sets pagination">
+                    <span class="settings-table-pager__label" id="record-sets-pager-label">1 – 5 of 5</span>
+                    <button type="button" class="settings-table-pager__btn" id="record-sets-prev" disabled aria-label="Previous page"><span data-lucide-icon="chevronLeft" aria-hidden="true"></span></button>
+                    <button type="button" class="settings-table-pager__btn" id="record-sets-next" disabled aria-label="Next page"><span data-lucide-icon="chevronRight" aria-hidden="true"></span></button>
+                  </div>
+                </div>
+                <div class="settings-table-wrap">
+                  <table class="data-table data-table--list settings-access-table">
+                    <thead>
+                      <tr>
+                        <th class="settings-access-table__check"><input type="checkbox" id="record-sets-select-all" aria-label="Select all record sets"></th>
+                        <th><button type="button" class="settings-sort-btn is-active">Name <span data-lucide-icon="chevronDown" aria-hidden="true"></span></button></th>
+                        <th>Manage</th>
+                        <th>View</th>
+                        <th>Users</th>
+                      </tr>
+                    </thead>
+                    <tbody id="record-sets-table-body"></tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </main>
     </div>
   </div>
   <div id="bottom-nav-root"></div>
+
+  <div class="modal-overlay" id="api-key-modal" role="dialog" aria-labelledby="api-key-modal-title" aria-modal="true">
+    <div class="modal modal--api-key">
+      <div class="modal__header">
+        <h2 class="modal__title" id="api-key-modal-title">Add API Key</h2>
+        <button type="button" class="modal__close" id="api-key-modal-close" aria-label="Close">
+          <span data-lucide-icon="x" data-lucide-icon-size="18"></span>
+        </button>
+      </div>
+      <form id="api-key-form" novalidate>
+        <div class="modal__body">
+          <div class="form-field form-field--full">
+            <label for="api-key-label">Label</label>
+            <input type="text" id="api-key-label" name="label" required placeholder="">
+            <p class="form-field__hint">What's this API key for?</p>
+          </div>
+          <div class="form-field form-field--full">
+            <label for="api-key-version">API Version</label>
+            <select id="api-key-version" name="apiVersion" required>
+              <option value="">Please select</option>
+              <option value="2025-05-05">2025-05-05</option>
+              <option value="2024-06-30">2024-06-30</option>
+              <option value="2024-03-15">2024-03-15</option>
+              <option value="2024-01-01">2024-01-01</option>
+              <option value="2023-03-01">2023-03-01</option>
+            </select>
+            <p class="form-field__hint">The default API Version for this API Key</p>
+          </div>
+        </div>
+        <div class="modal__footer">
+          <button type="button" class="btn btn-text btn-sm" id="api-key-modal-cancel">Cancel</button>
+          <button type="submit" class="btn btn-primary btn-sm">Save</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="role-modal" role="dialog" aria-labelledby="role-modal-title" aria-modal="true">
+    <div class="modal modal--role">
+      <div class="modal__header">
+        <h2 class="modal__title" id="role-modal-title">Add Role</h2>
+        <button type="button" class="modal__close" id="role-modal-close" aria-label="Close">
+          <span data-lucide-icon="x" data-lucide-icon-size="18"></span>
+        </button>
+      </div>
+      <form id="role-form" novalidate>
+        <div class="modal__body">
+          <div class="form-field form-field--full">
+            <label for="role-name">Name <span class="settings-required">*</span></label>
+            <input type="text" id="role-name" name="name" required>
+          </div>
+          <div class="form-field form-field--full">
+            <label for="role-description">Description</label>
+            <textarea id="role-description" name="description" rows="3"></textarea>
+          </div>
+          <div class="role-permissions">
+            <div class="role-permissions__head">
+              <h3 class="role-permissions__title">Module Permissions</h3>
+              <span class="role-permissions__access-label">Access <span data-lucide-icon="info" data-lucide-icon-size="14" aria-label="Access levels"></span></span>
+              <div class="role-permissions__bulk">
+                Select All:
+                <button type="button" class="btn btn-text btn-sm" id="role-select-full">Full</button>
+                <button type="button" class="btn btn-text btn-sm" id="role-select-none">None</button>
+              </div>
+            </div>
+            <div class="role-permissions__table-wrap">
+              <table class="role-permissions__table">
+                <thead>
+                  <tr>
+                    <th>Module</th>
+                    <th>Full</th>
+                    <th>Some</th>
+                    <th>None</th>
+                  </tr>
+                </thead>
+                <tbody id="role-permissions-body"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div class="modal__footer">
+          <button type="button" class="btn btn-text btn-sm" id="role-modal-cancel">Cancel</button>
+          <button type="submit" class="btn btn-primary btn-sm">Save</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="record-set-modal" role="dialog" aria-labelledby="record-set-modal-title" aria-modal="true">
+    <div class="modal modal--record-set">
+      <div class="modal__header">
+        <h2 class="modal__title" id="record-set-modal-title">Add Record Set</h2>
+        <button type="button" class="modal__close" id="record-set-modal-close" aria-label="Close">
+          <span data-lucide-icon="x" data-lucide-icon-size="18"></span>
+        </button>
+      </div>
+      <form id="record-set-form" novalidate>
+        <div class="modal__body">
+          <div class="form-field form-field--full">
+            <label for="record-set-name">Name <span class="settings-required">*</span></label>
+            <input type="text" id="record-set-name" name="name" required>
+          </div>
+          <div class="form-field form-field--full">
+            <label for="record-set-description">Description</label>
+            <textarea id="record-set-description" name="description" rows="3"></textarea>
+          </div>
+          <div class="form-field form-field--full">
+            <label for="record-set-type">Record Type <span class="settings-required">*</span></label>
+            <select id="record-set-type" name="recordType" required>
+              <option value="vehicles" selected>Vehicles</option>
+              <option value="contacts">Contacts</option>
+              <option value="part-locations">Part Locations</option>
+              <option value="inspection-forms">Inspection Forms</option>
+            </select>
+          </div>
+          <div class="form-field form-field--full">
+            <label for="record-set-access">Access Level <span class="settings-required">*</span></label>
+            <select id="record-set-access" name="accessLevel" disabled>
+              <option value="some" selected>Some Access</option>
+            </select>
+          </div>
+          <div class="record-set-conditions">
+            <div class="record-set-condition-block">
+              <h4 class="record-set-condition-block__title"><span data-lucide-icon="pencil" aria-hidden="true"></span> Manage</h4>
+              <div id="record-set-manage-conditions"></div>
+              <button type="button" class="btn btn-text btn-sm record-set-add-condition" data-condition-target="manage">+ Add Condition</button>
+            </div>
+            <div class="record-set-condition-block">
+              <h4 class="record-set-condition-block__title"><span data-lucide-icon="eye" aria-hidden="true"></span> View</h4>
+              <div id="record-set-view-conditions"></div>
+              <button type="button" class="btn btn-text btn-sm record-set-add-condition" data-condition-target="view">+ Add Condition</button>
+            </div>
+          </div>
+        </div>
+        <div class="modal__footer">
+          <button type="button" class="btn btn-text btn-sm" id="record-set-modal-cancel">Cancel</button>
+          <button type="submit" class="btn btn-primary btn-sm">Save</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="vehicle-status-modal" role="dialog" aria-labelledby="vehicle-status-modal-title" aria-modal="true">
+    <div class="modal modal--vehicle-status">
+      <div class="modal__header">
+        <h2 class="modal__title" id="vehicle-status-modal-title">Add Vehicle Status</h2>
+        <button type="button" class="modal__close" id="vehicle-status-modal-close" aria-label="Close">
+          <span data-lucide-icon="x" data-lucide-icon-size="18"></span>
+        </button>
+      </div>
+      <form id="vehicle-status-form" novalidate>
+        <div class="modal__body">
+          <div class="form-field form-field--full">
+            <label for="vehicle-status-name">Name <span class="settings-required">*</span></label>
+            <input type="text" id="vehicle-status-name" name="name" required>
+          </div>
+          <label class="settings-login-checkbox vehicle-status-default-check">
+            <input type="checkbox" id="vehicle-status-default" name="isDefault"> Default
+          </label>
+          <div class="form-field form-field--full vehicle-status-color-field">
+            <label for="vehicle-status-color-trigger">Color</label>
+            <button type="button" class="vehicle-status-color-trigger" id="vehicle-status-color-trigger" aria-haspopup="listbox" aria-expanded="false">
+              <span class="vehicle-status-color-preview vehicle-status-color-preview--none" id="vehicle-status-color-preview"></span>
+              <span data-lucide-icon="chevronDown" aria-hidden="true"></span>
+            </button>
+            <div class="vehicle-status-color-popover" id="vehicle-status-color-popover" hidden>
+              <p class="vehicle-status-color-popover__hint">Choose a color as a visual indicator</p>
+              <div class="vehicle-status-color-grid" id="vehicle-status-color-grid" role="listbox"></div>
+            </div>
+          </div>
+        </div>
+        <div class="modal__footer">
+          <button type="button" class="btn btn-text btn-sm" id="vehicle-status-modal-cancel">Cancel</button>
+          <button type="submit" class="btn btn-primary btn-sm">Save</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="vehicle-type-modal" role="dialog" aria-labelledby="vehicle-type-modal-title" aria-modal="true">
+    <div class="modal modal--vehicle-type">
+      <div class="modal__header">
+        <h2 class="modal__title" id="vehicle-type-modal-title">Add Vehicle Type</h2>
+        <button type="button" class="modal__close" id="vehicle-type-modal-close" aria-label="Close">
+          <span data-lucide-icon="x" data-lucide-icon-size="18"></span>
+        </button>
+      </div>
+      <form id="vehicle-type-form" novalidate>
+        <div class="modal__body">
+          <div class="form-field form-field--full">
+            <label for="vehicle-type-name">Name <span class="settings-required">*</span></label>
+            <input type="text" id="vehicle-type-name" name="name" required>
+          </div>
+          <label class="settings-toggle settings-toggle--inline" title="Default type for new vehicles">
+            <input type="checkbox" id="vehicle-type-default" name="isDefault">
+            <span class="settings-toggle__track" aria-hidden="true"></span>
+            <span class="settings-toggle__label">Default type for new vehicles</span>
+          </label>
+        </div>
+        <div class="modal__footer">
+          <button type="button" class="btn btn-text btn-sm" id="vehicle-type-modal-cancel">Cancel</button>
+          <button type="submit" class="btn btn-primary btn-sm">Save</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="external-vehicle-id-modal" role="dialog" aria-labelledby="external-vehicle-id-modal-title" aria-modal="true">
+    <div class="modal modal--external-id">
+      <div class="modal__header">
+        <h2 class="modal__title" id="external-vehicle-id-modal-title">Add External Vehicle ID</h2>
+        <button type="button" class="modal__close" id="external-vehicle-id-modal-close" aria-label="Close">
+          <span data-lucide-icon="x" data-lucide-icon-size="18"></span>
+        </button>
+      </div>
+      <form id="external-vehicle-id-form" novalidate>
+        <div class="modal__body">
+          <div class="form-field form-field--full">
+            <label for="external-vehicle-id-label">Label <span class="settings-required">*</span></label>
+            <input type="text" id="external-vehicle-id-label" name="label" required>
+          </div>
+          <div class="form-field form-field--full">
+            <label for="external-vehicle-id-description">Description</label>
+            <textarea id="external-vehicle-id-description" name="description" rows="4"></textarea>
+          </div>
+        </div>
+        <div class="modal__footer">
+          <button type="button" class="btn btn-text btn-sm" id="external-vehicle-id-modal-cancel">Cancel</button>
+          <button type="submit" class="btn btn-primary btn-sm">Save</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="expense-type-modal" role="dialog" aria-labelledby="expense-type-modal-title" aria-modal="true">
+    <div class="modal modal--expense-type">
+      <div class="modal__header">
+        <h2 class="modal__title" id="expense-type-modal-title">Add Expense Type</h2>
+        <button type="button" class="modal__close" id="expense-type-modal-close" aria-label="Close">
+          <span data-lucide-icon="x" data-lucide-icon-size="18"></span>
+        </button>
+      </div>
+      <form id="expense-type-form" novalidate>
+        <div class="modal__body">
+          <div class="form-field form-field--full">
+            <label for="expense-type-name">Name <span class="settings-required">*</span></label>
+            <input type="text" id="expense-type-name" name="name" required>
+          </div>
+        </div>
+        <div class="modal__footer">
+          <button type="button" class="btn btn-text btn-sm" id="expense-type-modal-cancel">Cancel</button>
+          <button type="submit" class="btn btn-primary btn-sm">Save</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="fault-rule-modal" role="dialog" aria-labelledby="fault-rule-modal-title" aria-modal="true">
+    <div class="modal modal--fault-rule">
+      <div class="modal__header">
+        <h2 class="modal__title" id="fault-rule-modal-title">Add Fault Rule</h2>
+        <button type="button" class="modal__close" id="fault-rule-modal-close" aria-label="Close">
+          <span data-lucide-icon="x" data-lucide-icon-size="18"></span>
+        </button>
+      </div>
+      <form id="fault-rule-form" novalidate>
+        <div class="modal__body">
+          <div class="form-field form-field--full">
+            <label for="fault-rule-code">Code <span class="settings-required">*</span></label>
+            <input type="text" id="fault-rule-code" name="code" required>
+          </div>
+          <div class="form-field form-field--full">
+            <label for="fault-rule-description">Description</label>
+            <textarea id="fault-rule-description" name="description" rows="4"></textarea>
+          </div>
+        </div>
+        <div class="modal__footer">
+          <button type="button" class="btn btn-text btn-sm" id="fault-rule-modal-cancel">Cancel</button>
+          <button type="submit" class="btn btn-primary btn-sm">Save</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="vehicle-renewal-type-modal" role="dialog" aria-labelledby="vehicle-renewal-type-modal-title" aria-modal="true">
+    <div class="modal modal--renewal-type">
+      <div class="modal__header">
+        <h2 class="modal__title" id="vehicle-renewal-type-modal-title">Add Vehicle Renewal Type</h2>
+        <button type="button" class="modal__close" id="vehicle-renewal-type-modal-close" aria-label="Close">
+          <span data-lucide-icon="x" data-lucide-icon-size="18"></span>
+        </button>
+      </div>
+      <form id="vehicle-renewal-type-form" novalidate>
+        <div class="modal__body">
+          <div class="form-field form-field--full">
+            <label for="vehicle-renewal-type-name">Name <span class="settings-required">*</span></label>
+            <input type="text" id="vehicle-renewal-type-name" name="name" required>
+          </div>
+        </div>
+        <div class="modal__footer">
+          <button type="button" class="btn btn-text btn-sm" id="vehicle-renewal-type-modal-cancel">Cancel</button>
+          <button type="submit" class="btn btn-primary btn-sm">Save</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="contact-renewal-type-modal" role="dialog" aria-labelledby="contact-renewal-type-modal-title" aria-modal="true">
+    <div class="modal modal--renewal-type">
+      <div class="modal__header">
+        <h2 class="modal__title" id="contact-renewal-type-modal-title">Add Contact Renewal Type</h2>
+        <button type="button" class="modal__close" id="contact-renewal-type-modal-close" aria-label="Close">
+          <span data-lucide-icon="x" data-lucide-icon-size="18"></span>
+        </button>
+      </div>
+      <form id="contact-renewal-type-form" novalidate>
+        <div class="modal__body">
+          <div class="form-field form-field--full">
+            <label for="contact-renewal-type-name">Name <span class="settings-required">*</span></label>
+            <input type="text" id="contact-renewal-type-name" name="name" required>
+          </div>
+        </div>
+        <div class="modal__footer">
+          <button type="button" class="btn btn-text btn-sm" id="contact-renewal-type-modal-cancel">Cancel</button>
+          <button type="submit" class="btn btn-primary btn-sm">Save</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="part-location-modal" role="dialog" aria-labelledby="part-location-modal-title" aria-modal="true">
+    <div class="modal modal--part-item">
+      <div class="modal__header">
+        <h2 class="modal__title" id="part-location-modal-title">Add Part Location</h2>
+        <button type="button" class="modal__close" id="part-location-modal-close" aria-label="Close">
+          <span data-lucide-icon="x" data-lucide-icon-size="18"></span>
+        </button>
+      </div>
+      <form id="part-location-form" novalidate>
+        <div class="modal__body">
+          <div class="form-field form-field--full">
+            <label for="part-location-name">Name <span class="settings-required">*</span></label>
+            <input type="text" id="part-location-name" name="name" required>
+          </div>
+          <div class="form-field form-field--full">
+            <label for="part-location-description">Description</label>
+            <textarea id="part-location-description" name="description" rows="4"></textarea>
+          </div>
+        </div>
+        <div class="modal__footer">
+          <button type="button" class="btn btn-text btn-sm" id="part-location-modal-cancel">Cancel</button>
+          <button type="submit" class="btn btn-primary btn-sm">Save</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="part-category-modal" role="dialog" aria-labelledby="part-category-modal-title" aria-modal="true">
+    <div class="modal modal--part-item">
+      <div class="modal__header">
+        <h2 class="modal__title" id="part-category-modal-title">Add Part Category</h2>
+        <button type="button" class="modal__close" id="part-category-modal-close" aria-label="Close">
+          <span data-lucide-icon="x" data-lucide-icon-size="18"></span>
+        </button>
+      </div>
+      <form id="part-category-form" novalidate>
+        <div class="modal__body">
+          <div class="form-field form-field--full">
+            <label for="part-category-name">Name <span class="settings-required">*</span></label>
+            <input type="text" id="part-category-name" name="name" required>
+          </div>
+          <div class="form-field form-field--full">
+            <label for="part-category-description">Description</label>
+            <textarea id="part-category-description" name="description" rows="4"></textarea>
+          </div>
+        </div>
+        <div class="modal__footer">
+          <button type="button" class="btn btn-text btn-sm" id="part-category-modal-cancel">Cancel</button>
+          <button type="submit" class="btn btn-primary btn-sm">Save</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="part-manufacturer-modal" role="dialog" aria-labelledby="part-manufacturer-modal-title" aria-modal="true">
+    <div class="modal modal--part-item">
+      <div class="modal__header">
+        <h2 class="modal__title" id="part-manufacturer-modal-title">Add Part Manufacturer</h2>
+        <button type="button" class="modal__close" id="part-manufacturer-modal-close" aria-label="Close">
+          <span data-lucide-icon="x" data-lucide-icon-size="18"></span>
+        </button>
+      </div>
+      <form id="part-manufacturer-form" novalidate>
+        <div class="modal__body">
+          <div class="form-field form-field--full">
+            <label for="part-manufacturer-name">Name <span class="settings-required">*</span></label>
+            <input type="text" id="part-manufacturer-name" name="name" required>
+          </div>
+          <div class="form-field form-field--full">
+            <label for="part-manufacturer-description">Description</label>
+            <textarea id="part-manufacturer-description" name="description" rows="4"></textarea>
+          </div>
+        </div>
+        <div class="modal__footer">
+          <button type="button" class="btn btn-text btn-sm" id="part-manufacturer-modal-cancel">Cancel</button>
+          <button type="submit" class="btn btn-primary btn-sm">Save</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="measurement-unit-modal" role="dialog" aria-labelledby="measurement-unit-modal-title" aria-modal="true">
+    <div class="modal modal--part-item">
+      <div class="modal__header">
+        <h2 class="modal__title" id="measurement-unit-modal-title">Add Measurement Unit</h2>
+        <button type="button" class="modal__close" id="measurement-unit-modal-close" aria-label="Close">
+          <span data-lucide-icon="x" data-lucide-icon-size="18"></span>
+        </button>
+      </div>
+      <form id="measurement-unit-form" novalidate>
+        <div class="modal__body">
+          <div class="form-field form-field--full">
+            <label for="measurement-unit-name">Name <span class="settings-required">*</span></label>
+            <input type="text" id="measurement-unit-name" name="name" required>
+          </div>
+          <div class="form-field form-field--full">
+            <label for="measurement-unit-symbol">Symbol <span class="settings-required">*</span></label>
+            <input type="text" id="measurement-unit-symbol" name="symbol" required>
+          </div>
+          <div class="form-field form-field--full">
+            <label for="measurement-unit-description">Description</label>
+            <textarea id="measurement-unit-description" name="description" rows="4"></textarea>
+          </div>
+        </div>
+        <div class="modal__footer">
+          <button type="button" class="btn btn-text btn-sm" id="measurement-unit-modal-cancel">Cancel</button>
+          <button type="submit" class="btn btn-primary btn-sm">Save</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="fuel-type-modal" role="dialog" aria-labelledby="fuel-type-modal-title" aria-modal="true">
+    <div class="modal modal--fuel-type">
+      <div class="modal__header">
+        <h2 class="modal__title" id="fuel-type-modal-title">Add Fuel Type</h2>
+        <button type="button" class="modal__close" id="fuel-type-modal-close" aria-label="Close">
+          <span data-lucide-icon="x" data-lucide-icon-size="18"></span>
+        </button>
+      </div>
+      <form id="fuel-type-form" novalidate>
+        <div class="modal__body">
+          <div class="form-field form-field--full">
+            <label for="fuel-type-name">Name <span class="settings-required">*</span></label>
+            <input type="text" id="fuel-type-name" name="name" required>
+          </div>
+        </div>
+        <div class="modal__footer">
+          <button type="button" class="btn btn-text btn-sm" id="fuel-type-modal-cancel">Cancel</button>
+          <button type="submit" class="btn btn-primary btn-sm">Save</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="repair-code-modal" role="dialog" aria-labelledby="repair-code-modal-title" aria-modal="true">
+    <div class="modal modal--repair-code">
+      <div class="modal__header">
+        <h2 class="modal__title" id="repair-code-modal-title">Add Reason for Repair Code</h2>
+        <button type="button" class="modal__close" id="repair-code-modal-close" aria-label="Close">
+          <span data-lucide-icon="x" data-lucide-icon-size="18"></span>
+        </button>
+      </div>
+      <form id="repair-code-form" novalidate>
+        <div class="modal__body">
+          <div class="form-field form-field--full">
+            <label for="repair-code-number">Code Number <span class="settings-required">*</span></label>
+            <input type="text" id="repair-code-number" name="code" required>
+            <p class="form-field__hint">Apply a number to this code to quickly identify it</p>
+          </div>
+          <div class="form-field form-field--full">
+            <label for="repair-code-name">Name <span class="settings-required">*</span></label>
+            <input type="text" id="repair-code-name" name="name" required>
+          </div>
+          <label class="settings-login-checkbox">
+            <input type="checkbox" id="repair-code-enabled" name="enabled" checked> Enabled
+          </label>
+          <p class="form-field__hint">If enabled, this code will be available for users to select on Work Orders and Service Entries.</p>
+        </div>
+        <div class="modal__footer">
+          <button type="button" class="btn btn-text btn-sm" id="repair-code-modal-cancel">Cancel</button>
+          <button type="submit" class="btn btn-primary btn-sm">Save</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
   <script src="js/icons.js"></script>
+  <script src="js/lucide-icons.js"></script>
   <script src="js/shell.js"></script>
   <script src="js/nav.js"></script>
+  <script src="js/settings-notifications.js"></script>
+  <script src="js/settings-login-password.js"></script>
+  <script src="js/settings-api-keys.js"></script>
+  <script src="js/settings-general.js"></script>
+  <script src="js/settings-billing.js"></script>
+  <script src="js/settings-export.js"></script>
+  <script src="js/settings-security.js"></script>
+  <script src="js/settings-roles.js"></script>
+  <script src="js/settings-record-sets.js"></script>
+  <script src="js/settings-vehicles-data.js"></script>
+  <script src="js/settings-vehicles.js"></script>
+  <script src="js/settings-ops-data.js"></script>
+  <script src="js/settings-ops.js"></script>
+  <script src="js/settings-service-data.js"></script>
+  <script src="js/settings-service.js"></script>
+  <script src="js/settings-parts-fuel-data.js"></script>
+  <script src="js/settings-parts-fuel.js"></script>
+  <script src="js/settings.js"></script>
 </body>
 </html>

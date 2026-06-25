@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="js/auth.js"></script>
+  <title>Alerts — YSOAM</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/pages.css">
+</head>
+<body data-page="alerts">
+  <div class="sidebar-backdrop" id="sidebar-backdrop"></div>
+  <div class="app-shell">
+    <div id="sidebar-root"></div>
+    <div class="main-area">
+      <div id="topbar-root"></div>
+      <main class="content content--alerts">
+        <div class="page-header page-header--compact alerts-header">
+          <div class="page-header__text">
+            <h1>Alerts <a class="service-learn-link" href="roadmap.html">Learn</a></h1>
+          </div>
+          <div class="page-header__actions">
+            <button type="button" class="btn btn-outline btn-sm" id="alerts-mark-all-read">Mark All Read</button>
+            <button type="button" class="btn btn-outline btn-sm alerts-more-btn" id="alerts-more-btn" aria-label="More actions">⋯</button>
+          </div>
+        </div>
+
+        <div class="alerts-kpi-strip" id="alerts-kpi-strip"></div>
+
+        <div class="service-view-tabs alerts-view-tabs" role="tablist" aria-label="Alert views">
+          <button type="button" class="service-view-tab is-active" data-read-tab="all" role="tab" aria-selected="true">All</button>
+          <button type="button" class="service-view-tab" data-read-tab="unread" role="tab" aria-selected="false">Unread</button>
+          <button type="button" class="service-view-tab" data-read-tab="read" role="tab" aria-selected="false">Read</button>
+          <button type="button" class="service-view-tab service-view-tab--more" aria-label="More views" disabled>⋯</button>
+        </div>
+
+        <div class="panel table-panel alerts-panel">
+          <div class="alerts-toolbar">
+            <div class="alerts-toolbar__left">
+              <div class="table-panel__search">
+                <span class="table-panel__search-icon" data-lucide-icon="search" aria-hidden="true"></span>
+                <input type="search" class="table-panel__search-input" id="alerts-search" placeholder="Search" aria-label="Search alerts">
+              </div>
+              <button type="button" class="expense-filter-pill" data-filter="type" aria-expanded="false" aria-haspopup="dialog">Alert Type</button>
+              <button type="button" class="expense-filter-pill" data-filter="severity" aria-expanded="false" aria-haspopup="dialog">Severity</button>
+              <button type="button" class="expense-filter-pill" data-filter="vehicle" aria-expanded="false" aria-haspopup="dialog">Vehicle</button>
+              <button type="button" class="expense-filters-btn" id="alerts-filters-btn" aria-expanded="false" aria-controls="alerts-filters-drawer">
+                <span class="expense-filters-btn__icon" data-lucide-icon="filter" aria-hidden="true"></span>
+                <span class="expense-filters-btn__label" id="alerts-filters-btn-label">Filters</span>
+              </button>
+            </div>
+            <div class="alerts-toolbar__right" id="alerts-pagination">
+              <span class="alerts-pagination__count tabular-nums" id="alerts-count">1 – 50 of 0</span>
+              <button type="button" class="alerts-page-btn" data-page-prev aria-label="Previous page"><span data-lucide-icon="chevronLeft"></span></button>
+              <button type="button" class="alerts-page-btn" data-page-next aria-label="Next page"><span data-lucide-icon="chevronRight"></span></button>
+              <button type="button" class="alerts-page-btn" id="alerts-table-settings-btn" aria-label="Table settings"><span data-lucide-icon="settings"></span></button>
+              <button type="button" class="btn btn-outline btn-sm alerts-save-view-btn" id="alerts-save-view-btn">Save View <span data-lucide-icon="chevronDown" data-lucide-icon-size="14" aria-hidden="true"></span></button>
+            </div>
+          </div>
+
+          <div class="alerts-body">
+            <div class="panel__body panel__body--flush alerts-table-wrap">
+              <div class="data-table-wrap data-table-wrap--scroll data-table-wrap--alerts" id="alerts-table"></div>
+            </div>
+            <aside class="expense-filters-drawer" id="alerts-filters-drawer" aria-label="Filters">
+              <div class="expense-filters-drawer__header">
+                <h2>Filters</h2>
+                <button type="button" class="expense-filters-drawer__close" id="alerts-filters-drawer-close" aria-label="Close filters">
+                  <span data-lucide-icon="x" data-lucide-icon-size="18"></span>
+                </button>
+              </div>
+              <div class="expense-filters-drawer__body" id="alerts-filters-drawer-body"></div>
+            </aside>
+          </div>
+
+          <div class="expense-filter-popover" id="alerts-filter-popover" hidden role="dialog" aria-modal="true"></div>
+          <div class="expense-table-settings" id="alerts-table-settings" hidden role="dialog" aria-label="Table settings"></div>
+        </div>
+      </main>
+    </div>
+  </div>
+  <div id="bottom-nav-root"></div>
+
+  <script src="js/icons.js"></script>
+  <script src="js/lucide-icons.js"></script>
+  <script src="js/shell.js"></script>
+  <script src="js/nav.js"></script>
+  <script src="js/vehicles-data.js"></script>
+  <script src="js/alerts-data.js"></script>
+  <script src="js/alerts.js"></script>
+</body>
+</html>

@@ -611,12 +611,14 @@ Minimum 44×44px on mobile for driver view and bottom nav. `button-primary` meet
 
 ## Week 1-2 Prototype Checklist
 
-**Deliverable:** Static HTML in `prototype/` using tokens from front matter. Light mode only.
+**Deliverable:** Static HTML in `prototype/` using tokens from front matter. Light mode only.  
+**Status:** See [TASKS.md](TASKS.md) for per-module completion.
 
-- [ ] Primary `#0052FF` on all CTAs and active nav
-- [ ] Sidebar `#1E293B` with grayscale icons
-- [ ] Status badges use semantic soft+solid pairs
-- [ ] All 19 routes linked
+- [x] Primary `#0052FF` on all CTAs and active nav
+- [x] Sidebar `#1E293B` with grayscale icons
+- [x] Status badges use semantic soft+solid pairs
+- [x] All 19 routes linked (9 module stubs with placeholder cards)
+- [x] Settings hub — 30+ config panels (Fleetio-style secondary sidebar)
 - [ ] Responsive: 375px, 768px, 1280px
 - [ ] Demo flow: GPS → Trip → Profitability → Invoice
 - [ ] 5-click profitability path verified
@@ -626,6 +628,7 @@ Minimum 44×44px on mobile for driver view and bottom nav. `button-primary` meet
 | Document | Purpose |
 |----------|---------|
 | [ARCHITECTURE.md](ARCHITECTURE.md) | APIs, data model, stack |
+| [PROTOTYPE_UI.md](PROTOTYPE_UI.md) | HTML prototype UI patterns and module specs |
 | [ysoam_plan.md](ysoam_plan.md) | Timeline |
 | [ysoam_specs.md](ysoam_specs.md) | Feature benefits |
 | [DESIGN-hp.md](DESIGN-hp.md) | Format reference |
