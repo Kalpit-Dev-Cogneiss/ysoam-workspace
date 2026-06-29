@@ -6,6 +6,126 @@
     return window.YSOAM_MAP;
   }
 
+  function esc(s) {
+    return String(s == null ? '' : s)
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  }
+
+  function dash(val) {
+    return (val === 0 || val) && val !== '—' ? esc(val) : '—';
+  }
+
+  function invalidateMapSoon() {
+    setTimeout(function () {
+      var entry = mapApi() && mapApi().getMap(MAP_ID);
+      if (entry) entry.map.invalidateSize();
+    }, 220);
+  }
+
+  function setNearbyPanelCollapsed(collapsed) {
+    var panel = document.getElementById('fleet-map-panel');
+    var btn = document.getElementById('fleet-panel-collapse');
+    if (!panel) return;
+    panel.classList.toggle('is-collapsed', collapsed);
+    if (btn) btn.textContent = collapsed ? '›' : '‹';
+  }
+
+  function closeVehicleDetailPanel() {
+    var panel = document.getElementById('fleet-detail-panel');
+    if (panel) panel.classList.remove('is-open');
+  }
+
+  /* ── Vehicle detail panel (right) ─────────────────────────── */
+  function detailField(label, value, valueClass) {
+    return (
+      '<div class="fleet-detail-field">' +
+        '<span class="fleet-detail-field__label">' + esc(label) + '</span>' +
+        '<span class="fleet-detail-field__value' + (valueClass ? ' ' + valueClass : '') + '">' + value + '</span>' +
+      '</div>'
+    );
+  }
+
+  function detailSection(title, fieldsHtml) {
+    return (
+      '<section class="fleet-detail-section">' +
+        '<h3 class="fleet-detail-section__title">' + esc(title) + '</h3>' +
+        '<div class="fleet-detail-grid">' + fieldsHtml + '</div>' +
+      '</section>'
+    );
+  }
+
+  function renderVehicleDetail(vehicleId) {
+    var panel = document.getElementById('fleet-detail-panel');
+    var content = document.getElementById('fleet-detail-content');
+    var fleet = window.YSOAM_FLEET;
+    if (!panel || !content || !fleet) return;
+
+    var v = fleet.vehicles.find(function (x) { return x.id === vehicleId; });
+    if (!v) return;
+
+    var color = (fleet.statusColors && fleet.statusColors[v.status]) || '#64748B';
+    var statusText = (fleet.statusLabels && fleet.statusLabels[v.status]) || v.status;
+    var ignitionOn = v.ignition === true;
+    var signalBad = v.signal === 'No Signal';
+
+    var headerHtml =
+      '<header class="fleet-detail-header">' +
+        '<div class="fleet-detail-header__avatar" style="background:' + color + '1a;color:' + color + '" aria-hidden="true">' +
+          (window.YSOAM_ICONS ? window.YSOAM_ICONS.vehicles : '') +
+        '</div>' +
+        '<div class="fleet-detail-header__text">' +
+          '<h2 class="fleet-detail-header__title">' + esc(v.id) + '</h2>' +
+          '<p class="fleet-detail-header__sub">' + dash(v.label) + '</p>' +
+          '<span class="fleet-detail-status" style="background:' + color + '1a;color:' + color + '">' +
+            '<span class="fleet-detail-status__dot" style="background:' + color + '"></span>' + esc(statusText) +
+          '</span>' +
+        '</div>' +
+        '<button type="button" class="fleet-detail-close" id="fleet-detail-close" aria-label="Close vehicle details">&times;</button>' +
+      '</header>';
+
+    var vehicleInfo = detailSection('Vehicle Information',
+      detailField('Plate No', dash(v.id)) +
+      detailField('Vehicle Status', esc(statusText)) +
+      detailField('Speed', dash(v.speed) + ' km/h') +
+      detailField('Engine Status', ignitionOn ? 'On' : 'Off', ignitionOn ? 'is-good' : 'is-muted') +
+      detailField('Driver', dash(v.driver)) +
+      detailField('Fuel Level', dash(v.fuelPct) + '%', v.fuelStatus === 'critical' ? 'is-bad' : (v.fuelStatus === 'low' ? 'is-warn' : '')) +
+      detailField('Fuel Status', fleet.fuelStatusLabels && v.fuelStatus ? esc(fleet.fuelStatusLabels[v.fuelStatus] || v.fuelStatus) : '—') +
+      (v.chargingStatus
+        ? detailField('Charging Status', esc(fleet.chargingStatusLabels && fleet.chargingStatusLabels[v.chargingStatus] || v.chargingStatus))
+        : '') +
+      detailField('Battery', dash(v.battery) + '%')
+    );
+
+    var deviceInfo = detailSection('Device Information',
+      detailField('Assigned Driver', dash(v.driver)) +
+      detailField('Route / Location', dash(v.label)) +
+      detailField('Signal', dash(v.signal), signalBad ? 'is-bad' : 'is-good') +
+      detailField('Last Update', dash(v.updatedAt))
+    );
+
+    var gpsInfo = detailSection('GPS & Network',
+      detailField('Latitude', v.lat != null ? v.lat.toFixed(5) : '—') +
+      detailField('Longitude', v.lng != null ? v.lng.toFixed(5) : '—') +
+      detailField('Heading', dash(v.headingLabel) + ' (' + dash(v.heading) + '°)') +
+      detailField('Altitude', dash(v.altitude) + ' m')
+    );
+
+    content.innerHTML = headerHtml + vehicleInfo + deviceInfo + gpsInfo;
+    setNearbyPanelCollapsed(true);
+    panel.classList.add('is-open');
+
+    var closeBtn = document.getElementById('fleet-detail-close');
+    if (closeBtn) {
+      closeBtn.addEventListener('click', function () {
+        panel.classList.remove('is-open');
+        invalidateMapSoon();
+      });
+    }
+
+    invalidateMapSoon();
+  }
+
   function renderNearbyList() {
     var listEl = document.getElementById('nearby-list');
     var api = mapApi();
@@ -74,12 +194,11 @@
     if (!panel || !btn) return;
 
     btn.addEventListener('click', function () {
+      var expanding = panel.classList.contains('is-collapsed');
       panel.classList.toggle('is-collapsed');
       btn.textContent = panel.classList.contains('is-collapsed') ? '›' : '‹';
-      setTimeout(function () {
-        var entry = mapApi() && mapApi().getMap(MAP_ID);
-        if (entry) entry.map.invalidateSize();
-      }, 220);
+      if (expanding) closeVehicleDetailPanel();
+      invalidateMapSoon();
     });
   }
 
@@ -248,7 +367,12 @@
 
     injectPillIcons();
 
-    if (window.YSOAM_MAP) window.YSOAM_MAP.initLiveTracking();
+    if (window.YSOAM_MAP) {
+      window.YSOAM_MAP.initLiveTracking();
+      window.YSOAM_MAP.onVehicleSelect(function (vehicleId) {
+        renderVehicleDetail(vehicleId);
+      });
+    }
 
     bindNearbyTabs();
     bindPanelCollapse();

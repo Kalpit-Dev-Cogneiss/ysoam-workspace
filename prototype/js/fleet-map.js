@@ -3,6 +3,7 @@
   if (!fleet || typeof L === 'undefined') return;
 
   var maps = {};
+  var selectHandlers = [];
 
   var TILES = {
     street: {
@@ -170,8 +171,8 @@
     var vehicles = fleet.vehicles;
     if (options.vehicleId) {
       vehicles = fleet.vehicles.filter(function (v) { return v.id === options.vehicleId; });
-    } else if (options.filter && options.filter.status) {
-      vehicles = vehicles.filter(function (v) { return v.status === options.filter.status; });
+    } else {
+      vehicles = getFilteredVehicles(options.filter);
     }
 
     vehicles.forEach(function (vehicle) {
@@ -299,6 +300,8 @@
     filter = filter || {};
     return fleet.vehicles.filter(function (v) {
       if (filter.status && v.status !== filter.status) return false;
+      if (filter.fuelStatus && v.fuelStatus !== filter.fuelStatus) return false;
+      if (filter.chargingStatus && v.chargingStatus !== filter.chargingStatus) return false;
       return true;
     });
   }
@@ -483,6 +486,10 @@
         el.classList.toggle('is-selected', el.getAttribute('data-map-vehicle') === vehicleId);
       });
     }
+
+    selectHandlers.forEach(function (fn) {
+      try { fn(vehicleId, vehicle, containerId); } catch (e) { /* ignore */ }
+    });
   }
 
   function bindMapModeToggle(containerId) {
@@ -566,6 +573,10 @@
       return maps[containerId] || null;
     },
     selectVehicle: selectVehicle,
+    onVehicleSelect: function (fn) {
+      if (typeof fn === 'function') selectHandlers.push(fn);
+    },
+    findVehicle: findVehicle,
     setMapMode: setMapMode,
     setLabelsVisible: setLabelsVisible,
     toggleLayer: toggleMapLayer,
