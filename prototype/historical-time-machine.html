@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="js/auth.js"></script>
+  <title>Historical Time Machine — YSOAM Prototype</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="">
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/pages.css">
+</head>
+<body data-page="historical-time-machine" class="historical-time-machine-page">
+  <div class="sidebar-backdrop" id="sidebar-backdrop"></div>
+  <div class="app-shell">
+    <div id="sidebar-root"></div>
+    <div class="main-area">
+      <div id="topbar-root"></div>
+      <main class="content content--geofence-form content--historical-time-machine">
+        <header class="vehicle-form-topbar geofence-form-topbar">
+          <div class="vehicle-form-topbar__main">
+            <a class="vehicle-form-back" href="geofences.html"><span class="vehicle-form-back__icon" data-form-icon="arrowLeft" aria-hidden="true"></span> Geofence</a>
+            <h1>Create Historical Geofence</h1>
+          </div>
+          <div class="vehicle-form-topbar__actions">
+            <a class="btn btn-text btn-sm" href="geofences.html">Cancel</a>
+            <button type="submit" form="htm-geofence-form" class="btn btn-primary btn-sm" id="htm-reconstruct">Create Geofence</button>
+          </div>
+        </header>
+
+        <div class="geofence-form-workspace htm-geofence-workspace">
+          <form class="geofence-form-pane htm-geofence-form" id="htm-geofence-form" novalidate>
+            <div class="vehicle-form-card geofence-form-card">
+              <div class="form-field form-field--full">
+                <label for="htm-name">Name <span class="required">*</span></label>
+                <input type="text" id="htm-name" name="name" required value="Dumka Siding Area">
+              </div>
+              <div class="form-field form-field--full">
+                <label for="htm-description">Description</label>
+                <textarea id="htm-description" name="description" rows="4" placeholder="Optional note for this historical geofence check"></textarea>
+              </div>
+            </div>
+
+            <div class="vehicle-form-card geofence-form-card">
+              <h2 class="vehicle-form-card__title">Adding a Location</h2>
+              <p class="geofence-form-hint">Create a geofence like the normal Geofence screen. Add date and time below to check historical vehicle visits inside this area.</p>
+              <div class="form-field form-field--full">
+                <label for="htm-address">Address <span class="required">*</span></label>
+                <input type="text" id="htm-address" name="address" required value="Dumka Siding Area, Dumka, Jharkhand, India">
+              </div>
+              <div class="form-grid form-grid--2">
+                <div class="form-field">
+                  <label for="htm-lat">Latitude <span class="required">*</span></label>
+                  <input type="text" id="htm-lat" name="latitude" required inputmode="decimal" value="24.2728">
+                </div>
+                <div class="form-field">
+                  <label for="htm-lng">Longitude <span class="required">*</span></label>
+                  <input type="text" id="htm-lng" name="longitude" required inputmode="decimal" value="87.2481">
+                </div>
+              </div>
+              <div class="form-field form-field--full">
+                <label for="htm-radius">Geofence Radius <span class="required">*</span></label>
+                <select class="text-input" id="htm-radius" name="radiusM">
+                  <option value="500">500 meters</option>
+                  <option value="1000">1000 meters</option>
+                  <option value="2000" selected>2000 meters</option>
+                  <option value="3000">3000 meters</option>
+                </select>
+                <p class="geofence-form-hint geofence-form-hint--sm">The geofence radius is used to find vehicle visits, entry time, exit time, speed and duration in the selected time window.</p>
+              </div>
+            </div>
+
+            <div class="vehicle-form-card geofence-form-card">
+              <h2 class="vehicle-form-card__title">Date &amp; Time</h2>
+              <div class="form-grid form-grid--2">
+                <div class="form-field">
+                  <label for="htm-date">Date <span class="required">*</span></label>
+                  <input type="date" class="text-input" id="htm-date" name="date" required value="2026-06-15">
+                </div>
+                <div class="form-field">
+                  <label for="htm-time">Time <span class="required">*</span></label>
+                  <input type="time" class="text-input" id="htm-time" name="time" required value="20:00">
+                </div>
+              </div>
+              <p class="geofence-form-hint geofence-form-hint--sm">YSOAM checks a 60-minute historical window around this time and lists all vehicles that visited the created geofence.</p>
+            </div>
+          </form>
+
+          <section class="geofence-map-pane htm-visit-pane" aria-label="Historical vehicle visit details">
+            <div class="geofence-map-banner" role="note">
+              <span class="geofence-map-banner__icon" data-lucide-icon="info" data-lucide-icon-size="16" aria-hidden="true"></span>
+              <p>Create the geofence from the left side. Vehicle visit details will appear below this map.</p>
+            </div>
+
+            <div class="geofence-map-tools" role="toolbar" aria-label="Map drawing tools">
+              <button type="button" class="geofence-map-tool is-active" aria-label="Pan map" aria-pressed="true" title="Pan map">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M18 11V6a2 2 0 0 0-2-2 2 2 0 0 0-2 2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M14 10V4a2 2 0 0 0-2-2 2 2 0 0 0-2 2v2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M10 10.5V6a2 2 0 0 0-2-2 2 2 0 0 0-2 2v8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M18 8a2 2 0 1 1 4 0v6a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.86-5.99-2.34l-3.6-3.6a2 2 0 0 1 2.83-2.82L7 15" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </button>
+              <button type="button" class="geofence-map-tool" aria-label="Circle geofence" aria-pressed="false" title="Circle geofence">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="1.8"/></svg>
+              </button>
+              <button type="button" class="geofence-map-tool" aria-label="Polygon geofence" aria-pressed="false" title="Polygon geofence">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3 20 9v8l-8 4-8-4V9l8-6z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
+              </button>
+            </div>
+
+            <div class="htm-map-shell">
+              <div id="htm-map" class="geofence-map htm-map" aria-label="Historical geofence map"></div>
+            </div>
+
+            <section class="htm-results-stack" id="htm-results-stack" hidden>
+              <div class="htm-results-head">
+                <div>
+                  <h2 id="htm-scene-title">Vehicle Visits in Geofence</h2>
+                  <p id="htm-scene-subtitle">Vehicle visits for selected date and time</p>
+                </div>
+                <a class="btn btn-text btn-sm" href="historical-time-machine-view.html?id=HTM-DUMKA-001">View All Details</a>
+              </div>
+
+              <div class="htm-summary-strip" id="htm-summary-strip" aria-label="Historical scene summary"></div>
+
+              <div class="htm-summary-list" id="htm-summary-list"></div>
+
+              <div class="panel table-panel htm-vehicles-card">
+                <div class="data-table-wrap data-table-wrap--scroll">
+                  <table class="data-table data-table--list htm-table">
+                    <thead>
+                      <tr>
+                        <th>Vehicle Name</th>
+                        <th>Vehicle No.</th>
+                        <th>Driver</th>
+                        <th>Route</th>
+                        <th>Pass Time</th>
+                        <th>Entry Time</th>
+                        <th>Exit Time</th>
+                        <th>Speed</th>
+                        <th>Duration</th>
+                        <th>Status</th>
+                      </tr>
+                    </thead>
+                    <tbody id="htm-vehicle-rows"></tbody>
+                  </table>
+                </div>
+              </div>
+            </section>
+          </section>
+        </div>
+      </main>
+    </div>
+  </div>
+  <div id="bottom-nav-root"></div>
+
+  <script src="js/icons.js"></script>
+  <script src="js/lucide-icons.js"></script>
+  <script src="js/shell.js"></script>
+  <script src="js/nav.js"></script>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+  <script src="js/historical-time-machine-data.js"></script>
+  <script src="js/historical-time-machine.js"></script>
+</body>
+</html>

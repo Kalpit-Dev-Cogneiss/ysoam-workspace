@@ -136,7 +136,9 @@
       return (
         navLink('dashboard', 'dashboard.html', 'Dashboard', 'dashboard') +
         navLink('alerts', 'alerts.html', 'Alerts', 'alerts') +
+        navLink('accident-control', 'accident-control.html', 'Incident Control', 'alerts') +
         navLink('gps', 'gps.html', 'Tracking', 'gps') +
+        navLink('historical-time-machine', 'historical-time-machine.html', 'Historical Time Machine', 'gps') +
         navLink('geofences', 'geofences.html', 'Geofence', 'gps') +
         vehiclesNavGroup() +
         serviceNavGroup() +
@@ -161,7 +163,9 @@
     return (
       navLink('dashboard', 'dashboard.html', 'Dashboard', 'dashboard') +
       navLink('alerts', 'alerts.html', 'Alerts', 'alerts') +
+      navLink('accident-control', 'accident-control.html', 'Incident Control', 'alerts') +
       navLink('gps', 'gps.html', 'Live Tracking', 'gps') +
+      navLink('historical-time-machine', 'historical-time-machine.html', 'Historical Time Machine', 'gps') +
       navLink('geofences', 'geofences.html', 'Geofence', 'gps') +
       vehiclesNavGroup() +
       serviceNavGroup() +

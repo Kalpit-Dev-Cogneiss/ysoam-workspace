@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="js/auth.js"></script>
+  <title>Incident Control Room — YSOAM Prototype</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="">
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/pages.css">
+</head>
+<body data-page="accident-control">
+  <div class="sidebar-backdrop" id="sidebar-backdrop"></div>
+  <div class="app-shell">
+    <div id="sidebar-root"></div>
+    <div class="main-area">
+      <div id="topbar-root"></div>
+      <main class="content content--accident-control">
+        <div class="page-header page-header--compact accident-header">
+          <div class="page-header__text">
+            <h1>Incident Control Room <a class="service-learn-link" href="roadmap.html">Learn</a></h1>
+          </div>
+          <div class="page-header__actions">
+            <a class="btn btn-outline btn-sm" href="historical-time-machine.html">Historical Time Machine</a>
+            <a class="btn btn-primary btn-sm" href="historical-time-machine-view.html?id=HTM-DUMKA-001">Open Historical Scene</a>
+          </div>
+        </div>
+
+        <div class="alerts-kpi-strip accident-kpi-strip" id="accident-kpi-strip"></div>
+
+        <section class="incident-command-shell">
+          <div class="incident-case-strip" id="incident-case-strip"></div>
+
+          <div class="incident-command-board">
+            <aside class="panel incident-side-card" id="incident-detail-panel"></aside>
+
+            <div class="panel incident-map-card">
+              <div class="panel__header">
+                <div>
+                  <h2 class="panel__title" id="accident-map-title">Incident Geofence & Vehicle Routes</h2>
+                  <p class="accident-panel-subtitle" id="accident-map-subtitle">Select an incident case to inspect vehicle movement.</p>
+                </div>
+                <span class="accident-live-badge">Control Room</span>
+              </div>
+              <div id="accident-map" class="accident-map" aria-label="Incident geofence map"></div>
+            </div>
+
+            <aside class="panel incident-actions-card">
+              <div class="panel__header">
+                <h2 class="panel__title">Quick Actions</h2>
+              </div>
+              <div class="incident-quick-actions" id="incident-quick-actions"></div>
+            </aside>
+          </div>
+
+          <div class="incident-tabs" role="tablist" aria-label="Incident detail sections">
+            <button type="button" class="incident-tab is-active">Timeline</button>
+            <button type="button" class="incident-tab">Vehicles</button>
+            <button type="button" class="incident-tab">Emergency Services</button>
+            <button type="button" class="incident-tab">Nearby Vehicles</button>
+            <button type="button" class="incident-tab">Documents</button>
+          </div>
+
+          <div class="incident-info-grid">
+            <section class="panel incident-timeline-card">
+              <div class="panel__header">
+                <h2 class="panel__title">Timeline</h2>
+              </div>
+              <div class="incident-timeline" id="incident-timeline"></div>
+            </section>
+
+            <section class="panel incident-vehicles-card">
+              <div class="panel__header">
+                <h2 class="panel__title">Vehicles Involved</h2>
+              </div>
+              <div class="incident-mini-list" id="incident-vehicles"></div>
+            </section>
+
+            <section class="panel incident-services-card">
+              <div class="panel__header">
+                <h2 class="panel__title">Emergency Services Available</h2>
+              </div>
+              <div class="incident-mini-list" id="incident-services"></div>
+            </section>
+
+            <section class="panel incident-nearby-card">
+              <div class="panel__header">
+                <h2 class="panel__title">Nearby Vehicles</h2>
+              </div>
+              <div class="incident-mini-list" id="incident-nearby"></div>
+            </section>
+          </div>
+        </section>
+
+        <section class="panel table-panel accident-panel">
+          <div class="trip-ops-toolbar accident-toolbar">
+            <div class="trip-ops-toolbar__left">
+              <div class="table-panel__search">
+                <span class="table-panel__search-icon" data-lucide-icon="search" aria-hidden="true"></span>
+                <input type="search" class="table-panel__search-input" id="accident-search" placeholder="Search incidents" aria-label="Search incidents">
+              </div>
+              <button type="button" class="expense-filter-pill" disabled>Case Type</button>
+              <button type="button" class="expense-filter-pill" disabled>Severity</button>
+              <button type="button" class="expense-filter-pill" disabled>Status</button>
+              <button type="button" class="expense-filter-pill" disabled>Geofence</button>
+            </div>
+            <div class="trip-ops-toolbar__right">
+              <span class="trip-ops-pagination__count tabular-nums" id="accident-count">0 of 0</span>
+              <button type="button" class="trip-ops-page-btn" disabled aria-label="Previous page">‹</button>
+              <button type="button" class="trip-ops-page-btn" disabled aria-label="Next page">›</button>
+              <button type="button" class="trip-ops-page-btn" aria-label="Table settings">⚙</button>
+            </div>
+          </div>
+          <div class="panel__body panel__body--flush">
+            <div class="data-table-wrap data-table-wrap--scroll" id="accident-table"></div>
+          </div>
+        </section>
+      </main>
+    </div>
+  </div>
+  <div id="bottom-nav-root"></div>
+
+  <script src="js/icons.js"></script>
+  <script src="js/lucide-icons.js"></script>
+  <script src="js/shell.js"></script>
+  <script src="js/nav.js"></script>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+  <script src="js/historical-time-machine-data.js"></script>
+  <script src="js/accident-control-data.js"></script>
+  <script src="js/accident-control.js"></script>
+</body>
+</html>
